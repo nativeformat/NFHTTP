@@ -1,0 +1,20 @@
+{
+ "dependencies": [
+  {
+   "DESCRIPTION": "Download virtualenv for the build",
+   "artifactory": "https://artifactory.spotify.net/artifactory",
+   "client_artifactory": "${artifactory}/client-infrastructure",
+   "type": "url",
+   "~": [
+    {
+     "id": "virtualenv-15.1.0",
+     "name": "virtualenv",
+     "version": "15.1.0",
+     "type": "url",
+     "action": "manage",
+     "url": "${client_artifactory}/buildtools/${name}/${name}-${version}.tar.gz"
+    }
+   ]
+  }
+ ]
+}

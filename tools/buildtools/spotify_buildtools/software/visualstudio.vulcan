@@ -1,0 +1,32 @@
+{
+ "dependencies": [
+  {
+   "DESCRIPTION": "Download Windows build dependencies",
+   "artifactory": "https://artifactory.spotify.net/artifactory",
+   "client_artifactory": "${artifactory}/client-infrastructure",
+   "type": "url",
+   "format": "zip",
+   "action": "manage",
+   "os": "win32",
+   "platform": "win32",
+   "url": "${client_artifactory}/buildtools/vs-professional/${version}/vs-professional-${version}-${version_ext}.${format}",
+   "~": [
+    {
+     "id": "visualstudio-2017",
+     "version": "2017",
+     "version_ext": "15.2-spotify2"
+    },
+    {
+     "id": "visualstudio-2015u3",
+     "version": "2015",
+     "version_ext": "update3-spotify4"
+    },
+    {
+     "id": "visualstudio-2015u2",
+     "version": "2015",
+     "version_ext": "update2-spotify1"
+    }
+   ]
+  }
+ ]
+}

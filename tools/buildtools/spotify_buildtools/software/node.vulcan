@@ -1,0 +1,36 @@
+{
+ "dependencies": [
+  {
+   "DESCRIPTION": "Download node.js and npm",
+   "artifactory": "https://artifactory.spotify.net/artifactory",
+   "client_artifactory": "${artifactory}/client-infrastructure",
+   "type": "url",
+   "~": [
+    {
+     "id": "node-8.9.4",
+     "name": "node",
+     "version": "8.9.4",
+     "type": "url",
+     "ext": "tar.gz",
+     "action": "manage",
+     "url": "${client_artifactory}/buildtools/${name}/${version}/${name}-${version}-${platform}.${ext}",
+     "~": [
+      {
+       "os": "win32",
+       "platform": "win64",
+       "ext": "zip"
+      },
+      {
+       "os": "linux",
+       "platform": "linux64"
+      },
+      {
+       "os": "osx",
+       "platform": "osx"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

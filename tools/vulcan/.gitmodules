@@ -1,0 +1,3 @@
+[submodule "lib/requests"]
+	path = lib/requests
+	url = git@ghe.spotify.net:vendor/python-requests.git

@@ -1,0 +1,12 @@
+description: Your Music/Your Library
+system: client-android
+owner: marvin
+visibility: public
+dependencies: []
+facts:
+  slack_channel: fesk
+  support_email: fesk@spotify.com
+  jira_feature: 'Your Library / Collection [Fesk]'
+  tags: ['collection', 'your music', 'your library']
+  mentionbot:
+    users: ['johboh', 'bjornheden', 'brannvall']

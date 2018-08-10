@@ -1,0 +1,25 @@
+{
+  "maxReviewers": 5,
+  "numFilesToCheck": 10,
+  "alwaysNotifyForPaths": [
+    {
+      "name": "ghuser",
+      "files": ["src/js/**/*.js"]
+    },
+    {
+      "name": "menny",
+      "files": ["app/**/*.java"]
+    },
+    {
+      "name": "seank",
+      "files": ["app/**/*.java", "scripts/**/*.sh"]
+    },
+    {
+      "name": "dflems",
+      "files": ["modules/video/**/*.m"]
+    }
+  ],
+  "findPotentialReviewers": false,
+  "fileBlacklist": ["*.log"],
+  "userBlacklistForPR": ["teamcity"],
+}

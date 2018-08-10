@@ -1,0 +1,62 @@
+{
+ "dependencies": [
+  {
+   "DESCRIPTION": "Download OpenSSL",
+   "artifactory": "https://artifactory.spotify.net/artifactory",
+   "client_artifactory": "${artifactory}/client-infrastructure",
+   "type": "url",
+   "action": "manage",
+   "~": [
+    {
+     "id": "openssl-win32vs2013",
+     "os": "win32",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.0.1j",
+     "classifier": "${os}-spotify1"
+    },
+    {
+     "id": "openssl-win32vs2015",
+     "os": "win32",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.0.2h",
+     "classifier": "${os}-spotify1"
+    },
+    {
+     "id": "openssl-win64vs2015",
+     "os": "win32",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.0.2h",
+     "classifier": "win64-spotify1"
+    },
+    {
+     "id": "openssl-win32vs2017",
+     "os": "win32",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.1.0e",
+     "classifier": "${os}-spotify1"
+    },
+    {
+     "id": "openssl-win64vs2017",
+     "os": "win32",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.1.0e",
+     "classifier": "win64-spotify1"
+    },
+    {
+     "id": "openssl-winuwp-vs2015-x86",
+     "os": "win32",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.0.2d",
+     "classifier": "${os}-spotify1"
+    },
+    {
+     "id": "openssl-osx",
+     "os": "osx",
+     "url": "${client_artifactory}/buildtools/openssl/${version}/openssl-${version}-${classifier}.zip",
+     "version": "1.0.2d",
+     "classifier": "${os}-spotify3"
+    }
+   ]
+  }
+ ]
+}

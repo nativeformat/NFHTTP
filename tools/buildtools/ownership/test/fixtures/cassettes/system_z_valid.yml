@@ -1,0 +1,79 @@
+version: 1
+interactions:
+- request:
+    body: null
+    headers: {}
+    method: GET
+    uri: https://ghe.spotify.net/api/v3/repos/fakeorg/fakerepo/git/trees/HEAD?recursive=1
+  response:
+    body: { string: !!python/unicode '{"tree":[{"path":"some-file.txt"},{"path":"service-info.yaml"},{"path":"foo/service-info.yaml"},{"path":"bar/service-info.yaml"},{"path":"baz/service-info.yaml"}]}' }
+    headers:
+      content-length: ['164']
+      content-type: [application/json; charset=utf-8]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers: {}
+    method: GET
+    uri: http://sysmodel.spotify.net/api/v1/locations
+  response:
+    body: {string: !!python/unicode '[{"location":"ghe:/another-org/fakerepo/bar/service-info.yaml"},{"location":"ghe:/fakeorg/another-repo/service-info.yaml"},{"location":"ghe:/fakeorg/fakerepo/bar/service-info.yaml"},{"location":"ghe:/fakeorg/fakerepo/herp/service-info.yaml"},{"location":"ghe:/fakeorg/fakerepo/derp/service-info.yaml"}]'}
+    headers:
+      content-length: ['303']
+      content-type: [application/json; charset=UTF8]
+    status: {code: 200, message: OK}
+- request:
+    body: '{"location": "ghe:/fakeorg/fakerepo/foo/service-info.yaml"}'
+    headers: {}
+    method: POST
+    uri: http://sysmodel.spotify.net/api/v1/locations
+  response:
+    body: {string: !!python/unicode '{"location":"ghe:/fakeorg/fakerepo/foo/service-info.yaml"}'}
+    headers:
+      content-length: ['58']
+      content-type: [application/json; charset=UTF8]
+    status: {code: 200, message: OK}
+- request:
+    body: '{"location": "ghe:/fakeorg/fakerepo/baz/service-info.yaml"}'
+    headers: {}
+    method: POST
+    uri: http://sysmodel.spotify.net/api/v1/locations
+  response:
+    body: {string: !!python/unicode '{"location":"ghe:/fakeorg/fakerepo/baz/service-info.yaml"}'}
+    headers:
+      content-length: ['58']
+      content-type: [application/json; charset=UTF8]
+    status: {code: 200, message: OK}
+- request:
+    body: '{"location": "ghe:/fakeorg/fakerepo/service-info.yaml"}'
+    headers: {}
+    method: POST
+    uri: http://sysmodel.spotify.net/api/v1/locations
+  response:
+    body: {string: !!python/unicode '{"location":"ghe:/fakeorg/fakerepo/service-info.yaml"}'}
+    headers:
+      content-length: ['54']
+      content-type: [application/json; charset=UTF8]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers: {}
+    method: DELETE
+    uri: http://sysmodel.spotify.net/api/v1/locations/ghe:/fakeorg/fakerepo/derp/service-info.yaml
+  response:
+    body: {string: !!python/unicode '{}'}
+    headers:
+      content-length: ['2']
+      content-type: [application/json; charset=UTF8]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers: {}
+    method: DELETE
+    uri: http://sysmodel.spotify.net/api/v1/locations/ghe:/fakeorg/fakerepo/herp/service-info.yaml
+  response:
+    body: {string: !!python/unicode '{}'}
+    headers:
+      content-length: ['2']
+      content-type: [application/json; charset=UTF8]
+    status: {code: 200, message: OK}

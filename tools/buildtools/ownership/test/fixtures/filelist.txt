@@ -1,0 +1,8 @@
+features/foo/bar.txt
+features/foo/service-info.yaml
+service-info.yaml
+parts/123/service-info.yaml
+x/y/z/service-info.yaml
+foo/service-info.yaml/not_really
+foo/service-info
+foo/service-info.yml
