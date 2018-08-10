@@ -1,0 +1,12 @@
+[submodule "libraries/json"]
+	path = libraries/json
+	url = https://github.com/nlohmann/json.git
+[submodule "libraries/curl"]
+	path = libraries/curl
+	url = https://github.com/curl/curl.git
+[submodule "libraries/openssl"]
+	path = libraries/openssl
+	url = https://github.com/openssl/openssl.git
+[submodule "libraries/cpprestsdk"]
+	path = libraries/cpprestsdk
+	url = https://github.com/Microsoft/cpprestsdk.git
