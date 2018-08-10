@@ -1,0 +1,8 @@
+{
+    "requests": [
+        {
+            "url": "http://localhost:6582/world",
+            "id": "hello"
+        }
+    ]
+}
