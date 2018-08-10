@@ -1,0 +1,5 @@
+# NFHTTP CI config
+'static_analyzer_exceptions':
+'integration_tests':
+    - requests: resources/hello-requests.json
+      responses: resources/world-responses.json
