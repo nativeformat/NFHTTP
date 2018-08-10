@@ -1,0 +1,28 @@
+                               SPOTIFY PROJECT
+                              -----------------
+
+
+Copyright (c) 2012 Spotify AB
+
+THIS REPOSITORY IS THE PROPERTY OF SPOTIFY AB
+UNAUTHORIZED ACCESS TO THIS DATA IS STRICTLY PROHIBITED.
+
+README Template Version 7
+
+Project     : Vulcan
+Maintainer  : Daniel Fanjul <dfanjul@spotify.com>
+Guild       :
+Dependencies:
+Related     :
+System      :
+Environment : Python
+
+DESCRIPTION
+------------
+
+Vulcan, the dependency management system.
+
+DOCUMENTATION
+-------------
+
+Documentation for this project should be found in the doc directory.

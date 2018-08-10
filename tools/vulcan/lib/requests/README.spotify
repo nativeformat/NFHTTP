@@ -1,0 +1,52 @@
+                               SPOTIFY PROJECT
+                              -----------------
+
+
+Copyright (c) 2014 Spotify AB
+
+THIS REPOSITORY IS THE PROPERTY OF SPOTIFY AB
+UNAUTHORIZED ACCESS TO THIS DATA IS STRICTLY PROHIBITED.
+
+README Template Version 8
+
+Project     : python-requests
+Maintainer  : Bastian Kuberek <bkuberek@spotify.com>
+Chapter     : Backend Infrastructure <infrastructure@spotify.com>
+Dependencies:
+Related     :
+System      :
+Environment : Python
+
+DESCRIPTION
+------------
+
+Backport for requests
+
+DOCUMENTATION
+-------------
+
+This is a fork of the original repository https://github.com/kennethreitz/requests
+
+How I built this backport:
+
+    git remote add upstream git@github.com:kennethreitz/requests.git
+    git remote add origin git@ghe.spotify.net:vendor/python-requests.git
+    git fetch upstream
+    git checkout -b master upstream/<version>
+    # Added debian and README.spotify
+    git push origin master
+
+How to update the backport:
+
+    git clone git@ghe.spotify.net:vendor/python-requests.git
+    cd python-requests
+    git checkout master
+
+    # add the upstream if you didn't already
+    git remote add upstream git@github.com:kennethreitz/requests.git
+
+    git fetch upstream
+    git rebase upstream/<version>
+    # update debian/changelog, debian/control
+    git commit --amend
+    git push origin master -f

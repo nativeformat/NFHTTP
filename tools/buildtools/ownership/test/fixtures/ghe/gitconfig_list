@@ -1,0 +1,14 @@
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=git@ghe.spotify.net:origin-owner/project.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=upstream
+branch.master.merge=refs/heads/master
+submodule.native/src/core.url=git@ghe.spotify.net:submodule-owner/submodule-project.git
+remote.upstream.url=git@ghe.spotify.net:upstream-owner/project.git
+remote.upstream.fetch=+refs/heads/*:refs/remotes/upstream/*
+remote.upstream.pushurl=no_push

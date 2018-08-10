@@ -1,0 +1,82 @@
+{
+ "dependencies": [
+  {
+   "DESCRIPTION": "Download initial tools for the build",
+   "artifactory": "https://artifactory.spotify.net/artifactory",
+   "client_artifactory": "${artifactory}/client-infrastructure",
+   "type": "url",
+   "~": [
+    {
+     "id": "ninja-1.8.2",
+     "name": "ninja",
+     "version": "1.8.2",
+     "type": "url",
+     "action": "manage",
+     "ext": "zip",
+     "url": "${client_artifactory}/buildtools/${name}/${version}/${name}-${version}-${platform}.${ext}",
+     "~": [
+      {
+       "os": "win32",
+       "platform": "win"
+      },
+      {
+       "os": "linux",
+       "platform": "linux"
+      },
+      {
+       "os": "osx",
+       "platform": "mac"
+      }
+     ]
+    },
+    {
+     "id": "ninja-1.6.0",
+     "name": "ninja",
+     "version": "1.6.0",
+     "type": "url",
+     "action": "manage",
+     "ext": "tgz",
+     "url": "${client_artifactory}/buildtools/${name}/${version}/${name}-${version}-${platform}.${ext}",
+     "~": [
+      {
+       "os": "win32",
+       "platform": "win32"
+      },
+      {
+       "os": "linux",
+       "platform": "linux"
+      },
+      {
+       "os": "linux32",
+       "platform": "linux32"
+      },
+      {
+       "os": "osx",
+       "platform": "osx"
+      }
+     ]
+    },
+    {
+     "id": "ninja-1.5.1",
+     "name": "ninja",
+     "version": "1.5.1",
+     "type": "url",
+     "action": "manage",
+     "url": "${client_artifactory}/buildtools/${name}/${version}/${name}-${version}-${platform}.${ext}",
+     "~": [
+      {
+       "os": "win32",
+       "platform": "win32",
+       "ext": "zip"
+      },
+      {
+       "os": "osx",
+       "platform": "osx",
+       "ext": "tgz"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

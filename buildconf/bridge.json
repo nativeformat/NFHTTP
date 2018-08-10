@@ -1,0 +1,29 @@
+{
+  "teamcity": {
+    "pull_request": {
+      "ids": [
+        "NFHTTP_Osx_Build",
+        "NFHTTP_Linux_Build",
+        "NFHTTP_Windows_BuildAndroid",
+        "NFHTTP_Windows_Build"
+      ],
+      "personal": true,
+      "tip_merge": false
+    },
+    "push": {
+      "refs/heads/master": [
+        "NFHTTP_Osx_Build",
+        "NFHTTP_IOS_Build",
+        "NFHTTP_Linux_Build",
+        "NFHTTP_Osx_AddressSanitiser",
+        "NFHTTP_Osx_CurlAddressSanitiser",
+        "NFHTTP_Osx_CpprestAddressSanitiser",
+        "NFHTTP_Osx_BuildAndroid",
+        "NFHTTP_Linux_BuildAndroid",
+        "NFHTTP_Windows_BuildAndroid",
+        "NFHTTP_Windows_Build",
+        "NFHTTP_Osx_CodeCoverage"
+      ]
+    }
+  }
+}

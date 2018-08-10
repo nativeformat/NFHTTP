@@ -1,0 +1,4 @@
+<testsuites>
+  <testsuite name="mysuite" feature="somefeature" />
+  <testsuite name="mysuite2" feature="someOtherFeature" />
+</testsuites>

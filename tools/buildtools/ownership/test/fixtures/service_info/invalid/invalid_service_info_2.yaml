@@ -1,0 +1,9 @@
+id: android-video-spotlet
+system: client-android
+owner: marvin
+visibility: public
+dependencies: whoops
+facts:
+  slack_channel: video
+  jira_feature: 'Your Library / Collection [Fesk]'
+  tags: ['collection', 'your videos', 'your library']

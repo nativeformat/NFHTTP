@@ -1,0 +1,36 @@
+{
+    "dependencies": [
+        {
+            "artifactory": "https://artifactory.spotify.net/artifactory",
+            "client_artifactory": "${artifactory}/client-infrastructure",
+            "~": [
+                {
+                    "id": "ccache",
+                    "version": "3.1.9-2",
+                    "os": "osx",
+                    "arch": "x86_64",
+                    "format": "tar.gz",
+
+                    "type": "url",
+                    "action": "manage",
+                    "url": "${client_artifactory}/buildtools/${id}/${version}/${id}-${version}-${os}-${arch}.${format}"
+                },
+
+
+                {
+                    "id": "java",
+                    "version": "jdk8u11",
+                    "os": "osx",
+                    "platform": "osx_64",
+                    "format": "zip",
+
+                    "type": "url",
+                    "action": "manage",
+                    "url": "${client_artifactory}/buildtools/${id}/${version}/${id}-${version}-${platform}.${format}"
+                }
+
+            ]
+        }
+    ]
+
+}

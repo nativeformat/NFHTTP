@@ -1,0 +1,7 @@
+id: com.spotify.package1
+description: Test system for ownership
+system: client-android
+owner: owner1
+visibility: public
+facts:
+  slack_channel: owner1

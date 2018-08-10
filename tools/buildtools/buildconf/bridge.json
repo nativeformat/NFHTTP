@@ -1,0 +1,19 @@
+{
+    "teamcity": {
+        "push": {
+            "refs/heads/master": [
+                "Buildtools_Windows",
+                "Buildtools_Osx",
+                "Buildtools_Linux"
+            ]
+        },
+        "pull_request": {
+            "ids": [
+                "Buildtools_Windows",
+                "Buildtools_Osx",
+                "Buildtools_Linux"
+            ],
+            "personal": true
+        }
+    }
+}

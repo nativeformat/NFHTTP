@@ -1,0 +1,4 @@
+<features>
+  <feature name="somefeature" owner="somesquad" />
+  <feature name="someOtherFeature" owner="someOtherSquad" />
+</features>

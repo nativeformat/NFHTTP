@@ -1,0 +1,6 @@
+id: android-video-spotlet
+description: Your video player
+system: client-android
+owner: marvin
+visibility: public
+dependencies: []

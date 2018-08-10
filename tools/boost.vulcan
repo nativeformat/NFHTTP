@@ -1,0 +1,20 @@
+{
+ "dependencies": [
+  {
+   "DESCRIPTION": "Download boost for the build",
+   "artifactory": "https://artifactory.spotify.net/artifactory",
+   "client_artifactory": "${artifactory}/client-infrastructure",
+   "type": "url",
+   "~": [
+    {
+     "id": "boost-1_64_0",
+     "name": "boost",
+     "version": "1_64_0",
+     "type": "url",
+     "action": "manage",
+     "url": "${client_artifactory}/${name}/${version}/${name}_${version}-src.tar.gz"
+    }
+   ]
+  }
+ ]
+}

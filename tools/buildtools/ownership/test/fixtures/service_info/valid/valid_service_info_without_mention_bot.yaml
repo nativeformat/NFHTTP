@@ -1,0 +1,11 @@
+id: android-video-spotlet
+description: Your video player
+system: client-android
+owner: marvin
+visibility: public
+dependencies: []
+facts:
+  slack_channel: video
+  support_email: video@spotify.com
+  jira_feature: 'Your Library / Collection [Fesk]'
+  tags: ['collection', 'your videos', 'your library']
