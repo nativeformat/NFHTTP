@@ -26,9 +26,9 @@ namespace http {
 class CachingDatabase;
 
 class CachingDatabaseDelegate {
-public:
+ public:
   virtual void deleteDatabaseFile(const std::string &header_hash) = 0;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

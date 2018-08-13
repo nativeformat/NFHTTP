@@ -36,7 +36,7 @@ extern const std::string OptionsMethod;
 extern const std::string ConnectMethod;
 
 class Request {
-public:
+ public:
   typedef struct CacheControl {
     const int max_age;
     const int max_stale;
@@ -62,11 +62,9 @@ public:
   virtual CacheControl cacheControl() const = 0;
 };
 
-extern std::shared_ptr<Request>
-createRequest(const std::string &url,
-              const std::unordered_map<std::string, std::string> &header_map);
-extern std::shared_ptr<Request>
-createRequest(const std::shared_ptr<Request> &request);
+extern std::shared_ptr<Request> createRequest(
+    const std::string &url, const std::unordered_map<std::string, std::string> &header_map);
+extern std::shared_ptr<Request> createRequest(const std::shared_ptr<Request> &request);
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

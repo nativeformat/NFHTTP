@@ -33,16 +33,17 @@ static const std::string method_key("method");
 static const std::string content_length_key("Content-Length");
 
 RequestImplementation::RequestImplementation(
-    const std::string &url,
-    const std::unordered_map<std::string, std::string> &header_map)
-    : _url(url), _headers(header_map), _method(GetMethod), _data(nullptr),
-      _data_length(0) {
+    const std::string &url, const std::unordered_map<std::string, std::string> &header_map)
+    : _url(url), _headers(header_map), _method(GetMethod), _data(nullptr), _data_length(0) {
   _headers[content_length_key] = "0";
 }
 
 RequestImplementation::RequestImplementation(const Request &request)
-    : _url(request.url()), _headers(request.headerMap()),
-      _method(request.method()), _data(nullptr), _data_length(0) {
+    : _url(request.url()),
+      _headers(request.headerMap()),
+      _method(request.method()),
+      _data(nullptr),
+      _data_length(0) {
   size_t data_length = 0;
   const unsigned char *data = request.data(data_length);
   if (data_length > 0) {
@@ -69,12 +70,15 @@ RequestImplementation::~RequestImplementation() {
   }
 }
 
-std::string RequestImplementation::url() const { return _url; }
+std::string RequestImplementation::url() const {
+  return _url;
+}
 
-void RequestImplementation::setUrl(const std::string &url) { _url = url; }
+void RequestImplementation::setUrl(const std::string &url) {
+  _url = url;
+}
 
-std::string RequestImplementation::
-operator[](const std::string &header_name) const {
+std::string RequestImplementation::operator[](const std::string &header_name) const {
   return _headers.at(header_name);
 }
 
@@ -82,13 +86,11 @@ std::string &RequestImplementation::operator[](const std::string &header_name) {
   return _headers[header_name];
 }
 
-std::unordered_map<std::string, std::string> &
-RequestImplementation::headerMap() {
+std::unordered_map<std::string, std::string> &RequestImplementation::headerMap() {
   return _headers;
 }
 
-std::unordered_map<std::string, std::string>
-RequestImplementation::headerMap() const {
+std::unordered_map<std::string, std::string> RequestImplementation::headerMap() const {
   return _headers;
 }
 
@@ -107,8 +109,8 @@ std::string RequestImplementation::hash() const {
 
   std::string amalgamation = url();
   for (const auto &header_pair : _headers) {
-    if (std::find(excluded_headers.begin(), excluded_headers.end(),
-                  header_pair.first) != excluded_headers.end()) {
+    if (std::find(excluded_headers.begin(), excluded_headers.end(), header_pair.first) !=
+        excluded_headers.end()) {
       continue;
     }
     amalgamation += header_pair.first + header_pair.second;
@@ -120,12 +122,13 @@ std::string RequestImplementation::hash() const {
 }
 
 std::string RequestImplementation::serialise() const {
-  nlohmann::json j = {
-      {url_key, _url}, {headers_key, _headers}, {method_key, _method}};
+  nlohmann::json j = {{url_key, _url}, {headers_key, _headers}, {method_key, _method}};
   return j.dump();
 }
 
-std::string RequestImplementation::method() const { return _method; }
+std::string RequestImplementation::method() const {
+  return _method;
+}
 
 void RequestImplementation::setMethod(const std::string &method) {
   _method = method;
@@ -136,8 +139,7 @@ const unsigned char *RequestImplementation::data(size_t &data_length) const {
   return _data;
 }
 
-void RequestImplementation::setData(const unsigned char *data,
-                                    size_t data_length) {
+void RequestImplementation::setData(const unsigned char *data, size_t data_length) {
   if (_data) {
     free(_data);
     _data = nullptr;
@@ -167,8 +169,7 @@ Request::CacheControl RequestImplementation::cacheControl() const {
     if (equal_index == std::string::npos || equal_index == token.length() - 1) {
       control_directives[token] = "";
     } else {
-      control_directives[token.substr(0, equal_index)] =
-          token.substr(equal_index + 1);
+      control_directives[token.substr(0, equal_index)] = token.substr(equal_index + 1);
     }
   }
 
@@ -178,9 +179,8 @@ Request::CacheControl RequestImplementation::cacheControl() const {
           control_directives.find("no-cache") != control_directives.end(),
           control_directives.find("no-store") != control_directives.end(),
           control_directives.find("no-transform") != control_directives.end(),
-          control_directives.find("only-if-cached") !=
-              control_directives.end()};
+          control_directives.find("only-if-cached") != control_directives.end()};
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

@@ -21,9 +21,9 @@
 
 #ifdef _WIN32
 
-#include <shlobj.h>
 #include <sstream>
 #include <string>
+#include <shlobj.h>
 #include <wchar.h>
 
 namespace nativeformat {
@@ -39,7 +39,7 @@ std::string standardCacheLocation() {
   return ss.str();
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
 
 #endif

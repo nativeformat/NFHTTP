@@ -39,21 +39,18 @@ static void doNotModifyRequestsFunction(
 }
 
 static void doNotModifyResponsesFunction(
-    std::function<void(const std::shared_ptr<Response> &response, bool retry)>
-        callback,
+    std::function<void(const std::shared_ptr<Response> &response, bool retry)> callback,
     const std::shared_ptr<Response> &response) {
   callback(response, false);
 }
 
-const REQUEST_MODIFIER_FUNCTION DO_NOT_MODIFY_REQUESTS_FUNCTION =
-    &doNotModifyRequestsFunction;
-const RESPONSE_MODIFIER_FUNCTION DO_NOT_MODIFY_RESPONSES_FUNCTION =
-    &doNotModifyResponsesFunction;
+const REQUEST_MODIFIER_FUNCTION DO_NOT_MODIFY_REQUESTS_FUNCTION = &doNotModifyRequestsFunction;
+const RESPONSE_MODIFIER_FUNCTION DO_NOT_MODIFY_RESPONSES_FUNCTION = &doNotModifyResponsesFunction;
 
 Client::~Client() {}
 
-const std::shared_ptr<Response>
-Client::performRequestSynchronously(const std::shared_ptr<Request> &request) {
+const std::shared_ptr<Response> Client::performRequestSynchronously(
+    const std::shared_ptr<Request> &request) {
   std::mutex mutex;
   std::condition_variable cv;
   std::atomic<bool> response_ready(false);
@@ -79,23 +76,19 @@ void Client::pinResponse(const std::shared_ptr<Response> &response,
 void Client::unpinResponse(const std::shared_ptr<Response> &response,
                            const std::string &pin_identifier) {}
 
-void Client::removePinnedResponseForIdentifier(
-    const std::string &pin_identifier) {}
+void Client::removePinnedResponseForIdentifier(const std::string &pin_identifier) {}
 
 void Client::pinnedResponsesForIdentifier(
     const std::string &pin_identifier,
-    std::function<void(const std::vector<std::shared_ptr<Response>> &)>
-        callback) {}
+    std::function<void(const std::vector<std::shared_ptr<Response>> &)> callback) {}
 
 void Client::pinningIdentifiers(
-    std::function<void(const std::vector<std::string> &identifiers)> callback) {
-}
+    std::function<void(const std::vector<std::string> &identifiers)> callback) {}
 
-std::shared_ptr<Client>
-createNativeClient(const std::string &cache_location,
-                   const std::string &user_agent,
-                   REQUEST_MODIFIER_FUNCTION request_modifier_function,
-                   RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
+std::shared_ptr<Client> createNativeClient(const std::string &cache_location,
+                                           const std::string &user_agent,
+                                           REQUEST_MODIFIER_FUNCTION request_modifier_function,
+                                           RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
 #if USE_CURL
   return createCurlClient();
 #elif USE_CPPRESTSDK
@@ -107,14 +100,12 @@ createNativeClient(const std::string &cache_location,
 #endif
 }
 
-std::shared_ptr<Client>
-createCachingClient(const std::string &cache_location,
-                    const std::string &user_agent,
-                    REQUEST_MODIFIER_FUNCTION request_modifier_function,
-                    RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
-  auto native_client =
-      createNativeClient(cache_location, user_agent, request_modifier_function,
-                         response_modifier_function);
+std::shared_ptr<Client> createCachingClient(const std::string &cache_location,
+                                            const std::string &user_agent,
+                                            REQUEST_MODIFIER_FUNCTION request_modifier_function,
+                                            RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
+  auto native_client = createNativeClient(
+      cache_location, user_agent, request_modifier_function, response_modifier_function);
   // TODO: Make caching client work
   // auto caching_client = std::make_shared<CachingClient>(native_client,
   // cache_location, user_agent);  caching_client->initialise();  return
@@ -123,36 +114,33 @@ createCachingClient(const std::string &cache_location,
 }
 
 std::shared_ptr<Client> createMultiRequestClient(
-    const std::string &cache_location, const std::string &user_agent,
+    const std::string &cache_location,
+    const std::string &user_agent,
     REQUEST_MODIFIER_FUNCTION request_modifier_function,
     RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
-  auto caching_client =
-      createCachingClient(cache_location, user_agent, request_modifier_function,
-                          response_modifier_function);
+  auto caching_client = createCachingClient(
+      cache_location, user_agent, request_modifier_function, response_modifier_function);
   return std::make_shared<ClientMultiRequestImplementation>(caching_client);
 }
 
-std::shared_ptr<Client>
-createModifierClient(const std::string &cache_location,
-                     const std::string &user_agent,
-                     REQUEST_MODIFIER_FUNCTION request_modifier_function,
-                     RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
+std::shared_ptr<Client> createModifierClient(
+    const std::string &cache_location,
+    const std::string &user_agent,
+    REQUEST_MODIFIER_FUNCTION request_modifier_function,
+    RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
   auto multi_request_client = createMultiRequestClient(
-      cache_location, user_agent, request_modifier_function,
-      response_modifier_function);
+      cache_location, user_agent, request_modifier_function, response_modifier_function);
   return std::make_shared<ClientModifierImplementation>(
-      request_modifier_function, response_modifier_function,
-      multi_request_client);
+      request_modifier_function, response_modifier_function, multi_request_client);
 }
 
-std::shared_ptr<Client>
-createClient(const std::string &cache_location, const std::string &user_agent,
-             REQUEST_MODIFIER_FUNCTION request_modifier_function,
-             RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
-  return createModifierClient(cache_location, user_agent,
-                              request_modifier_function,
-                              response_modifier_function);
+std::shared_ptr<Client> createClient(const std::string &cache_location,
+                                     const std::string &user_agent,
+                                     REQUEST_MODIFIER_FUNCTION request_modifier_function,
+                                     RESPONSE_MODIFIER_FUNCTION response_modifier_function) {
+  return createModifierClient(
+      cache_location, user_agent, request_modifier_function, response_modifier_function);
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

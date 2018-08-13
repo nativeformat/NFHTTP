@@ -29,7 +29,7 @@ namespace http {
 
 namespace {
 static const std::string MULTICAST_KEY("multicasted");
-} // namespace
+}  // namespace
 
 ClientMultiRequestImplementation::ClientMultiRequestImplementation(
     std::shared_ptr<Client> &wrapped_client)
@@ -45,21 +45,17 @@ std::shared_ptr<RequestToken> ClientMultiRequestImplementation::performRequest(
   auto request_it = _requests_in_flight.find(hash);
   if (request_it == _requests_in_flight.end()) {
     MultiRequests multi_requests;
-    std::weak_ptr<ClientMultiRequestImplementation> weak_this =
-        shared_from_this();
+    std::weak_ptr<ClientMultiRequestImplementation> weak_this = shared_from_this();
     multi_requests.request_token = _wrapped_client->performRequest(
         request, [weak_this](const std::shared_ptr<Response> &response) {
           if (auto strong_this = weak_this.lock()) {
-            std::vector<std::function<void(const std::shared_ptr<Response> &)>>
-                callbacks;
+            std::vector<std::function<void(const std::shared_ptr<Response> &)>> callbacks;
             {
-              std::lock_guard<std::mutex> lock(
-                  strong_this->_requests_in_flight_mutex);
+              std::lock_guard<std::mutex> lock(strong_this->_requests_in_flight_mutex);
               auto hash = response->request()->hash();
               auto &multi_requests = strong_this->_requests_in_flight[hash];
-              response->setMetadata(
-                  MULTICAST_KEY,
-                  std::to_string(multi_requests.multi_requests.size() > 1));
+              response->setMetadata(MULTICAST_KEY,
+                                    std::to_string(multi_requests.multi_requests.size() > 1));
               for (const auto &multi_request : multi_requests.multi_requests) {
                 callbacks.push_back(multi_request.callback);
               }
@@ -72,22 +68,19 @@ std::shared_ptr<RequestToken> ClientMultiRequestImplementation::performRequest(
         });
     _requests_in_flight[hash] = multi_requests;
   }
-  auto token =
-      std::make_shared<RequestTokenImplementation>(shared_from_this(), hash);
+  auto token = std::make_shared<RequestTokenImplementation>(shared_from_this(), hash);
   MultiRequest multi_request = {callback, token};
   _requests_in_flight[hash].multi_requests.push_back(multi_request);
   return token;
 }
 
-void ClientMultiRequestImplementation::pinResponse(
-    const std::shared_ptr<Response> &response,
-    const std::string &pin_identifier) {
+void ClientMultiRequestImplementation::pinResponse(const std::shared_ptr<Response> &response,
+                                                   const std::string &pin_identifier) {
   _wrapped_client->pinResponse(response, pin_identifier);
 }
 
-void ClientMultiRequestImplementation::unpinResponse(
-    const std::shared_ptr<Response> &response,
-    const std::string &pin_identifier) {
+void ClientMultiRequestImplementation::unpinResponse(const std::shared_ptr<Response> &response,
+                                                     const std::string &pin_identifier) {
   _wrapped_client->unpinResponse(response, pin_identifier);
 }
 
@@ -98,8 +91,7 @@ void ClientMultiRequestImplementation::removePinnedResponseForIdentifier(
 
 void ClientMultiRequestImplementation::pinnedResponsesForIdentifier(
     const std::string &pin_identifier,
-    std::function<void(const std::vector<std::shared_ptr<Response>> &)>
-        callback) {
+    std::function<void(const std::vector<std::shared_ptr<Response>> &)> callback) {
   _wrapped_client->pinnedResponsesForIdentifier(pin_identifier, callback);
 }
 
@@ -114,18 +106,18 @@ void ClientMultiRequestImplementation::requestTokenDidCancel(
   auto identifier = request_token->identifier();
   auto &multi_requests = _requests_in_flight[identifier];
   auto &multi_requests_vector = multi_requests.multi_requests;
-  multi_requests_vector.erase(
-      std::remove_if(multi_requests_vector.begin(), multi_requests_vector.end(),
-                     [&](MultiRequest &multi_request) {
-                       return multi_request.request_token.lock().get() ==
-                              request_token.get();
-                     }),
-      multi_requests_vector.end());
+  multi_requests_vector.erase(std::remove_if(multi_requests_vector.begin(),
+                                             multi_requests_vector.end(),
+                                             [&](MultiRequest &multi_request) {
+                                               return multi_request.request_token.lock().get() ==
+                                                      request_token.get();
+                                             }),
+                              multi_requests_vector.end());
   if (multi_requests_vector.empty()) {
     multi_requests.request_token->cancel();
     _requests_in_flight.erase(identifier);
   }
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

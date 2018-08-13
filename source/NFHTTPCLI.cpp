@@ -27,7 +27,6 @@
 #include <nlohmann/json.hpp>
 
 int main(int argc, char *argv[]) {
-
   // Parse our arguments
   std::string input_json_file = "";
   std::string output_directory = "";
@@ -41,9 +40,8 @@ int main(int argc, char *argv[]) {
   }
 
   // Create our client
-  auto client = nativeformat::http::createClient(
-      nativeformat::http::standardCacheLocation(),
-      "NFHTTP-" + nativeformat::http::version());
+  auto client = nativeformat::http::createClient(nativeformat::http::standardCacheLocation(),
+                                                 "NFHTTP-" + nativeformat::http::version());
 
   // Setup our responses array
   nlohmann::json output_json;
@@ -67,9 +65,10 @@ int main(int argc, char *argv[]) {
     // Generate a random file to dump the payload to
     const size_t random_file_length = 20;
     auto randchar = []() {
-      const char charset[] = "0123456789"
-                             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                             "abcdefghijklmnopqrstuvwxyz";
+      const char charset[] =
+          "0123456789"
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          "abcdefghijklmnopqrstuvwxyz";
       const size_t max_index = (sizeof(charset) - 1);
       return charset[rand() % max_index];
     };

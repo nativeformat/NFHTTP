@@ -34,7 +34,7 @@ class ClientMultiRequestImplementation
     : public Client,
       public std::enable_shared_from_this<ClientMultiRequestImplementation>,
       public RequestTokenDelegate {
-public:
+ public:
   ClientMultiRequestImplementation(std::shared_ptr<Client> &wrapped_client);
   virtual ~ClientMultiRequestImplementation();
 
@@ -46,21 +46,17 @@ public:
                    const std::string &pin_identifier) override;
   void unpinResponse(const std::shared_ptr<Response> &response,
                      const std::string &pin_identifier) override;
-  void
-  removePinnedResponseForIdentifier(const std::string &pin_identifier) override;
+  void removePinnedResponseForIdentifier(const std::string &pin_identifier) override;
   void pinnedResponsesForIdentifier(
       const std::string &pin_identifier,
-      std::function<void(const std::vector<std::shared_ptr<Response>> &)>
-          callback) override;
+      std::function<void(const std::vector<std::shared_ptr<Response>> &)> callback) override;
   void pinningIdentifiers(
-      std::function<void(const std::vector<std::string> &identifiers)> callback)
-      override;
+      std::function<void(const std::vector<std::string> &identifiers)> callback) override;
 
   // RequestTokenDelegate
-  void requestTokenDidCancel(
-      const std::shared_ptr<RequestToken> &request_token) override;
+  void requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) override;
 
-private:
+ private:
   struct MultiRequest {
     std::function<void(const std::shared_ptr<Response> &)> callback;
     std::weak_ptr<RequestToken> request_token;
@@ -76,5 +72,5 @@ private:
   std::mutex _requests_in_flight_mutex;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

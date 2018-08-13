@@ -28,46 +28,39 @@ namespace nativeformat {
 namespace http {
 
 class CachingSQLiteDatabase : public CachingDatabase {
-public:
+ public:
   CachingSQLiteDatabase(const std::string &cache_location,
                         const std::weak_ptr<CachingDatabaseDelegate> &delegate);
   virtual ~CachingSQLiteDatabase();
 
   // CachingDatabase
   std::string cachingType() const override;
-  void fetchItemForRequest(
-      const std::string &request_identifier,
-      std::function<void(ErrorCode, const CacheItem &)> callback) override;
+  void fetchItemForRequest(const std::string &request_identifier,
+                           std::function<void(ErrorCode, const CacheItem &)> callback) override;
   void storeResponse(
       const std::shared_ptr<Response> &response,
-      std::function<void(ErrorCode, const std::shared_ptr<Response> &response)>
-          callback) override;
+      std::function<void(ErrorCode, const std::shared_ptr<Response> &response)> callback) override;
   void prune() override;
-  void pinItem(const CacheItem &item,
-               const std::string &pin_identifier) override;
-  void unpinItem(const CacheItem &item,
-                 const std::string &pin_identifier) override;
-  void
-  removePinnedItemsForIdentifier(const std::string &pin_identifier) override;
+  void pinItem(const CacheItem &item, const std::string &pin_identifier) override;
+  void unpinItem(const CacheItem &item, const std::string &pin_identifier) override;
+  void removePinnedItemsForIdentifier(const std::string &pin_identifier) override;
   void pinnedItemsForIdentifier(
       const std::string &pin_identifier,
       std::function<void(const std::vector<CacheItem> &)> callback) override;
-  void pinningIdentifiers(
-      std::function<void(const std::vector<std::string> &)> callback) override;
+  void pinningIdentifiers(std::function<void(const std::vector<std::string> &)> callback) override;
 
-private:
-  static int sqliteSelectHTTPCallback(void *context, int argc, char **argv,
-                                      char **column_names);
-  static int sqliteReplaceHTTPCallback(void *context, int argc, char **argv,
-                                       char **column_names);
-  static int sqliteSelectVectorHTTPCallback(void *context, int argc,
-                                            char **argv, char **column_names);
-  static std::time_t
-  timeFromSQLDateTimeString(const std::string &date_time_string);
+ private:
+  static int sqliteSelectHTTPCallback(void *context, int argc, char **argv, char **column_names);
+  static int sqliteReplaceHTTPCallback(void *context, int argc, char **argv, char **column_names);
+  static int sqliteSelectVectorHTTPCallback(void *context,
+                                            int argc,
+                                            char **argv,
+                                            char **column_names);
+  static std::time_t timeFromSQLDateTimeString(const std::string &date_time_string);
 
   sqlite3 *_sqlite_handle;
   const std::weak_ptr<CachingDatabaseDelegate> _delegate;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

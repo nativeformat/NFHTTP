@@ -25,7 +25,9 @@
 namespace nativeformat {
 namespace http {
 
-std::string version() { return NFHTTP_VERSION; }
+std::string version() {
+  return NFHTTP_VERSION;
+}
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
