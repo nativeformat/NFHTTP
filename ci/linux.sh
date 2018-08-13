@@ -31,7 +31,9 @@ sudo apt-get install -y --no-install-recommends apt-utils \
                                                 ninja-build \
                                                 python-virtualenv \
                                                 wget \
-                                                libyaml-dev
+                                                libyaml-dev \
+                                                libboost-all-dev \
+                                                libssl-dev
 sudo apt-get install -y --reinstall binutils
 
 # Install cmake 3.6.x
