@@ -1,0 +1,261 @@
+# This file was generated with clang-format 4.0.0
+# $ clang-format -style Google -dump-config > .clang-format
+#
+# Read all about the available options here:
+# http://releases.llvm.org/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
+#
+# Spotify specific tweaks:
+#
+# ---
+# Language: Cpp
+#
+# - Standard Auto -> Cpp11
+#   A<A<int>> instead of A<A<int> >
+#
+# - ColumnLimit 80 -> 100
+#   We allow up to 100 characters per line
+#
+# - PointerAlignment Left -> Right
+#   Always put '*' and '&' close to variable/function
+#   Guidelines allows both alignments, but we want right (for legacy reasons)
+#
+# - DerivePointerAlignment: true -> false
+#   Always put '*' and '&' close to variable/function
+#   Guidelines allows both alignments, but we want right (for legacy reasons)
+#
+# - AllowShortFunctionsOnASingleLine: All -> Inline
+#   We don't want to put out of class function definitions on a single line.
+#   Standard allows it, but we prefer to keep the oneliners for methods inside classes.
+#
+# - BinPackArguments: true -> false
+#   A function declaration’s or function definition’s parameters will either all be on the same
+#   line or will have one line each.
+#   Guidelines allows both true and false, but we like false better so we prefer that.
+#
+# - BinPackParameters: true -> false
+#   A function call’s arguments will either be all on the same line or will have one line each.
+#   Guidelines allows both true and false, but we like false better so we prefer that.
+#
+# - ForEachMacros: Remove all listed macros
+#   We don't use foreach macros so clang-format shouldn't special treat any keywords.
+#
+# - IncludeCategories:
+#   Tweaked priorities to match our preferred order.
+#
+# - ObjCSpaceAfterProperty: false -> true
+# Matches Spotifys Objective-C coding style, see https://github.com/spotify/ios-style
+#
+# - ObjCSpaceBeforeProtocolList: false -> true
+# Matches Spotifys Objective-C coding style, see https://github.com/spotify/ios-style
+#
+# ---
+# Language: ObjC
+#
+# Hand tweaked config that aims to match Spotifys Objective-C coding style,
+# see https://github.com/spotify/ios-style.
+#
+---
+Language:        Cpp
+# BasedOnStyle:  Google
+AccessModifierOffset: -1
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignEscapedNewlinesLeft: true
+AlignOperands:   true
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: true
+BinPackArguments: false
+BinPackParameters: false
+# Note: BraceWrapping is ignored since BreakBeforeBraces isn't set to Custom
+BraceWrapping:
+  AfterClass:      false
+  AfterControlStatement: false
+  AfterEnum:       false
+  AfterFunction:   false
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     false
+  AfterUnion:      false
+  BeforeCatch:     false
+  BeforeElse:      false
+  IndentBraces:    false
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Attach
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializersBeforeComma: false
+BreakAfterJavaFieldAnnotations: false
+BreakStringLiterals: true
+ColumnLimit:     100
+CommentPragmas:  '^ IWYU pragma:'
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+DisableFormat:   false
+ExperimentalAutoDetectBinPacking: false
+ForEachMacros: []
+IncludeCategories:
+  - Regex:           '^<spotify/config/config.h>'
+    Priority:        3
+  - Regex:           '^<spotify/.*>'
+    Priority:        4
+  - Regex:           '^["<]base/.*.h[">]'
+    Priority:        5
+  - Regex:           '^".*"'
+    Priority:        6
+  - Regex:           '^<[a-z_]*>'
+    Priority:        1
+  - Regex:           '^<.*>'
+    Priority:        2
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IndentCaseLabels: true
+IndentWidth:     2
+IndentWrappedFunctionNames: false
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+ObjCBlockIndentWidth: 2
+ObjCSpaceAfterProperty: true
+ObjCSpaceBeforeProtocolList: true
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 200
+PointerAlignment: Right
+ReflowComments:  true
+SortIncludes:    true
+SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles:  false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Standard:        Cpp11
+TabWidth:        8
+UseTab:          Never
+
+#
+# Objective-C
+#
+---
+Language:        ObjC
+# BasedOnStyle:  Google
+AccessModifierOffset: -1
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignEscapedNewlinesLeft: true
+AlignOperands:   true
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: true
+BinPackArguments: false
+BinPackParameters: false
+BraceWrapping:
+  AfterClass:      false
+  AfterControlStatement: false
+  AfterEnum:       false
+  AfterFunction:   true
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     false
+  AfterUnion:      false
+  BeforeCatch:     false
+  BeforeElse:      false
+  IndentBraces:    false
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Custom
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializersBeforeComma: false
+BreakAfterJavaFieldAnnotations: false
+BreakStringLiterals: true
+ColumnLimit:     120
+CommentPragmas:  '^ IWYU pragma:'
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+DisableFormat:   false
+ExperimentalAutoDetectBinPacking: false
+ForEachMacros: []
+IncludeCategories:
+  - Regex:           '^<spotify/config/config.h>'
+    Priority:        3
+  - Regex:           '^<spotify/.*>'
+    Priority:        4
+  - Regex:           '^["<]base/.*.h[">]'
+    Priority:        5
+  - Regex:           '^".*"'
+    Priority:        6
+  - Regex:           '^<[a-z_]*>'
+    Priority:        1
+  - Regex:           '^<.*>'
+    Priority:        2
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IndentCaseLabels: true
+IndentWidth:     4
+IndentWrappedFunctionNames: false
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+ObjCBlockIndentWidth: 4
+ObjCSpaceAfterProperty: true
+ObjCSpaceBeforeProtocolList: true
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 200
+PointerAlignment: Right
+ReflowComments:  true
+SortIncludes:    true
+SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles:  false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Standard:        Cpp11
+TabWidth:        4
+UseTab:          Never

@@ -6,12 +6,12 @@
 set -e
 
 # Install system dependencies
-sudo apt-get install -y --no-install-recommends apt-utils
-sudo apt-get install -y clang-3.9
-sudo apt-get install -y clang-format-3.9
-sudo apt-get install -y libcurl4-openssl-dev
-sudo apt-get install -y libc++-dev
-sudo apt-get install -y ninja-build
+sudo apt-get install -y --no-install-recommends apt-utils \
+												clang-3.9 \
+												clang-format-3.9 \
+												libcurl4-openssl-dev \
+												libc++-dev \
+												ninja-build
 
 export CC=clang-3.9
 export CXX=clang++-3.9
@@ -24,10 +24,10 @@ $VIRTUALENV_PATH nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages
-pip install pyyaml
-pip install flake8
-pip install cmakelint
-pip install requests
+pip install pyyaml \
+			flake8 \
+			cmakelint \
+			requests
 
 # Execute our python build tools
 if [ -n "$BUILD_ANDROID" ]; then

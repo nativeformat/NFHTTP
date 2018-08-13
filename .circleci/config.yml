@@ -1,0 +1,85 @@
+version: 2
+jobs:
+  buildlinuxclang:
+    docker:
+      - image: ubuntu:trusty
+    steps:
+      - checkout
+      - run:
+          name: Build Linux with clang
+          command: sh ci/linux.sh clang_build
+      - store_artifacts:
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
+  buildlinuxgcc:
+    docker:
+      - image: ubuntu:trusty
+    steps:
+      - checkout
+      - run:
+          name: Build Linux with gcc
+          command: sh ci/linux.sh gcc_build
+      - store_artifacts:
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
+  buildlinuxandroid:
+    docker:
+      - image: ubuntu:trusty
+    steps:
+      - checkout
+      - run:
+          name: Build Android
+          command: BUILD_ANDROID=1 sh ci/linux.sh build
+      - store_artifacts:
+          path: libNFHTTP-androidx86.zip
+          destination: libNFHTTP-androidx86.zip
+      - store_artifacts:
+          path: libNFHTTP-androidArm64.zip
+          destination: libNFHTTP-androidArm64.zip
+  buildmac:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Build OSX
+          command: sh ci/osx.sh build
+      - store_artifacts:
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
+  buildmacios:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Build iOS
+          command: BUILD_IOS=1 sh ci/osx.sh build
+      - store_artifacts:
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
+  buildmacandroid:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Build Android
+          command: BUILD_ANDROID=1 sh ci/osx.sh build
+      - store_artifacts:
+          path: libNFHTTP-androidx86.zip
+          destination: libNFHTTP-androidx86.zip
+      - store_artifacts:
+          path: libNFHTTP-androidArm64.zip
+          destination: libNFHTTP-androidArm64.zip
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - buildlinuxclang
+      - buildlinuxgcc
+      - buildlinuxandroid
+      - buildmac
+      - buildmacios
+      - buildmacandroid

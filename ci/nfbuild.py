@@ -1,4 +1,24 @@
 #!/usr/bin/env python
+'''
+ * Copyright (c) 2018 Spotify AB.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+'''
 
 import filecmp
 import fnmatch
@@ -34,97 +54,8 @@ class NFBuild(object):
         os.makedirs(self.build_directory)
         os.makedirs(self.output_directory)
 
-    def vulcanDownload(self, vulcan_file, vulcan_id):
-        vulcan_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    'tools',
-                    'vulcan'),
-                'bin'),
-            'vulcan.py')
-        extraction_folder = subprocess.check_output([
-            'python',
-            vulcan_binary,
-            '-v',
-            '-f',
-            vulcan_file,
-            '-i',
-            'id=' + vulcan_id,
-            '-p',
-            vulcan_id])
-        return extraction_folder.strip()
-
-    def installBoost(self):
-        boost_vulcan_file = os.path.join('tools', 'boost.vulcan')
-        self.vulcanDownload(boost_vulcan_file, 'boost-1_64_0')
-
-    def installCmake(self):
-        cmake_vulcan_file = os.path.join(
-            os.path.join(
-                os.path.join(
-                    os.path.join(
-                        'tools',
-                        'buildtools'),
-                    'spotify_buildtools'),
-                'software'),
-            'cmake.vulcan')
-        cmake_extraction_folder = self.vulcanDownload(
-            cmake_vulcan_file,
-            'cmake-3.8.2')
-        self.cmake_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    cmake_extraction_folder,
-                    'cmakebundle'),
-                'bin'),
-            'cmake')
-
-    def installAndroidNDK(self):
-        android_vulcan_file = os.path.join(
-            os.path.join(
-                os.path.join(
-                    os.path.join(
-                        'tools',
-                        'buildtools'),
-                    'spotify_buildtools'),
-                'software'),
-            'android_ndk.vulcan')
-        android_extract_folder = self.vulcanDownload(
-            android_vulcan_file,
-            'android_ndk-r16b')
-        self.android_ndk_folder = android_extract_folder
-        os.environ['ANDROID_NDK'] = android_extract_folder
-        os.environ['ANDROID_NDK_HOME'] = android_extract_folder
-
-    def installNinja(self):
-        ninja_vulcan_file = os.path.join(
-            os.path.join(
-                os.path.join(
-                    os.path.join('tools', 'buildtools'),
-                    'spotify_buildtools'),
-                'software'),
-            'ninja.vulcan')
-        ninja_extraction_folder = self.vulcanDownload(
-            ninja_vulcan_file,
-            'ninja-1.6.0')
-        self.ninja_binary = os.path.join(
-            ninja_extraction_folder,
-            'ninja')
-        if 'PATH' not in os.environ:
-            os.environ['PATH'] = ''
-        if len(os.environ['PATH']) > 0:
-            os.environ['PATH'] += os.pathsep
-        os.environ['PATH'] += ninja_extraction_folder
-
-    def installVulcanDependencies(self, android=False):
-        self.installBoost()
-        self.installCmake()
-        self.installNinja()
-        if android:
-            self.installAndroidNDK()
-
     def installDependencies(self, android=False):
-        self.installVulcanDependencies(android)
+        self.android = android
 
     def generateProject(self,
                         code_coverage=False,
@@ -191,6 +122,38 @@ class NFBuild(object):
         lint_result &= self.lintCmakeDirectory('source')
         if not lint_result:
             sys.exit(1)
+
+    def staticallyAnalyse(self, target, include_regex=None):
+        assert True, "staticallyAnalyse should be overridden by subclass"
+
+    def buildGradle(self):
+        exit_code = subprocess.call(['./gradlew', 'assemble'])
+        if exit_code != 0:
+            sys.exit(exit_code)
+
+    def packageArtifacts(self):
+        assert True, "packageArtifacts should be overridden by subclass"
+
+    def make_archive(self, source, destination):
+        base = os.path.basename(destination)
+        name = base.split('.')[0]
+        format = base.split('.')[1]
+        archive_from = os.path.dirname(source)
+        archive_to = os.path.basename(source.strip(os.sep))
+        print(source, destination, archive_from, archive_to)
+        shutil.make_archive(name, format, archive_from, archive_to)
+        shutil.move('%s.%s'%(name,format), destination)
+
+    def find_file(self, directory, file_name, multiple_files=False):
+        matches = []
+        for root, dirnames, filenames in os.walk(directory):
+            for filename in fnmatch.filter(filenames, file_name):
+                matches.append(os.path.join(root, filename))
+                if not multiple_files:
+                    break
+            if not multiple_files and len(matches) > 0:
+                break
+        return matches
 
     def runIntegrationTests(self):
         # Build the CLI target

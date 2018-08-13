@@ -1,4 +1,24 @@
 #!/usr/bin/env python
+'''
+ * Copyright (c) 2018 Spotify AB.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+'''
 
 import fnmatch
 import os
@@ -18,37 +38,13 @@ class NFBuildOSX(NFBuild):
         self.project_file = os.path.join(
             self.build_directory,
             'NFHTTP.xcodeproj')
-
-    def installClangFormat(self):
-        clang_format_vulcan_file = os.path.join('tools', 'clang-format.vulcan')
-        clang_format_extraction_folder = self.vulcanDownload(
-            clang_format_vulcan_file,
-            'clang-format-5.0.0')
-        self.clang_format_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    clang_format_extraction_folder,
-                    'clang-format'),
-                'bin'),
-            'clang-format')
-
-    def installCurl(self):
-        curl_vulcan_file = os.path.join('tools', 'curl.vulcan')
-        curl_extraction_folder = self.vulcanDownload(
-            curl_vulcan_file,
-            'curl-7.54.1')
-        self.curl_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    curl_extraction_folder,
-                    'curl'),
-                'bin'),
-            'curl')
-
-    def installVulcanDependencies(self, android=False):
-        super(self.__class__, self).installVulcanDependencies(android)
-        self.installClangFormat()
-        self.installCurl()
+        self.clang_format_binary = 'clang-format'
+        self.cmake_binary = 'cmake'
+        self.android_ndk_folder = '/user/local/share/android-ndk'
+        self.ninja_binary = 'ninja'
+        self.ios = False
+        self.android = False
+        self.android_arm = False
 
     def generateProject(self,
                         code_coverage=False,
@@ -196,3 +192,32 @@ class NFBuildOSX(NFBuild):
                     static_analyzer_check_passed = False
         if not static_analyzer_check_passed:
             sys.exit(1)
+
+    def packageArtifacts(self):
+        lib_name = 'libNFHTTP.a'
+        cli_name = 'NFHTTPCLI'
+        output_folder = os.path.join(self.build_directory, 'output')
+        artifacts_folder = os.path.join(output_folder, 'NFHTTP')
+        shutil.copytree('include', os.path.join(artifacts_folder, 'include'))
+        source_folder = os.path.join(self.build_directory, 'source')
+        lib_matches = self.find_file(source_folder, lib_name)
+        cli_matches = self.find_file(source_folder, cli_name)
+        if not self.android:
+            lipo_command = ['lipo', '-create']
+            for lib_match in lib_matches:
+                lipo_command.append(lib_match)
+            lipo_command.extend(['-output', os.path.join(artifacts_folder, lib_name)])
+            lipo_result = subprocess.call(lipo_command)
+            if lipo_result != 0:
+                sys.exit(lipo_result)
+        else:
+            shutil.copyfile(lib_matches[0], os.path.join(artifacts_folder, lib_name))
+        if not self.ios and not self.android:
+            shutil.copyfile(cli_matches[0], os.path.join(artifacts_folder, cli_name))
+        output_zip = os.path.join(output_folder, 'libNFHTTP.zip')
+        self.make_archive(artifacts_folder, output_zip)
+        if self.android:
+            final_zip_name = 'libNFHTTP-androidx86.zip'
+            if self.android_arm:
+                final_zip_name = 'libNFHTTP-androidArm64.zip'
+            shutil.copyfile(output_zip, final_zip_name)
