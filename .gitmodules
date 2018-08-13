@@ -1,15 +1,6 @@
 [submodule "libraries/json"]
 	path = libraries/json
 	url = https://github.com/nlohmann/json.git
-[submodule "tools/vulcan"]
-	path = tools/vulcan
-	url = git@ghe.spotify.net:ci-qe/vulcan.git
-[submodule "tools/buildtools"]
-	path = tools/buildtools
-	url = git@ghe.spotify.net:ci-qe/buildtools.git
-[submodule "libraries/curl"]
-	path = libraries/curl
-	url = git@ghe.spotify.net:NativeFormat/curl.git
 [submodule "libraries/openssl"]
 	path = libraries/openssl
 	url = https://github.com/openssl/openssl.git
