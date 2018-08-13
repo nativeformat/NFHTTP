@@ -16,6 +16,11 @@ sudo apt-get install -y --no-install-recommends apt-utils \
 export CC=clang-3.9
 export CXX=clang++-3.9
 
+# Install cmake 3.6.x
+wget https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
+chmod +x cmake-3.6.3-Linux-x86_64.sh
+sudo sh cmake-3.6.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
+
 # Install virtualenv
 virtualenv nfhttp_env
 . nfhttp_env/bin/activate
