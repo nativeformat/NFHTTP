@@ -8,15 +8,7 @@ endif()
 
 if(WINDOWS AND NOT OPENSSL_FOUND)
   message(STATUS "OpenSSL not found on system, will download Windows artifact")
-  execute_process(COMMAND python ../tools/vulcan/bin/vulcan.py
-    -v -f ../tools/openssl.vulcan -p openssl-win32vs2017
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    ERROR_VARIABLE VULCAN_ERRORS
-    OUTPUT_VARIABLE VULCAN_OPENSSL_OUTPUT
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-  message(STATUS "${VULCAN_ERRORS}")
-  message("OpenSSL root: ${VULCAN_OPENSSL_OUTPUT}")
-  set(OPENSSL_ROOT_DIR ${VULCAN_OPENSSL_OUTPUT} CACHE STRING "OpenSSL root directory from vulcan installation" FORCE) 
+  # Figure out OPENSSL with vulcan at some point???
   set(OPENSSL_FOUND ON CACHE BOOL "OpenSSL is found" FORCE)
   set(OpenSSL_FOUND ON CACHE BOOL "OpenSSL is found" FORCE)
   if(MSVC)
@@ -929,13 +921,17 @@ else()
   message(STATUS "OpenSSL found on system")
 endif()
 
-# Add boost
-execute_process(COMMAND python ../tools/vulcan/bin/vulcan.py
-  -v -f ../tools/boost.vulcan -p boost-1_64_0
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  OUTPUT_VARIABLE BOOST_EXTRACTION_FOLDER)
-string(STRIP "${BOOST_EXTRACTION_FOLDER}" BOOST_EXTRACTION_FOLDER_STRIPPED)
-string(REPLACE "\\" "/" BOOST_EXTRACTION_FOLDER_STRIPPED ${BOOST_EXTRACTION_FOLDER_STRIPPED})
+if(WINDOWS)
+  # Figure this part out later
+else()
+  execute_process(COMMAND wget
+    https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
+    -P /tmp/boost)
+  execute_process(COMMAND tar xvjf /tmp/boost_1_64_0.tar.bz2 -C boost)
+  set(BOOST_EXTRACTION_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/boost)
+
+
+endif()
 set(BOOST_LIB_DIR "${BOOST_EXTRACTION_FOLDER_STRIPPED}/boost_1_64_0/libs")
 set(BOOST_GRAPH_SRC_DIR "${BOOST_LIB_DIR}/graph/src")
 set(BOOST_PROGRAM_OPTIONS_SRC_DIR "${BOOST_LIB_DIR}/program_options/src")
@@ -1035,7 +1031,7 @@ target_include_directories(boost_atomic PUBLIC ${Boost_INCLUDE_DIR})
 target_include_directories(boost_regex PUBLIC ${Boost_INCLUDE_DIR})
 target_include_directories(boost_date_time INTERFACE ${Boost_INCLUDE_DIR})
 
-set(Boost_LIBRARIES 
+set(Boost_LIBRARIES
   ${BOOST_GRAPH_LIBRARY}
   ${Boost_PROGRAM_OPTIONS_LIBRARY}
   ${Boost_THREAD_LIBRARY}

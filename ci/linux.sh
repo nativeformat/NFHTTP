@@ -59,9 +59,9 @@ virtualenv nfhttp_env
 
 # Install Python Packages
 pip install pyyaml \
-			flake8 \
-			cmakelint \
-			requests
+            flake8 \
+            cmakelint \
+            requests
 
 # Execute our python build tools
 if [ -n "$BUILD_ANDROID" ]; then
@@ -70,7 +70,8 @@ if [ -n "$BUILD_ANDROID" ]; then
     unzip -q android-ndk-r17b-linux-x86_64.zip
     mv android-ndk-r17b ~/ndk
     chmod +x -R ~/ndk
-	python ci/androidlinux.py "$@"
+
+    python ci/androidlinux.py "$@"
 else
-	python ci/linux.py "$@"
+    python ci/linux.py "$@"
 fi
