@@ -13,11 +13,9 @@ def main():
     buildOptions.addOption("lintCmake", "Lint cmake files")
     buildOptions.addOption("lintCppWithInlineChange",
                            "Lint CPP Files and fix them")
-
     buildOptions.addOption("makeBuildDirectory",
                            "Wipe existing build directory")
-    buildOptions.addOption("generateProject", "Regenerate xcode project")
-
+    buildOptions.addOption("generateProject", "Regenerate project")
     buildOptions.addOption("buildTargetLibrary", "Build Target: Library")
 
     buildOptions.setDefaultWorkflow("Empty workflow", [])
@@ -28,7 +26,7 @@ def main():
         'lintCppWithInlineChange'
     ])
 
-    buildOptions.addWorkflow("build", "Production Build", [
+    buildOptions.addWorkflow("clang_build", "Production Clang Build", [
         'installDependencies',
         'lintCmake',
         'makeBuildDirectory',
