@@ -22,21 +22,39 @@
 set -e
 
 # Install system dependencies
+sudo apt-get update
 sudo apt-get install -y --no-install-recommends apt-utils \
-												clang-3.9 \
-												clang-format-3.9 \
-												libcurl4-openssl-dev \
-												libc++-dev \
-												ninja-build
+                                                libasound2-dev \
+                                                clang-format-3.9 \
+                                                ninja-build \
+                                                clang-3.9 \
+                                                libc++-dev \
+                                                python-pip \
+                                                python-virtualenv \
+                                                wget \
+                                                libyaml-dev \
+                                                python-dev \
+                                                python3-dev \
+                                                git \
+                                                unzip \
+                                                software-properties-common \
+                                                python-software-properties
 
-export CC=clang-3.9
-export CXX=clang++-3.9
+# Extra repo for gcc-4.9 so we don't have to use 4.8
+sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends gcc-4.9 \
+                                                g++-4.9
+
+sudo apt-get install -y --reinstall binutils
+
+# Install cmake 3.6.x
+wget https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
+chmod +x cmake-3.6.3-Linux-x86_64.sh
+sudo sh cmake-3.6.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
 
 # Install virtualenv
-VIRTUALENV_LOCAL_PATH='/virtualenv-15.1.0/virtualenv.py'
-VIRTUALENV_PATH=`python tools/vulcan/bin/vulcan.py -v -f tools/virtualenv.vulcan -p virtualenv-15.1.0`
-VIRTUALENV_PATH=$VIRTUALENV_PATH$VIRTUALENV_LOCAL_PATH
-$VIRTUALENV_PATH nfhttp_env
+virtualenv nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages
@@ -47,6 +65,11 @@ pip install pyyaml \
 
 # Execute our python build tools
 if [ -n "$BUILD_ANDROID" ]; then
+    # Install Android NDK
+    wget https://dl.google.com/android/repository/android-ndk-r17b-linux-x86_64.zip
+    unzip -q android-ndk-r17b-linux-x86_64.zip
+    mv android-ndk-r17b ~/ndk
+    chmod +x -R ~/ndk
 	python ci/androidlinux.py "$@"
 else
 	python ci/linux.py "$@"
