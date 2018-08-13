@@ -40,7 +40,8 @@ sudo apt-get install -y --no-install-recommends apt-utils \
                                                 software-properties-common \
                                                 python-software-properties \
                                                 libboost-all-dev \
-                                                libssl-dev
+                                                libssl-dev \
+                                                libcurl4-openssl-dev
 
 # Extra repo for gcc-4.9 so we don't have to use 4.8
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
