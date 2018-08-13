@@ -38,7 +38,8 @@ sudo apt-get install -y --no-install-recommends apt-utils \
                                                 git \
                                                 unzip \
                                                 software-properties-common \
-                                                python-software-properties
+                                                python-software-properties \
+                                                libboost-all-dev
 
 # Extra repo for gcc-4.9 so we don't have to use 4.8
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
