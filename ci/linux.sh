@@ -10,7 +10,8 @@ sudo apt-get install -y --no-install-recommends apt-utils \
                                                 clang-format-3.9 \
                                                 libcurl4-openssl-dev \
                                                 libc++-dev \
-                                                ninja-build
+                                                ninja-build \
+                                                python-virtualenv
 
 export CC=clang-3.9
 export CXX=clang++-3.9
