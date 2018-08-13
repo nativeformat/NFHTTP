@@ -21,13 +21,11 @@ def main():
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
     buildOptions.addWorkflow("lint", "Run lint workflow", [
-        'installDependencies',
         'lintCmake',
         'lintCppWithInlineChange'
     ])
 
     buildOptions.addWorkflow("clang_build", "Production Clang Build", [
-        'installDependencies',
         'lintCmake',
         'makeBuildDirectory',
         'generateProject',
@@ -42,9 +40,6 @@ def main():
 
     if buildOptions.checkOption(options, 'debug'):
         nfbuild.build_type = 'Debug'
-
-    if buildOptions.checkOption(options, 'installDependencies'):
-        nfbuild.installDependencies()
 
     if buildOptions.checkOption(options, 'lintCmake'):
         nfbuild.lintCmake()
