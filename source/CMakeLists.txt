@@ -22,8 +22,6 @@ set(SOURCE_FILES
   CachingClient.cpp
   Request.cpp
   RequestImplementation.cpp
-  ClientNSURLSession.h
-  ClientNSURLSession.mm
   RequestTokenImplementation.h
   RequestTokenImplementation.cpp
   RequestTokenDelegate.h
@@ -36,7 +34,6 @@ set(SOURCE_FILES
   CachingSQLiteDatabase.cpp
   CachingDatabaseDelegate.h
   CacheLocationLinux.cpp
-  CacheLocationApple.mm
   CacheLocationWindows.cpp
   ClientModifierImplementation.h
   ClientModifierImplementation.cpp
@@ -44,6 +41,14 @@ set(SOURCE_FILES
   ClientMultiRequestImplementation.h
   ClientMultiRequestImplementation.cpp
   NFHTTP.cpp)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT ANDROID)
+  list(APPEND
+    SOURCE_FILES
+    CacheLocationApple.mm
+    ClientNSURLSession.h
+    ClientNSURLSession.mm)
+endif()
 
 if(USE_CURL)
   list(APPEND
