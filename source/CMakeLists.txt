@@ -16,6 +16,8 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+find_package(Boost 1.54.0)
+
 set(SOURCE_FILES
   Client.cpp
   CachingClient.h
@@ -92,7 +94,8 @@ add_executable(NFHTTPCLI NFHTTPCLI.cpp)
 target_include_directories(NFHTTPCLI PUBLIC "${NFHTTP_INCLUDE_DIRECTORY}"
   "${NFHTTP_LIBRARIES_DIRECTORY}/sqlite"
   "${NFHTTP_LIBRARIES_DIRECTORY}/curl/include"
-  ${CPPREST_INCLUDE_DIR})
+  ${CPPREST_INCLUDE_DIR}
+  ${Boost_INCLUDE_DIRS})
 
 if(USE_CURL)
   find_package(CURL REQUIRED)

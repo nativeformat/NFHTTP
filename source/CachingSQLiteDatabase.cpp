@@ -20,11 +20,15 @@
  */
 #include "CachingSQLiteDatabase.h"
 
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <locale>
 #include <sstream>
+#include <string>
 #include <vector>
+
+#include <boost/algorithm/string.hpp>
 
 namespace nativeformat {
 namespace http {
@@ -416,11 +420,32 @@ int CachingSQLiteDatabase::sqliteSelectVectorHTTPCallback(void *context,
 }
 
 std::time_t CachingSQLiteDatabase::timeFromSQLDateTimeString(const std::string &date_time_string) {
-  std::tm expiry_time_values = {};
-  std::istringstream expiry_stream(date_time_string);
-  expiry_stream.imbue(std::locale("en.utf-8"));
-  expiry_stream >> std::get_time(&expiry_time_values, "%Y-%m-%d %H:%M:%S");
-  return mktime(&expiry_time_values);
+  std::vector<std::string> space_separated_strings;
+  boost::split(date_time_string, space_separated_strings, boost::is_any_of(" "));
+  if (space_separated_strings.size() != 2) {
+    return std::time(0);
+  }
+  std::vector<std::string> date_separated_strings;
+  boost::split(space_separated_strings[0], date_separated_strings, boost::is_any_of("-"));
+  if (date_separated_strings.size() != 3) {
+    return std::time(0);
+  }
+  std::vector<std::string> time_separated_strings;
+  boost::split(space_separated_strings[1], time_separated_strings, boost::is_any_of(":"));
+  if (time_separated_strings.size() != 3) {
+    return std::time(0);
+  }
+  struct std::tm *timeinfo;
+  std::time_t rawtime;
+  std::time(&rawtime);
+  timeinfo = std::gmtime(&rawtime);
+  timeinfo->tm_year = std::stoi(date_separated_strings[0]) - 1900;
+  timeinfo->tm_mon = std::stoi(date_separated_strings[1]) - 1;
+  timeinfo->tm_mday = std::stoi(date_separated_strings[2]);
+  timeinfo->tm_hour = std::stoi(time_separated_strings[0]);
+  timeinfo->tm_min = std::stoi(time_separated_strings[1]);
+  timeinfo->tm_sec = std::stoi(time_separated_strings[2]);
+  return std::mktime(timeinfo);
 }
 
 }  // namespace http
