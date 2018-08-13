@@ -15,9 +15,6 @@ sudo apt-get install -y --no-install-recommends apt-utils \
                                                 wget \
                                                 libyaml-dev
 
-export CC=clang-3.9
-export CXX=clang++-3.9
-
 # Install cmake 3.6.x
 wget --no-check-certificate https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
 chmod +x cmake-3.6.3-Linux-x86_64.sh

@@ -27,7 +27,8 @@ class NFBuildLinux(NFBuild):
                         undefined_behaviour_sanitizer=False,
                         ios=False,
                         android=False,
-                        android_arm=False):
+                        android_arm=False,
+                        gcc=False):
         cmake_call = [self.cmake_binary, '..', '-GNinja']
         if self.build_type == 'Release':
             cmake_call.append('-DCREATE_RELEASE_BUILD=1')
@@ -47,6 +48,10 @@ class NFBuildLinux(NFBuild):
                 '-DANDROID_NATIVE_API_LEVEL=21',
                 '-DANDROID_TOOLCHAIN_NAME=' + android_toolchain_name,
                 '-DANDROID_STL=c++_shared'])
+        if gcc:
+            cmake_call.extend(['-DLLVM_STDLIB=0'])
+        else:
+            cmake_call.extend(['-DLLVM_STDLIB=1'])
         cmake_result = subprocess.call(cmake_call, cwd=self.build_directory)
         if cmake_result != 0:
             sys.exit(cmake_result)
