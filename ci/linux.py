@@ -21,6 +21,7 @@
 '''
 
 import sys
+import os
 
 from nfbuildlinux import NFBuildLinux
 from build_options import BuildOptions
@@ -38,7 +39,11 @@ def main():
                            "Wipe existing build directory")
     buildOptions.addOption("generateProject", "Regenerate xcode project")
 
+    buildOptions.addOption("buildTargetCLI", "Build Target: CLI")
     buildOptions.addOption("buildTargetLibrary", "Build Target: Library")
+    buildOptions.addOption("packageArtifacts", "Package the binary artifacts")
+    buildOptions.addOption("gnuToolchain", "Build with gcc and libstdc++")
+    buildOptions.addOption("llvmToolchain", "Build with clang and libc++")
 
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
@@ -48,12 +53,26 @@ def main():
         'lintCppWithInlineChange'
     ])
 
-    buildOptions.addWorkflow("build", "Production Build", [
+    buildOptions.addWorkflow("clang_build", "Production build with clang", [
+        'llvmToolchain',
         'installDependencies',
         'lintCmake',
         'makeBuildDirectory',
         'generateProject',
-        'buildTargetLibrary'
+        'buildTargetLibrary',
+        'buildTargetCLI',
+        'packageArtifacts'
+    ])
+
+    buildOptions.addWorkflow("gcc_build", "Production build with gcc", [
+        'gnuToolchain',
+        'installDependencies',
+        'lintCmake',
+        'makeBuildDirectory',
+        'generateProject',
+        'buildTargetLibrary',
+        'buildTargetCLI',
+        'packageArtifacts'
     ])
 
     options = buildOptions.parseArgs()
@@ -78,7 +97,16 @@ def main():
         nfbuild.makeBuildDirectory()
 
     if buildOptions.checkOption(options, 'generateProject'):
-        nfbuild.generateProject()
+        if buildOptions.checkOption(options, 'gnuToolchain'):
+            os.environ['CC'] = 'gcc-4.9'
+            os.environ['CXX'] = 'g++-4.9'
+            nfbuild.generateProject(gcc=True)
+        elif buildOptions.checkOption(options, 'llvmToolchain'):
+            os.environ['CC'] = 'clang-3.9'
+            os.environ['CXX'] = 'clang++-3.9'
+            nfbuild.generateProject(gcc=False)
+        else:
+            nfbuild.generateProject()
 
     if buildOptions.checkOption(options, 'buildTargetLibrary'):
         nfbuild.buildTarget(library_target)

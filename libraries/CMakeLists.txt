@@ -926,10 +926,9 @@ if(WINDOWS)
 else()
   execute_process(COMMAND wget
     https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
-    -P /tmp/boost)
-  execute_process(COMMAND tar xvjf /tmp/boost_1_64_0.tar.bz2 -C boost)
-  set(BOOST_EXTRACTION_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/boost)
-
+    -P /tmp/)
+  execute_process(COMMAND tar xvjf /tmp/boost_1_64_0.tar.bz2)
+  set(BOOST_EXTRACTION_FOLDER_STRIPPED "${CMAKE_CURRENT_SOURCE_DIR}")
 
 endif()
 set(BOOST_LIB_DIR "${BOOST_EXTRACTION_FOLDER_STRIPPED}/boost_1_64_0/libs")
