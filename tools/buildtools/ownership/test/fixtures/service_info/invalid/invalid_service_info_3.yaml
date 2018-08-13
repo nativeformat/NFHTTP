@@ -1,9 +1,0 @@
-id: android-video-spotlet
-description: Your Music/Your Library
-system: client-android
-owner: marvin
-visibility: public
-dependencies: ['abc', 123, ['hi']]
-facts:
-- whoops
-- an array

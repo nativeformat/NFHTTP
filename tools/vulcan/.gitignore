@@ -1,6 +1,0 @@
-*.pyc
-*.sw?
-doc/*.html
-.idea
-logs
-.DS_Store

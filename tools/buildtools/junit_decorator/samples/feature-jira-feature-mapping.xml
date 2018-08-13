@@ -1,5 +1,0 @@
-<jirafeatures>
-  <jirafeature name="somefeature" jirafeature="Jira Some Feature" />
-  <jirafeature name="someOtherFeature" jirafeature="Jira Some Other Feature" />
-  <jirafeature name="unknownOtherFeature" jirafeature="Jira Unknown Other Feature" />
-</jirafeatures>
