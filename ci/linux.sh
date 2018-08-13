@@ -16,10 +16,7 @@ export CC=clang-3.9
 export CXX=clang++-3.9
 
 # Install virtualenv
-VIRTUALENV_LOCAL_PATH='/virtualenv-15.1.0/virtualenv.py'
-VIRTUALENV_PATH=`python tools/vulcan/bin/vulcan.py -v -f tools/virtualenv.vulcan -p virtualenv-15.1.0`
-VIRTUALENV_PATH=$VIRTUALENV_PATH$VIRTUALENV_LOCAL_PATH
-$VIRTUALENV_PATH nfhttp_env
+virtualenv nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages
