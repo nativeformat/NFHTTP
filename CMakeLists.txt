@@ -111,10 +111,12 @@ if(WIN32)
     "${CMAKE_EXE_LINKER_FLAGS} ${WINDOWS_LINKER_FLAGS}")
 endif()
 
-set(OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
+add_subdirectory(libraries)
+add_subdirectory(source)
+
 execute_process(COMMAND python
   "${CMAKE_CURRENT_SOURCE_DIR}/tools/generate-version.py"
-  ${OUTPUT_DIRECTORY}
+  ${CMAKE_BINARY_DIR}/output
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 message(STATUS "********** Build configuration ************")
@@ -122,6 +124,3 @@ message(STATUS "Compiling for ${CMAKE_SYSTEM_NAME}")
 message(STATUS "Configuration: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")
 message(STATUS "C++ Compiler: ${CMAKE_CXX_COMPILER}")
-
-add_subdirectory(libraries)
-add_subdirectory(source)

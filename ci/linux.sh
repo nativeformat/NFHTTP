@@ -33,7 +33,13 @@ sudo apt-get install -y --no-install-recommends apt-utils \
                                                 wget \
                                                 libyaml-dev \
                                                 libboost-all-dev \
-                                                libssl-dev
+                                                libssl-dev \
+                                                python-dev \
+                                                python3-dev \
+                                                git \
+                                                unzip \
+                                                software-properties-common \
+                                                python-software-properties
 sudo apt-get install -y --reinstall binutils
 
 # Install cmake 3.6.x
