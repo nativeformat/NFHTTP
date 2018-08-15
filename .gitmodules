@@ -3,7 +3,7 @@
 	url = https://github.com/nlohmann/json.git
 [submodule "libraries/curl"]
 	path = libraries/curl
-	url = git@ghe.spotify.net:NativeFormat/curl.git
+	url = https://github.com/curl/curl.git
 [submodule "libraries/openssl"]
 	path = libraries/openssl
 	url = https://github.com/openssl/openssl.git
