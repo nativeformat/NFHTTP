@@ -55,6 +55,7 @@ def main():
         'makeBuildDirectory',
         'generateProject',
         'buildTargetLibrary',
+        'makeBuildDirectory',
         'generateCppRestSDKProject',
         'buildTargetLibrary'
     ])
@@ -101,6 +102,8 @@ def main():
             nfbuild.generateProject(gcc=False, use_cpp_rest_sdk=True, use_curl=False)
         else:
             nfbuild.generateProject(use_cpp_rest_sdk=True, use_curl=False)
+    if buildOptions.checkOption(options, 'buildTargetLibrary'):
+        nfbuild.buildTarget(library_target)
 
 
 if __name__ == "__main__":
