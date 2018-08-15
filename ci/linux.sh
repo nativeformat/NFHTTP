@@ -22,30 +22,34 @@
 set -e
 
 # Install system dependencies
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends apt-utils \
-                                                clang-3.9 \
-                                                clang-format-3.9 \
-                                                libcurl4-openssl-dev \
-                                                libc++-dev \
-                                                ninja-build \
-                                                python-virtualenv \
-                                                wget \
-                                                libyaml-dev \
-                                                libboost-all-dev \
-                                                libssl-dev \
-                                                python-dev \
-                                                python3-dev \
-                                                git \
-                                                unzip \
-                                                software-properties-common \
-                                                python-software-properties
+sudo apt-get -q update
+sudo apt-get install -y -q --no-install-recommends apt-utils \
+                                                   clang-3.9 \
+                                                   clang-format-3.9 \
+                                                   libcurl4-openssl-dev \
+                                                   libc++-dev \
+                                                   ninja-build \
+                                                   python-virtualenv \
+                                                   wget \
+                                                   libyaml-dev \
+                                                   libssl-dev \
+                                                   python-dev \
+                                                   python3-dev \
+                                                   git \
+                                                   unzip \
+                                                   software-properties-common \
+                                                   python-software-properties
 sudo apt-get install -y --reinstall binutils
 
 # Install cmake 3.6.x
 wget --no-check-certificate https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
 chmod +x cmake-3.6.3-Linux-x86_64.sh
 sudo sh cmake-3.6.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
+
+# Install boost 1.64.x
+wget --no-check-certificate https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2
+tar --bzip2 -xf boost_1_64_0.tar.bz2
+export BOOST_ROOT="$PWD/boost_1_64_0"
 
 # Install virtualenv
 virtualenv nfhttp_env
