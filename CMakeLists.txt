@@ -111,13 +111,15 @@ if(WIN32)
     "${CMAKE_EXE_LINKER_FLAGS} ${WINDOWS_LINKER_FLAGS}")
 endif()
 
-add_subdirectory(libraries)
-add_subdirectory(source)
-
+set(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output")
+message("OUTPUT_DIRECTORY: ${OUTPUT_DIRECTORY}")
 execute_process(COMMAND python
   "${CMAKE_CURRENT_SOURCE_DIR}/tools/generate-version.py"
-  ${CMAKE_BINARY_DIR}/output
+  "${OUTPUT_DIRECTORY}"
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(libraries)
+add_subdirectory(source)
 
 message(STATUS "********** Build configuration ************")
 message(STATUS "Compiling for ${CMAKE_SYSTEM_NAME}")
