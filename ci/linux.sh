@@ -51,6 +51,9 @@ wget --no-check-certificate https://dl.bintray.com/boostorg/release/1.64.0/sourc
 tar --bzip2 -xf boost_1_64_0.tar.bz2
 export BOOST_ROOT="$PWD/boost_1_64_0"
 
+# Update submodules
+git submodule update --init --recursive
+
 # Install virtualenv
 virtualenv nfhttp_env
 . nfhttp_env/bin/activate
