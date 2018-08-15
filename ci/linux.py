@@ -37,6 +37,7 @@ def main():
     buildOptions.addOption("makeBuildDirectory",
                            "Wipe existing build directory")
     buildOptions.addOption("generateProject", "Regenerate project")
+    buildOptions.addOption("generateCppRestSDKProject", "Regenerate project with CPP Rest SDK implementation")
     buildOptions.addOption("buildTargetLibrary", "Build Target: Library")
     buildOptions.addOption("gnuToolchain", "Build with gcc and libstdc++")
     buildOptions.addOption("llvmToolchain", "Build with clang and libc++")
@@ -53,6 +54,8 @@ def main():
         'lintCmake',
         'makeBuildDirectory',
         'generateProject',
+        'buildTargetLibrary',
+        'generateCppRestSDKProject',
         'buildTargetLibrary'
     ])
 
@@ -78,16 +81,26 @@ def main():
         if buildOptions.checkOption(options, 'gnuToolchain'):
             os.environ['CC'] = 'gcc-4.9'
             os.environ['CXX'] = 'g++-4.9'
-            nfbuild.generateProject(gcc=True)
+            nfbuild.generateProject(gcc=True, use_cpp_rest_sdk=False, use_curl=True)
         elif buildOptions.checkOption(options, 'llvmToolchain'):
             os.environ['CC'] = 'clang-3.9'
             os.environ['CXX'] = 'clang++-3.9'
-            nfbuild.generateProject(gcc=False)
+            nfbuild.generateProject(gcc=False, use_cpp_rest_sdk=False, use_curl=True)
         else:
-            nfbuild.generateProject()
-
+            nfbuild.generateProject(use_cpp_rest_sdk=False, use_curl=True)
     if buildOptions.checkOption(options, 'buildTargetLibrary'):
         nfbuild.buildTarget(library_target)
+    if buildOptions.checkOption(options, 'generateCppRestSDKProject'):
+        if buildOptions.checkOption(options, 'gnuToolchain'):
+            os.environ['CC'] = 'gcc-4.9'
+            os.environ['CXX'] = 'g++-4.9'
+            nfbuild.generateProject(gcc=True, use_cpp_rest_sdk=True, use_curl=False)
+        elif buildOptions.checkOption(options, 'llvmToolchain'):
+            os.environ['CC'] = 'clang-3.9'
+            os.environ['CXX'] = 'clang++-3.9'
+            nfbuild.generateProject(gcc=False, use_cpp_rest_sdk=True, use_curl=False)
+        else:
+            nfbuild.generateProject(use_cpp_rest_sdk=True, use_curl=False)
 
 
 if __name__ == "__main__":
