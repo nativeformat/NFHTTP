@@ -21,6 +21,11 @@
 # Exit on any non-zero status
 set -e
 
+# Install system dependencies
+brew install clang-format
+brew install cmake
+brew install ninja
+
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
 source nfhttp_env/bin/activate
