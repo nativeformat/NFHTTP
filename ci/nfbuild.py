@@ -68,6 +68,9 @@ class NFBuild(object):
     def buildTarget(self, target, sdk='macosx'):
         assert True, "buildTarget should be overridden by subclass"
 
+    def packageArtifacts(self):
+        assert True, "packageArtifacts should be overridden by subclass"
+
     def lintCPPFile(self, filepath, make_inline_changes=False):
         current_source = open(filepath, 'r').read()
         clang_format_call = [self.clang_format_binary]
@@ -211,3 +214,24 @@ class NFBuild(object):
             coverage_output])
         if genhtml_result:
             sys.exit(genhtml_result)
+
+    def find_file(self, directory, file_name, multiple_files=False):
+        matches = []
+        for root, dirnames, filenames in os.walk(directory):
+            for filename in fnmatch.filter(filenames, file_name):
+                matches.append(os.path.join(root, filename))
+                if not multiple_files:
+                    break
+            if not multiple_files and len(matches) > 0:
+                break
+        return matches
+
+    def make_archive(self, source, destination):
+        base = os.path.basename(destination)
+        name = base.split('.')[0]
+        format = base.split('.')[1]
+        archive_from = os.path.dirname(source)
+        archive_to = os.path.basename(source.strip(os.sep))
+        print(source, destination, archive_from, archive_to)
+        shutil.make_archive(name, format, archive_from, archive_to)
+        shutil.move('%s.%s'%(name,format), destination)

@@ -40,6 +40,8 @@ def main():
     buildOptions.addOption("buildTargetLibrary", "Build Target: Library")
     buildOptions.addOption("gnuToolchain", "Build with gcc and libstdc++")
     buildOptions.addOption("llvmToolchain", "Build with clang and libc++")
+    buildOptions.addOption("runIntegrationTests", "Run the integration tests")
+    buildOptions.addOption("packageArtifacts", "Package the Artifacts")
 
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
@@ -53,7 +55,9 @@ def main():
         'lintCmake',
         'makeBuildDirectory',
         'generateProject',
-        'buildTargetLibrary'
+        'buildTargetLibrary',
+        'runIntegrationTests',
+        'packageArtifacts'
     ])
 
     options = buildOptions.parseArgs()
@@ -88,6 +92,10 @@ def main():
 
     if buildOptions.checkOption(options, 'buildTargetLibrary'):
         nfbuild.buildTarget(library_target)
+    if buildOptions.checkOption(options, "runIntegrationTests"):
+        nfbuild.runIntegrationTests()
+    if buildOptions.checkOption(options, 'packageArtifacts'):
+        nfbuild.packageArtifacts()
 
 
 if __name__ == "__main__":
