@@ -89,7 +89,6 @@ std::shared_ptr<RequestToken> ClientModifierImplementation::performRequest(
                       },
                       response);
                 }
-
               });
           auto new_request_identifier = new_request_token->identifier();
           {
