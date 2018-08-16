@@ -214,3 +214,14 @@ class NFBuild(object):
             coverage_output])
         if genhtml_result:
             sys.exit(genhtml_result)
+
+    def find_file(self, directory, file_name, multiple_files=False):
+        matches = []
+        for root, dirnames, filenames in os.walk(directory):
+            for filename in fnmatch.filter(filenames, file_name):
+                matches.append(os.path.join(root, filename))
+                if not multiple_files:
+                    break
+            if not multiple_files and len(matches) > 0:
+                break
+        return matches
