@@ -41,6 +41,7 @@ def main():
     buildOptions.addOption("gnuToolchain", "Build with gcc and libstdc++")
     buildOptions.addOption("llvmToolchain", "Build with clang and libc++")
     buildOptions.addOption("runIntegrationTests", "Run the integration tests")
+    buildOptions.addOption("packageArtifacts", "Package the Artifacts")
 
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
@@ -55,7 +56,8 @@ def main():
         'makeBuildDirectory',
         'generateProject',
         'buildTargetLibrary',
-        'runIntegrationTests'
+        'runIntegrationTests',
+        'packageArtifacts'
     ])
 
     options = buildOptions.parseArgs()
@@ -92,6 +94,8 @@ def main():
         nfbuild.buildTarget(library_target)
     if buildOptions.checkOption(options, "runIntegrationTests"):
         nfbuild.runIntegrationTests()
+    if buildOptions.checkOption(options, 'packageArtifacts'):
+        nfbuild.packageArtifacts()
 
 
 if __name__ == "__main__":

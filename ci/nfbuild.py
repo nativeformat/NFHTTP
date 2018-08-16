@@ -68,6 +68,9 @@ class NFBuild(object):
     def buildTarget(self, target, sdk='macosx'):
         assert True, "buildTarget should be overridden by subclass"
 
+    def packageArtifacts(self):
+        assert True, "packageArtifacts should be overridden by subclass"
+
     def lintCPPFile(self, filepath, make_inline_changes=False):
         current_source = open(filepath, 'r').read()
         clang_format_call = [self.clang_format_binary]

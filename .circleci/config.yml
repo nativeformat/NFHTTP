@@ -9,8 +9,8 @@ jobs:
           name: Build Linux with clang
           command: sh ci/linux.sh clang_build
       - store_artifacts:
-          path: build/output/libNFDriver.zip
-          destination: libNFDriver.zip
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
 
 workflows:
   version: 2
