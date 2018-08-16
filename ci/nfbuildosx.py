@@ -39,6 +39,7 @@ class NFBuildOSX(NFBuild):
             self.build_directory,
             'NFHTTP.xcodeproj')
         self.clang_format_binary = 'clang-format'
+        self.cmake_binary = 'cmake'
 
     def generateProject(self,
                         code_coverage=False,
