@@ -19,37 +19,6 @@ class NFBuildOSX(NFBuild):
             self.build_directory,
             'NFHTTP.xcodeproj')
 
-    def installClangFormat(self):
-        clang_format_vulcan_file = os.path.join('tools', 'clang-format.vulcan')
-        clang_format_extraction_folder = self.vulcanDownload(
-            clang_format_vulcan_file,
-            'clang-format-5.0.0')
-        self.clang_format_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    clang_format_extraction_folder,
-                    'clang-format'),
-                'bin'),
-            'clang-format')
-
-    def installCurl(self):
-        curl_vulcan_file = os.path.join('tools', 'curl.vulcan')
-        curl_extraction_folder = self.vulcanDownload(
-            curl_vulcan_file,
-            'curl-7.54.1')
-        self.curl_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    curl_extraction_folder,
-                    'curl'),
-                'bin'),
-            'curl')
-
-    def installVulcanDependencies(self, android=False):
-        super(self.__class__, self).installVulcanDependencies(android)
-        self.installClangFormat()
-        self.installCurl()
-
     def generateProject(self,
                         code_coverage=False,
                         address_sanitizer=False,
