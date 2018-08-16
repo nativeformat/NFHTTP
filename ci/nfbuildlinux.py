@@ -48,7 +48,9 @@ class NFBuildLinux(NFBuild):
                         ios=False,
                         android=False,
                         android_arm=False,
-                        gcc=False):
+                        gcc=False,
+                        use_cpp_rest_sdk=False,
+                        use_curl=True):
         cmake_call = [self.cmake_binary, '..', '-GNinja']
         if self.build_type == 'Release':
             cmake_call.append('-DCREATE_RELEASE_BUILD=1')
@@ -72,6 +74,14 @@ class NFBuildLinux(NFBuild):
             cmake_call.extend(['-DLLVM_STDLIB=0'])
         else:
             cmake_call.extend(['-DLLVM_STDLIB=1'])
+        if use_cpp_rest_sdk:
+            cmake_call.append('-DUSE_CPPRESTSDK=1')
+        else:
+            cmake_call.append('-DUSE_CPPRESTSDK=0')
+        if use_curl:
+            cmake_call.append('-DUSE_CURL=1')
+        else:
+            cmake_call.append('-DUSE_CURL=0')
         cmake_result = subprocess.call(cmake_call, cwd=self.build_directory)
         if cmake_result != 0:
             sys.exit(cmake_result)

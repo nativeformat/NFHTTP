@@ -62,7 +62,8 @@ class NFBuild(object):
                         ios=False,
                         use_curl=False,
                         android=False,
-                        android_arm=False):
+                        android_arm=False,
+                        use_cpp_rest_sdk=False):
         assert True, "generateProject should be overridden by subclass"
 
     def buildTarget(self, target, sdk='macosx'):
