@@ -11,9 +11,20 @@ jobs:
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
-
+  buildmacios:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Build iOS
+          command: BUILD_IOS=1 sh ci/osx.sh build
+      - store_artifacts:
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
 workflows:
   version: 2
   build:
     jobs:
       - buildlinuxclang
+      - buildmacios
