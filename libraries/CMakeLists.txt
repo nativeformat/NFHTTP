@@ -19,6 +19,10 @@
 add_library(sqlite "${CMAKE_CURRENT_SOURCE_DIR}/sqlite/sqlite3.c")
 target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2)
 
+if(APPLE)
+  set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/openssl")
+endif(APPLE)
+
 find_package(OpenSSL 1.0.0 REQUIRED)
 find_package(Boost 1.54.0 REQUIRED)
 
