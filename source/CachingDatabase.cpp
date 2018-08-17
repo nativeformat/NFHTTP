@@ -25,12 +25,12 @@
 namespace nativeformat {
 namespace http {
 
-std::shared_ptr<CachingDatabase>
-createCachingDatabase(const std::string &cache_location,
-                      const std::string &cache_type_hint,
-                      const std::weak_ptr<CachingDatabaseDelegate> &delegate) {
+std::shared_ptr<CachingDatabase> createCachingDatabase(
+    const std::string &cache_location,
+    const std::string &cache_type_hint,
+    const std::weak_ptr<CachingDatabaseDelegate> &delegate) {
   return std::make_shared<CachingSQLiteDatabase>(cache_location, delegate);
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

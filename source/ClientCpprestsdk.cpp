@@ -27,11 +27,11 @@
 namespace nativeformat {
 namespace http {
 
-using namespace utility;           // Common utilities like string conversions
-using namespace web;               // Common features like URIs.
-using namespace web::http;         // Common HTTP functionality
-using namespace web::http::client; // HTTP client features
-using namespace concurrency::streams; // Asynchronous streams
+using namespace utility;               // Common utilities like string conversions
+using namespace web;                   // Common features like URIs.
+using namespace web::http;             // Common HTTP functionality
+using namespace web::http::client;     // HTTP client features
+using namespace concurrency::streams;  // Asynchronous streams
 
 // File scope helper functions
 static const std::map<std::string, web::http::method> &methodMap();
@@ -51,13 +51,11 @@ std::shared_ptr<RequestToken> ClientCpprestsdk::performRequest(
   http_headers headers;
   http_request req;
   const std::string base_url = request->url();
-  http_client client(conversions::utf8_to_utf16(base_url),
-                     clientConfigForProxy());
+  http_client client(conversions::utf8_to_utf16(base_url), clientConfigForProxy());
   std::shared_ptr<ResponseImplementation> r = nullptr;
 
   for (const auto h : request->headerMap()) {
-    headers.add(conversions::utf8_to_utf16(h.first),
-                conversions::utf8_to_utf16(h.second));
+    headers.add(conversions::utf8_to_utf16(h.first), conversions::utf8_to_utf16(h.second));
   }
   req.headers() = headers;
   req.set_method(methodMap().at(request->method()));
@@ -70,8 +68,7 @@ std::shared_ptr<RequestToken> ClientCpprestsdk::performRequest(
     // Perform redirect if needed
     if (isRedirect(status)) {
       const std::string new_url = getRedirectUrl(response, request->url());
-      std::shared_ptr<Request> new_request =
-          createRequest(new_url, request->headerMap());
+      std::shared_ptr<Request> new_request = createRequest(new_url, request->headerMap());
       this->performRequest(new_request, callback);
       return;
     }
@@ -79,10 +76,8 @@ std::shared_ptr<RequestToken> ClientCpprestsdk::performRequest(
     // printf("Response body:\n%s\n", buf.collection().c_str());
     // printf("Returning response (status = %d)\n", response.status_code());
     const std::string &data = buf.collection();
-    std::shared_ptr<ResponseImplementation> r =
-        std::make_shared<ResponseImplementation>(
-            request, (const unsigned char *)data.c_str(), data.size(), status,
-            false);
+    std::shared_ptr<ResponseImplementation> r = std::make_shared<ResponseImplementation>(
+        request, (const unsigned char *)data.c_str(), data.size(), status, false);
     callback(r);
   });
 
@@ -99,13 +94,11 @@ std::shared_ptr<RequestToken> ClientCpprestsdk::performRequest(
 
   std::string request_hash = request->hash();
   std::shared_ptr<RequestToken> request_token =
-      std::make_shared<RequestTokenImplementation>(shared_from_this(),
-                                                   request_hash);
+      std::make_shared<RequestTokenImplementation>(shared_from_this(), request_hash);
   return request_token;
 }
 
-void ClientCpprestsdk::requestTokenDidCancel(
-    const std::shared_ptr<RequestToken> &request_token) {}
+void ClientCpprestsdk::requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) {}
 
 const std::map<std::string, web::http::method> &methodMap() {
   static const std::map<std::string, web::http::method> method_map = {
@@ -123,12 +116,10 @@ const web::http::client::http_client_config &clientConfigForProxy() {
   static web::http::client::http_client_config client_config;
 #ifdef _WIN32
   wchar_t *pValue = nullptr;
-  std::unique_ptr<wchar_t, void (*)(wchar_t *)> holder(
-      nullptr, [](wchar_t *p) { free(p); });
+  std::unique_ptr<wchar_t, void (*)(wchar_t *)> holder(nullptr, [](wchar_t *p) { free(p); });
   size_t len = 0;
   auto err = _wdupenv_s(&pValue, &len, L"http_proxy");
-  if (pValue)
-    holder.reset(pValue);
+  if (pValue) holder.reset(pValue);
   if (!err && pValue && len) {
     std::wstring env_http_proxy_string(pValue, len - 1);
 #else
@@ -145,8 +136,7 @@ const web::http::client::http_client_config &clientConfigForProxy() {
 }
 
 static const bool isRedirect(StatusCode code) {
-  if (code >= StatusCodeMovedMultipleChoices &&
-      code <= StatusCodeTemporaryRedirect) {
+  if (code >= StatusCodeMovedMultipleChoices && code <= StatusCodeTemporaryRedirect) {
     return true;
   }
   return false;
@@ -159,16 +149,14 @@ static const std::string getRedirectUrl(const http_response &response,
   static const auto LOCATION_HEADER = U("Location");
   std::string location =
       response.headers().has(LOCATION_HEADER)
-          ? conversions::utf16_to_utf8(
-                response.headers().find(LOCATION_HEADER)->second)
+          ? conversions::utf16_to_utf8(response.headers().find(LOCATION_HEADER)->second)
           : "";
-  return !std::strncmp("http", location.c_str(), 4) ? location
-                                                    : request_url + location;
+  return !std::strncmp("http", location.c_str(), 4) ? location : request_url + location;
 }
 
 std::shared_ptr<Client> createCpprestsdkClient() {
   return std::make_shared<ClientCpprestsdk>();
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

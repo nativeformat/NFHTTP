@@ -20,9 +20,9 @@
  */
 
 #ifdef __linux__
-#include <pwd.h>
 #include <sstream>
 #include <string>
+#include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -43,6 +43,6 @@ std::string standardCacheLocation() {
   return cachedir;
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
 #endif

@@ -35,27 +35,31 @@ static const std::string headers_key("headers");
 static const std::string maxage_key("max-age");
 static const std::string s_maxage_key("s-maxage");
 
-ResponseImplementation::ResponseImplementation(
-    const std::shared_ptr<Request> &request, const unsigned char *data,
-    size_t data_length, StatusCode status_code, bool cancelled)
+ResponseImplementation::ResponseImplementation(const std::shared_ptr<Request> &request,
+                                               const unsigned char *data,
+                                               size_t data_length,
+                                               StatusCode status_code,
+                                               bool cancelled)
     : _request(request),
       _data(data_length == 0 ? nullptr : (unsigned char *)malloc(data_length)),
-      _data_length(data_length), _status_code(status_code),
+      _data_length(data_length),
+      _status_code(status_code),
       _cancelled(cancelled) {
   if (data_length > 0) {
     memcpy(_data, data, data_length);
   }
 }
 
-ResponseImplementation::ResponseImplementation(
-    const std::string &serialised, const unsigned char *data,
-    size_t data_length, const std::shared_ptr<Response> &response)
+ResponseImplementation::ResponseImplementation(const std::string &serialised,
+                                               const unsigned char *data,
+                                               size_t data_length,
+                                               const std::shared_ptr<Response> &response)
     : _data(data_length == 0 ? nullptr : (unsigned char *)malloc(data_length)),
-      _data_length(data_length), _status_code(StatusCodeInvalid),
+      _data_length(data_length),
+      _status_code(StatusCodeInvalid),
       _cancelled(false) {
   nlohmann::json j = nlohmann::json::parse(serialised);
-  _request = std::make_shared<RequestImplementation>(
-      j[request_key].get<std::string>());
+  _request = std::make_shared<RequestImplementation>(j[request_key].get<std::string>());
   _status_code = j[status_code_key];
   auto o = j[headers_key];
   for (nlohmann::json::iterator it = o.begin(); it != o.end(); ++it) {
@@ -83,33 +87,32 @@ const unsigned char *ResponseImplementation::data(size_t &data_length) const {
   return _data;
 }
 
-StatusCode ResponseImplementation::statusCode() const { return _status_code; }
+StatusCode ResponseImplementation::statusCode() const {
+  return _status_code;
+}
 
-bool ResponseImplementation::cancelled() const { return _cancelled; }
+bool ResponseImplementation::cancelled() const {
+  return _cancelled;
+}
 
 std::string ResponseImplementation::serialise() const {
-  nlohmann::json j = {{status_code_key, statusCode()},
-                      {request_key, _request->serialise()}};
+  nlohmann::json j = {{status_code_key, statusCode()}, {request_key, _request->serialise()}};
   return j.dump();
 }
 
-std::string ResponseImplementation::
-operator[](const std::string &header_name) const {
+std::string ResponseImplementation::operator[](const std::string &header_name) const {
   return _headers.at(header_name);
 }
 
-std::string &ResponseImplementation::
-operator[](const std::string &header_name) {
+std::string &ResponseImplementation::operator[](const std::string &header_name) {
   return _headers[header_name];
 }
 
-std::unordered_map<std::string, std::string> &
-ResponseImplementation::headerMap() {
+std::unordered_map<std::string, std::string> &ResponseImplementation::headerMap() {
   return _headers;
 }
 
-std::unordered_map<std::string, std::string>
-ResponseImplementation::headerMap() const {
+std::unordered_map<std::string, std::string> ResponseImplementation::headerMap() const {
   return _headers;
 }
 
@@ -128,8 +131,7 @@ Response::CacheControl ResponseImplementation::cacheControl() const {
     if (equal_index == std::string::npos || equal_index == token.length() - 1) {
       control_directives[token] = "";
     } else {
-      control_directives[token.substr(0, equal_index)] =
-          token.substr(equal_index + 1);
+      control_directives[token.substr(0, equal_index)] = token.substr(equal_index + 1);
     }
   }
 
@@ -141,27 +143,24 @@ Response::CacheControl ResponseImplementation::cacheControl() const {
   if (control_directives.find(s_maxage_key) != control_directives.end()) {
     s_maxage = std::stoi(control_directives[s_maxage_key]);
   }
-  return {
-      control_directives.find("must-revalidate") != control_directives.end(),
-      control_directives.find("no-cache") != control_directives.end(),
-      control_directives.find("no-store") != control_directives.end(),
-      control_directives.find("no-transform") != control_directives.end(),
-      control_directives.find("public") != control_directives.end(),
-      control_directives.find("private") != control_directives.end(),
-      control_directives.find("proxy-revalidate") != control_directives.end(),
-      max_age,
-      s_maxage};
+  return {control_directives.find("must-revalidate") != control_directives.end(),
+          control_directives.find("no-cache") != control_directives.end(),
+          control_directives.find("no-store") != control_directives.end(),
+          control_directives.find("no-transform") != control_directives.end(),
+          control_directives.find("public") != control_directives.end(),
+          control_directives.find("private") != control_directives.end(),
+          control_directives.find("proxy-revalidate") != control_directives.end(),
+          max_age,
+          s_maxage};
 }
 
-std::unordered_map<std::string, std::string>
-ResponseImplementation::metadata() const {
+std::unordered_map<std::string, std::string> ResponseImplementation::metadata() const {
   return _metadata;
 }
 
-void ResponseImplementation::setMetadata(const std::string &key,
-                                         const std::string &value) {
+void ResponseImplementation::setMetadata(const std::string &key, const std::string &value) {
   _metadata[key] = value;
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

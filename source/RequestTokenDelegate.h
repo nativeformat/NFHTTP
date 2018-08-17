@@ -26,10 +26,9 @@ namespace http {
 class RequestToken;
 
 class RequestTokenDelegate {
-public:
-  virtual void
-  requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) = 0;
+ public:
+  virtual void requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) = 0;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

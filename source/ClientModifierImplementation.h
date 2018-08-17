@@ -34,11 +34,10 @@ class ClientModifierImplementation
     : public Client,
       public std::enable_shared_from_this<ClientModifierImplementation>,
       public RequestTokenDelegate {
-public:
-  ClientModifierImplementation(
-      REQUEST_MODIFIER_FUNCTION request_modifier_function,
-      RESPONSE_MODIFIER_FUNCTION response_modifier_function,
-      std::shared_ptr<Client> &wrapped_client);
+ public:
+  ClientModifierImplementation(REQUEST_MODIFIER_FUNCTION request_modifier_function,
+                               RESPONSE_MODIFIER_FUNCTION response_modifier_function,
+                               std::shared_ptr<Client> &wrapped_client);
   virtual ~ClientModifierImplementation();
 
   // Client
@@ -49,30 +48,25 @@ public:
                            const std::string &pin_identifier);
   virtual void unpinResponse(const std::shared_ptr<Response> &response,
                              const std::string &pin_identifier);
-  virtual void
-  removePinnedResponseForIdentifier(const std::string &pin_identifier);
+  virtual void removePinnedResponseForIdentifier(const std::string &pin_identifier);
   virtual void pinnedResponsesForIdentifier(
       const std::string &pin_identifier,
-      std::function<void(const std::vector<std::shared_ptr<Response>> &)>
-          callback);
+      std::function<void(const std::vector<std::shared_ptr<Response>> &)> callback);
   virtual void pinningIdentifiers(
-      std::function<void(const std::vector<std::string> &identifiers)>
-          callback);
+      std::function<void(const std::vector<std::string> &identifiers)> callback);
 
   // RequestTokenDelegate
-  virtual void
-  requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token);
+  virtual void requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token);
 
-private:
+ private:
   const REQUEST_MODIFIER_FUNCTION _request_modifier_function;
   const RESPONSE_MODIFIER_FUNCTION _response_modifier_function;
   const std::shared_ptr<Client> _wrapped_client;
 
   std::unordered_map<std::string, std::string> _request_identifier_map;
-  std::unordered_map<std::string, std::weak_ptr<RequestToken>>
-      _request_token_map;
+  std::unordered_map<std::string, std::weak_ptr<RequestToken>> _request_token_map;
   std::mutex _request_map_mutex;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

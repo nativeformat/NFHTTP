@@ -78,7 +78,7 @@ typedef enum : int {
 } StatusCode;
 
 class Response {
-public:
+ public:
   typedef struct CacheControl {
     const bool must_revalidate;
     const bool no_cache;
@@ -102,9 +102,8 @@ public:
   virtual std::unordered_map<std::string, std::string> headerMap() const = 0;
   virtual CacheControl cacheControl() const = 0;
   virtual std::unordered_map<std::string, std::string> metadata() const = 0;
-  virtual void setMetadata(const std::string &key,
-                           const std::string &value) = 0;
+  virtual void setMetadata(const std::string &key, const std::string &value) = 0;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

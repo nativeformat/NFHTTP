@@ -29,7 +29,7 @@ namespace http {
 
 extern std::shared_ptr<Client> createNSURLSessionClient();
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
 
 #endif

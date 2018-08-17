@@ -30,12 +30,15 @@ namespace nativeformat {
 namespace http {
 
 class ResponseImplementation : public Response {
-public:
+ public:
   ResponseImplementation(const std::shared_ptr<Request> &request,
-                         const unsigned char *data, size_t data_length,
-                         StatusCode status_code, bool cancelled);
+                         const unsigned char *data,
+                         size_t data_length,
+                         StatusCode status_code,
+                         bool cancelled);
   ResponseImplementation(const std::string &serialised,
-                         const unsigned char *data, size_t data_length,
+                         const unsigned char *data,
+                         size_t data_length,
                          const std::shared_ptr<Response> &response = nullptr);
   virtual ~ResponseImplementation();
 
@@ -53,7 +56,7 @@ public:
   std::unordered_map<std::string, std::string> metadata() const override;
   void setMetadata(const std::string &key, const std::string &value) override;
 
-private:
+ private:
   std::shared_ptr<Request> _request;
   unsigned char *_data;
   const size_t _data_length;
@@ -63,5 +66,5 @@ private:
   std::unordered_map<std::string, std::string> _metadata;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

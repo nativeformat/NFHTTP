@@ -26,10 +26,9 @@ namespace nativeformat {
 namespace http {
 
 class RequestImplementation : public Request {
-public:
-  RequestImplementation(
-      const std::string &url,
-      const std::unordered_map<std::string, std::string> &header_map);
+ public:
+  RequestImplementation(const std::string &url,
+                        const std::unordered_map<std::string, std::string> &header_map);
   RequestImplementation(const Request &request);
   RequestImplementation(const std::string &serialised);
   virtual ~RequestImplementation();
@@ -49,7 +48,7 @@ public:
   void setData(const unsigned char *data, size_t data_length) override;
   CacheControl cacheControl() const override;
 
-private:
+ private:
   std::string _url;
   std::unordered_map<std::string, std::string> _headers;
   std::string _method;
@@ -57,5 +56,5 @@ private:
   size_t _data_length;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

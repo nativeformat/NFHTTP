@@ -24,10 +24,8 @@ namespace nativeformat {
 namespace http {
 
 RequestTokenImplementation::RequestTokenImplementation(
-    const std::weak_ptr<RequestTokenDelegate> &delegate,
-    const std::string &identifier)
-    : _delegate(delegate), _identifier(identifier), _cancelled(false),
-      _dependents(0) {}
+    const std::weak_ptr<RequestTokenDelegate> &delegate, const std::string &identifier)
+    : _delegate(delegate), _identifier(identifier), _cancelled(false), _dependents(0) {}
 
 RequestTokenImplementation::~RequestTokenImplementation() {}
 
@@ -46,19 +44,19 @@ bool RequestTokenImplementation::cancelled() {
   return _cancelled && dependents() == 0;
 }
 
-std::shared_ptr<RequestToken>
-RequestTokenImplementation::createDependentToken() {
+std::shared_ptr<RequestToken> RequestTokenImplementation::createDependentToken() {
   _dependents++;
-  return std::make_shared<RequestTokenImplementation>(shared_from_this(),
-                                                      _identifier);
+  return std::make_shared<RequestTokenImplementation>(shared_from_this(), _identifier);
 }
 
-int RequestTokenImplementation::dependents() { return _dependents; }
+int RequestTokenImplementation::dependents() {
+  return _dependents;
+}
 
 void RequestTokenImplementation::requestTokenDidCancel(
     const std::shared_ptr<RequestToken> &request_token) {
   _dependents--;
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
