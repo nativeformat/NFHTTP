@@ -38,8 +38,14 @@ class NFBuildOSX(NFBuild):
         self.project_file = os.path.join(
             self.build_directory,
             'NFHTTP.xcodeproj')
-        self.clang_format_binary = 'clang-format'
         self.cmake_binary = 'cmake'
+        self.curl_directory = self.current_working_directory + '/libraries/curl'
+        self.clang_format_binary = 'clang-format'
+        self.android_ndk_folder = '/usr/local/share/android-ndk'
+        self.ninja_binary = 'ninja'
+        self.ios = False
+        self.android = False
+        self.android_arm = False
 
     def generateProject(self,
                         code_coverage=False,
@@ -50,7 +56,8 @@ class NFBuildOSX(NFBuild):
                         use_curl=False,
                         use_cpprest=False,
                         android=False,
-                        android_arm=False):
+                        android_arm=False,
+                        gcc=False):
         self.use_ninja = android or android_arm
         cmake_call = [
             self.cmake_binary,

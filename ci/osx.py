@@ -1,6 +1,27 @@
 #!/usr/bin/env python
+'''
+ * Copyright (c) 2018 Spotify AB.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+'''
 
 import sys
+import os
 
 from nfbuildosx import NFBuildOSX
 from build_options import BuildOptions
@@ -10,7 +31,6 @@ def main():
     buildOptions = BuildOptions()
     buildOptions.addOption("debug", "Enable Debug Mode")
     buildOptions.addOption("installDependencies", "Install dependencies")
-
     buildOptions.addOption("lintCmake", "Lint cmake files")
     buildOptions.addOption("lintCpp", "Lint CPP Files")
     buildOptions.addOption("lintCppWithInlineChange",
@@ -31,6 +51,8 @@ def main():
 
     buildOptions.addOption("buildTargetCLI", "Build Target: CLI")
     buildOptions.addOption("buildTargetLibrary", "Build Target: Library")
+    buildOptions.addOption("gnuToolchain", "Build with gcc and libstdc++")
+    buildOptions.addOption("llvmToolchain", "Build with clang and libc++")
 
     buildOptions.addOption("staticAnalysis", "Run Static Analysis")
 
@@ -38,20 +60,17 @@ def main():
 
     buildOptions.addWorkflow("local_it", "Run local integration tests", [
         'debug',
-        'installDependencies',
         'lintCmake',
         'integrationTests'
     ])
 
     buildOptions.addWorkflow("lint", "Run lint workflow", [
-        'installDependencies',
         'lintCmake',
         'lintCppWithInlineChange'
     ])
 
     buildOptions.addWorkflow("address_sanitizer", "Run address sanitizer", [
         'debug',
-        'installDependencies',
         'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
@@ -63,7 +82,6 @@ def main():
 
     buildOptions.addWorkflow("code_coverage", "Collect code coverage", [
         'debug',
-        'installDependencies',
         'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
@@ -74,7 +92,6 @@ def main():
     ])
 
     buildOptions.addWorkflow("build", "Production Build", [
-        'installDependencies',
         'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
@@ -95,9 +112,6 @@ def main():
     if buildOptions.checkOption(options, 'debug'):
         nfbuild.build_type = 'Debug'
 
-    if buildOptions.checkOption(options, 'installDependencies'):
-        nfbuild.installDependencies()
-
     if buildOptions.checkOption(options, 'lintCmake'):
         nfbuild.lintCmake()
 
@@ -115,7 +129,19 @@ def main():
             address_sanitizer='addressSanitizer' in options,
             use_curl='curl' in options,
             use_cpprest='cpprest' in options
-            )
+        )
+
+    if buildOptions.checkOption(options, 'generateProject'):
+        if buildOptions.checkOption(options, 'gnuToolchain'):
+            os.environ['CC'] = 'gcc-4.9'
+            os.environ['CXX'] = 'g++-4.9'
+            nfbuild.generateProject(gcc=True)
+        elif buildOptions.checkOption(options, 'llvmToolchain'):
+            os.environ['CC'] = 'clang-3.9'
+            os.environ['CXX'] = 'clang++-3.9'
+            nfbuild.generateProject(gcc=False)
+        else:
+            nfbuild.generateProject()
 
     if buildOptions.checkOption(options, 'buildTargetLibrary'):
         nfbuild.buildTarget(library_target)
