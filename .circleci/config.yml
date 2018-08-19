@@ -16,12 +16,14 @@ jobs:
       xcode: "9.0"
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init --recursive
       - run:
           name: Build OSX
           command: sh ci/osx.sh build
       - store_artifacts:
-          path: build/output/libNFDriver.zip
-          destination: libNFDriver.zip
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
   buildmacios:
     macos:
       xcode: "9.0"
@@ -35,6 +37,22 @@ jobs:
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
+  buildmacandroid:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init --recursive
+      - run:
+          name: Build Android
+          command: BUILD_ANDROID=1 sh ci/osx.sh build
+      - store_artifacts:
+          path: libNFHTTP-androidx86.zip
+          destination: libNFHTTP-androidx86.zip
+      - store_artifacts:
+          path: libNFHTTP-androidArm64.zip
+          destination: libNFHTTP-androidArm64.zip
 workflows:
   version: 2
   build:
@@ -42,3 +60,4 @@ workflows:
       - buildlinuxclang
       - buildmac
       - buildmacios
+      - buildmacandroid
