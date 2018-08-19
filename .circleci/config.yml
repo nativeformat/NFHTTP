@@ -11,6 +11,17 @@ jobs:
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
+  buildmac:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Build OSX
+          command: sh ci/osx.sh build
+      - store_artifacts:
+          path: build/output/libNFDriver.zip
+          destination: libNFDriver.zip
   buildmacios:
     macos:
       xcode: "9.0"
@@ -29,4 +40,5 @@ workflows:
   build:
     jobs:
       - buildlinuxclang
+      - buildmac
       - buildmacios
