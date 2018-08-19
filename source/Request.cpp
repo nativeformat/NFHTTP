@@ -33,16 +33,14 @@ const std::string DeleteMethod("DELETE");
 const std::string OptionsMethod("OPTIONS");
 const std::string ConnectMethod("CONNECT");
 
-std::shared_ptr<Request>
-createRequest(const std::string &url,
-              const std::unordered_map<std::string, std::string> &header_map) {
+std::shared_ptr<Request> createRequest(
+    const std::string &url, const std::unordered_map<std::string, std::string> &header_map) {
   return std::make_shared<RequestImplementation>(url, header_map);
 }
 
-std::shared_ptr<Request>
-createRequest(const std::shared_ptr<Request> &request) {
+std::shared_ptr<Request> createRequest(const std::shared_ptr<Request> &request) {
   return std::make_shared<RequestImplementation>(*request.get());
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

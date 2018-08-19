@@ -53,7 +53,7 @@ class ClientCurl : public Client,
     void configureCurlHandle();
   };
 
-public:
+ public:
   ClientCurl();
   virtual ~ClientCurl();
 
@@ -65,11 +65,10 @@ public:
       std::function<void(const std::shared_ptr<Response> &)> callback) override;
 
   // RequestTokenDelegate
-  void requestTokenDidCancel(
-      const std::shared_ptr<RequestToken> &request_token) override;
+  void requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) override;
 
   // Private members
-private:
+ private:
   // Obtain this lock before modifying any members
   std::mutex _client_mutex;
 
@@ -86,14 +85,12 @@ private:
   void requestCleanup(std::string hash);
 
   // Curl callbacks
-public:
-  static size_t write_callback(char *data, size_t size, size_t nitems,
-                               void *str);
-  static size_t header_callback(char *data, size_t size, size_t nitems,
-                                void *str);
+ public:
+  static size_t write_callback(char *data, size_t size, size_t nitems, void *str);
+  static size_t header_callback(char *data, size_t size, size_t nitems, void *str);
 };
 
 extern std::shared_ptr<Client> createCurlClient();
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

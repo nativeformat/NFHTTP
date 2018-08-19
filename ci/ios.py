@@ -8,7 +8,6 @@ from build_options import BuildOptions
 
 def main():
     buildOptions = BuildOptions()
-    buildOptions.addOption("installDependencies", "Install dependencies")
     buildOptions.addOption("lintCmake", "Lint cmake files")
     buildOptions.addOption("lintCpp", "Lint CPP Files")
     buildOptions.addOption("lintCppWithInlineChange",
@@ -23,13 +22,11 @@ def main():
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
     buildOptions.addWorkflow("lint", "Run lint workflow", [
-        'installDependencies',
         'lintCmake',
         'lintCppWithInlineChange'
     ])
 
     buildOptions.addWorkflow("build", "Production Build", [
-        'installDependencies',
         'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
@@ -43,9 +40,6 @@ def main():
 
     library_target = 'NFHTTP'
     nfbuild = NFBuildOSX()
-
-    if buildOptions.checkOption(options, 'installDependencies'):
-        nfbuild.installDependencies()
 
     if buildOptions.checkOption(options, 'lintCmake'):
         nfbuild.lintCmake()

@@ -27,7 +27,7 @@ namespace nativeformat {
 namespace http {
 
 class RequestToken {
-public:
+ public:
   virtual void cancel() = 0;
   virtual std::string identifier() const = 0;
   virtual bool cancelled() = 0;
@@ -35,5 +35,5 @@ public:
   virtual int dependents() = 0;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

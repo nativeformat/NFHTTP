@@ -44,24 +44,19 @@ typedef struct CacheItem {
 } CacheItem;
 
 class CachingDatabase {
-public:
+ public:
   typedef enum : int { ErrorCodeNone } ErrorCode;
 
   virtual std::string cachingType() const = 0;
-  virtual void fetchItemForRequest(
-      const std::string &request_identifier,
-      std::function<void(ErrorCode, const CacheItem &)> callback) = 0;
+  virtual void fetchItemForRequest(const std::string &request_identifier,
+                                   std::function<void(ErrorCode, const CacheItem &)> callback) = 0;
   virtual void storeResponse(
       const std::shared_ptr<Response> &response,
-      std::function<void(ErrorCode, const std::shared_ptr<Response> &response)>
-          callback) = 0;
+      std::function<void(ErrorCode, const std::shared_ptr<Response> &response)> callback) = 0;
   virtual void prune() = 0;
-  virtual void pinItem(const CacheItem &item,
-                       const std::string &pin_identifier) = 0;
-  virtual void unpinItem(const CacheItem &item,
-                         const std::string &pin_identifier) = 0;
-  virtual void
-  removePinnedItemsForIdentifier(const std::string &pin_identifier) = 0;
+  virtual void pinItem(const CacheItem &item, const std::string &pin_identifier) = 0;
+  virtual void unpinItem(const CacheItem &item, const std::string &pin_identifier) = 0;
+  virtual void removePinnedItemsForIdentifier(const std::string &pin_identifier) = 0;
   virtual void pinnedItemsForIdentifier(
       const std::string &pin_identifier,
       std::function<void(const std::vector<CacheItem> &)> callback) = 0;
@@ -69,10 +64,10 @@ public:
       std::function<void(const std::vector<std::string> &)> callback) = 0;
 };
 
-extern std::shared_ptr<CachingDatabase>
-createCachingDatabase(const std::string &cache_location,
-                      const std::string &cache_type_hint,
-                      const std::weak_ptr<CachingDatabaseDelegate> &delegate);
+extern std::shared_ptr<CachingDatabase> createCachingDatabase(
+    const std::string &cache_location,
+    const std::string &cache_type_hint,
+    const std::weak_ptr<CachingDatabaseDelegate> &delegate);
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

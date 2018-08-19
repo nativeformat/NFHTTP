@@ -29,29 +29,26 @@
 namespace nativeformat {
 namespace http {
 
-std::string standardCacheLocation() {
-  NSArray *paths = NSSearchPathForDirectoriesInDomains(
-      NSApplicationSupportDirectory, NSUserDomainMask, YES);
-  NSString *applicationSupportDirectory = [paths firstObject];
-  NSString *cacheLocation = [applicationSupportDirectory
-      stringByAppendingPathComponent:@"nfsmartplayer"];
+std::string standardCacheLocation()
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *applicationSupportDirectory = [paths firstObject];
+    NSString *cacheLocation = [applicationSupportDirectory stringByAppendingPathComponent:@"nfsmartplayer"];
 
-  BOOL isDir = NO;
-  NSFileManager *fileManager = [[NSFileManager alloc] init];
-  if (![fileManager fileExistsAtPath:cacheLocation isDirectory:&isDir] &&
-      !isDir) {
-    if (![fileManager createDirectoryAtPath:cacheLocation
-                withIntermediateDirectories:YES
-                                 attributes:nil
-                                      error:NULL]) {
-      printf("Failed to create cache directory: %s\n",
-             cacheLocation.UTF8String);
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    if (![fileManager fileExistsAtPath:cacheLocation isDirectory:&isDir] && !isDir) {
+        if (![fileManager createDirectoryAtPath:cacheLocation
+                    withIntermediateDirectories:YES
+                                     attributes:nil
+                                          error:NULL]) {
+            printf("Failed to create cache directory: %s\n", cacheLocation.UTF8String);
+        }
     }
-  }
-  return cacheLocation.UTF8String;
+    return cacheLocation.UTF8String;
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
 
 #endif

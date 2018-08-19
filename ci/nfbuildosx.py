@@ -1,4 +1,24 @@
 #!/usr/bin/env python
+'''
+ * Copyright (c) 2018 Spotify AB.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+'''
 
 import fnmatch
 import os
@@ -18,37 +38,14 @@ class NFBuildOSX(NFBuild):
         self.project_file = os.path.join(
             self.build_directory,
             'NFHTTP.xcodeproj')
-
-    def installClangFormat(self):
-        clang_format_vulcan_file = os.path.join('tools', 'clang-format.vulcan')
-        clang_format_extraction_folder = self.vulcanDownload(
-            clang_format_vulcan_file,
-            'clang-format-5.0.0')
-        self.clang_format_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    clang_format_extraction_folder,
-                    'clang-format'),
-                'bin'),
-            'clang-format')
-
-    def installCurl(self):
-        curl_vulcan_file = os.path.join('tools', 'curl.vulcan')
-        curl_extraction_folder = self.vulcanDownload(
-            curl_vulcan_file,
-            'curl-7.54.1')
-        self.curl_binary = os.path.join(
-            os.path.join(
-                os.path.join(
-                    curl_extraction_folder,
-                    'curl'),
-                'bin'),
-            'curl')
-
-    def installVulcanDependencies(self, android=False):
-        super(self.__class__, self).installVulcanDependencies(android)
-        self.installClangFormat()
-        self.installCurl()
+        self.cmake_binary = 'cmake'
+        self.curl_directory = self.current_working_directory + '/libraries/curl'
+        self.clang_format_binary = 'clang-format'
+        self.android_ndk_folder = '/usr/local/share/android-ndk'
+        self.ninja_binary = 'ninja'
+        self.ios = False
+        self.android = False
+        self.android_arm = False
 
     def generateProject(self,
                         code_coverage=False,
@@ -59,7 +56,8 @@ class NFBuildOSX(NFBuild):
                         use_curl=False,
                         use_cpprest=False,
                         android=False,
-                        android_arm=False):
+                        android_arm=False,
+                        gcc=False):
         self.use_ninja = android or android_arm
         cmake_call = [
             self.cmake_binary,

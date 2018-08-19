@@ -38,39 +38,35 @@ ClientModifierImplementation::~ClientModifierImplementation() {}
 std::shared_ptr<RequestToken> ClientModifierImplementation::performRequest(
     const std::shared_ptr<Request> &request,
     std::function<void(const std::shared_ptr<Response> &)> callback) {
-  auto weak_this =
-      std::weak_ptr<ClientModifierImplementation>(shared_from_this());
+  auto weak_this = std::weak_ptr<ClientModifierImplementation>(shared_from_this());
   auto request_identifier = request->hash();
-  auto request_token = std::make_shared<RequestTokenImplementation>(
-      weak_this, request_identifier);
+  auto request_token = std::make_shared<RequestTokenImplementation>(weak_this, request_identifier);
   _request_modifier_function(
-      [weak_this, callback, request_token,
-       request_identifier](const std::shared_ptr<Request> &request) {
+      [weak_this, callback, request_token, request_identifier](
+          const std::shared_ptr<Request> &request) {
         if (request_token->cancelled()) {
           return;
         }
         if (auto strong_this = weak_this.lock()) {
           auto new_request_token = strong_this->_wrapped_client->performRequest(
-              request, [callback, weak_this, request, request_identifier](
-                           const std::shared_ptr<Response> &response) {
+              request,
+              [callback, weak_this, request, request_identifier](
+                  const std::shared_ptr<Response> &response) {
                 if (auto strong_this = weak_this.lock()) {
                   strong_this->_response_modifier_function(
                       [callback, weak_this, request_identifier](
-                          const std::shared_ptr<Response> &response,
-                          bool retry) {
+                          const std::shared_ptr<Response> &response, bool retry) {
                         if (retry) {
                           if (auto strong_this = weak_this.lock()) {
-                            auto request_token = strong_this->performRequest(
-                                response->request(), callback);
-                            auto new_request_identifier =
-                                request_token->identifier();
+                            auto request_token =
+                                strong_this->performRequest(response->request(), callback);
+                            auto new_request_identifier = request_token->identifier();
                             {
                               std::lock_guard<std::mutex> request_map_lock(
                                   strong_this->_request_map_mutex);
-                              strong_this->_request_identifier_map
-                                  [request_identifier] = new_request_identifier;
-                              strong_this
-                                  ->_request_token_map[new_request_identifier] =
+                              strong_this->_request_identifier_map[request_identifier] =
+                                  new_request_identifier;
+                              strong_this->_request_token_map[new_request_identifier] =
                                   request_token;
                             }
                             return;
@@ -81,24 +77,18 @@ std::shared_ptr<RequestToken> ClientModifierImplementation::performRequest(
                           std::lock_guard<std::mutex> request_map_lock(
                               strong_this->_request_map_mutex);
                           strong_this->_request_token_map.erase(
-                              strong_this->_request_identifier_map
-                                  [request_identifier]);
-                          strong_this->_request_identifier_map.erase(
-                              request_identifier);
+                              strong_this->_request_identifier_map[request_identifier]);
+                          strong_this->_request_identifier_map.erase(request_identifier);
                         }
                       },
                       response);
                 }
-
               });
           auto new_request_identifier = new_request_token->identifier();
           {
-            std::lock_guard<std::mutex> request_map_lock(
-                strong_this->_request_map_mutex);
-            strong_this->_request_identifier_map[request_identifier] =
-                new_request_identifier;
-            strong_this->_request_token_map[new_request_identifier] =
-                new_request_token;
+            std::lock_guard<std::mutex> request_map_lock(strong_this->_request_map_mutex);
+            strong_this->_request_identifier_map[request_identifier] = new_request_identifier;
+            strong_this->_request_token_map[new_request_identifier] = new_request_token;
           }
         }
       },
@@ -106,15 +96,13 @@ std::shared_ptr<RequestToken> ClientModifierImplementation::performRequest(
   return request_token;
 }
 
-void ClientModifierImplementation::pinResponse(
-    const std::shared_ptr<Response> &response,
-    const std::string &pin_identifier) {
+void ClientModifierImplementation::pinResponse(const std::shared_ptr<Response> &response,
+                                               const std::string &pin_identifier) {
   return _wrapped_client->pinResponse(response, pin_identifier);
 }
 
-void ClientModifierImplementation::unpinResponse(
-    const std::shared_ptr<Response> &response,
-    const std::string &pin_identifier) {
+void ClientModifierImplementation::unpinResponse(const std::shared_ptr<Response> &response,
+                                                 const std::string &pin_identifier) {
   return _wrapped_client->unpinResponse(response, pin_identifier);
 }
 
@@ -125,8 +113,7 @@ void ClientModifierImplementation::removePinnedResponseForIdentifier(
 
 void ClientModifierImplementation::pinnedResponsesForIdentifier(
     const std::string &pin_identifier,
-    std::function<void(const std::vector<std::shared_ptr<Response>> &)>
-        callback) {
+    std::function<void(const std::vector<std::shared_ptr<Response>> &)> callback) {
   _wrapped_client->pinnedResponsesForIdentifier(pin_identifier, callback);
 }
 
@@ -148,5 +135,5 @@ void ClientModifierImplementation::requestTokenDidCancel(
   _request_token_map.erase(new_identifier);
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

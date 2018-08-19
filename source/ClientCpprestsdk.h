@@ -39,7 +39,7 @@ namespace http {
 class ClientCpprestsdk : public Client,
                          public RequestTokenDelegate,
                          public std::enable_shared_from_this<ClientCpprestsdk> {
-public:
+ public:
   ClientCpprestsdk();
   virtual ~ClientCpprestsdk();
 
@@ -49,13 +49,12 @@ public:
       std::function<void(const std::shared_ptr<Response> &)> callback) override;
 
   // RequestTokenDelegate
-  void requestTokenDidCancel(
-      const std::shared_ptr<RequestToken> &request_token) override;
+  void requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) override;
 };
 
 extern std::shared_ptr<Client> createCpprestsdkClient();
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat
 
-#endif // USE_CPPRESTSDK
+#endif  // USE_CPPRESTSDK

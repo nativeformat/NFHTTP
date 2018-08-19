@@ -20,8 +20,8 @@
  */
 #include "ClientCurl.h"
 
-#include <curl/multi.h>
 #include <sstream>
+#include <curl/multi.h>
 #include <unistd.h>
 
 namespace nativeformat {
@@ -46,7 +46,7 @@ static void setupCurlGlobalState(bool added_client) {
   }
 }
 
-} // namespace
+}  // namespace
 
 ClientCurl::ClientCurl() : _new_request(false), _is_terminated(false) {
   setupCurlGlobalState(true);
@@ -77,10 +77,8 @@ ClientCurl::~ClientCurl() {
   _request_thread.join();
 }
 
-size_t ClientCurl::header_callback(char *data, size_t size, size_t nitems,
-                                   void *str) {
-  auto headers =
-      reinterpret_cast<std::unordered_map<std::string, std::string> *>(str);
+size_t ClientCurl::header_callback(char *data, size_t size, size_t nitems, void *str) {
+  auto headers = reinterpret_cast<std::unordered_map<std::string, std::string> *>(str);
   std::string s(data, size * nitems), k, v;
   size_t pos;
   if ((pos = s.find(":")) != std::string::npos) {
@@ -93,8 +91,7 @@ size_t ClientCurl::header_callback(char *data, size_t size, size_t nitems,
   return size * nitems;
 }
 
-size_t ClientCurl::write_callback(char *data, size_t size, size_t nitems,
-                                  void *str) {
+size_t ClientCurl::write_callback(char *data, size_t size, size_t nitems, void *str) {
   std::string *string_buffer = static_cast<std::string *>(str);
   if (string_buffer == nullptr) {
     return 0;
@@ -114,11 +111,9 @@ std::shared_ptr<RequestToken> ClientCurl::performRequest(
 
   // Add callback and request to map members
   std::shared_ptr<RequestToken> request_token =
-      std::make_shared<RequestTokenImplementation>(shared_from_this(),
-                                                   request_hash);
+      std::make_shared<RequestTokenImplementation>(shared_from_this(), request_hash);
 
-  _handles[request_hash] =
-      std::unique_ptr<HandleInfo>(new HandleInfo(request, callback));
+  _handles[request_hash] = std::unique_ptr<HandleInfo>(new HandleInfo(request, callback));
   std::unique_ptr<HandleInfo> &handle_info = _handles[request_hash];
 
   // Add easy handle to multi handle
@@ -166,8 +161,7 @@ void ClientCurl::mainClientLoop() {
         // Look up response data and original request
         HandleInfo *handle_info = _handles[*request_hash].get();
         const std::shared_ptr<Request> request = handle_info->request;
-        const unsigned char *data =
-            (const unsigned char *)handle_info->response.c_str();
+        const unsigned char *data = (const unsigned char *)handle_info->response.c_str();
         size_t data_length = handle_info->response.size();
 
         /*
@@ -176,9 +170,8 @@ void ClientCurl::mainClientLoop() {
         printf("Response size: %lu\n", data_length);
         */
 
-        std::shared_ptr<Response> new_response =
-            std::make_shared<ResponseImplementation>(
-                request, data, data_length, StatusCode(status_code), false);
+        std::shared_ptr<Response> new_response = std::make_shared<ResponseImplementation>(
+            request, data, data_length, StatusCode(status_code), false);
 
         auto &response_headers = new_response->headerMap();
         response_headers = std::move(handle_info->response_headers);
@@ -202,8 +195,7 @@ void ClientCurl::mainClientLoop() {
 
     // If we processed a message since checking the active request count,
     // go back and check it again
-    if (msg_count)
-      continue;
+    if (msg_count) continue;
 
     if (active_requests) {
       FD_ZERO(&R);
@@ -217,8 +209,7 @@ void ClientCurl::mainClientLoop() {
       if (curl_multi_timeout(_curl, &L)) {
         fprintf(stderr, "E: curl_multi_timeout\n");
       }
-      if (L == -1)
-        L = 100;
+      if (L == -1) L = 100;
 
       if (M == -1) {
         client_lock.unlock();
@@ -229,15 +220,13 @@ void ClientCurl::mainClientLoop() {
         T.tv_usec = (L % 1000) * 1000;
 
         if (0 > select(M + 1, &R, &W, &E, &T)) {
-          fprintf(stderr, "E: select(%i,,,,%li): %i: %s\n", M + 1, L, errno,
-                  strerror(errno));
+          fprintf(stderr, "E: select(%i,,,,%li): %i: %s\n", M + 1, L, errno, strerror(errno));
         }
       }
     } else {
       // If there are no active requests, wait on condition variable
       _new_request = false;
-      _new_info_condition.wait(
-          client_lock, [this]() { return (_new_request || _is_terminated); });
+      _new_info_condition.wait(client_lock, [this]() { return (_new_request || _is_terminated); });
 
       if (_is_terminated) {
         return;
@@ -246,14 +235,14 @@ void ClientCurl::mainClientLoop() {
   }
 }
 
-void ClientCurl::requestCleanup(std::string hash) { _handles.erase(hash); }
+void ClientCurl::requestCleanup(std::string hash) {
+  _handles.erase(hash);
+}
 
-void ClientCurl::requestTokenDidCancel(
-    const std::shared_ptr<RequestToken> &request_token) {}
+void ClientCurl::requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) {}
 
-ClientCurl::HandleInfo::HandleInfo(
-    std::shared_ptr<Request> req,
-    std::function<void(const std::shared_ptr<Response> &)> cbk)
+ClientCurl::HandleInfo::HandleInfo(std::shared_ptr<Request> req,
+                                   std::function<void(const std::shared_ptr<Response> &)> cbk)
     : request(req), request_headers(nullptr), callback(cbk) {
   handle = curl_easy_init();
   request_hash = request->hash();
@@ -261,8 +250,7 @@ ClientCurl::HandleInfo::HandleInfo(
 }
 
 ClientCurl::HandleInfo::HandleInfo()
-    : handle(nullptr), request(nullptr), request_headers(nullptr),
-      callback(nullptr) {}
+    : handle(nullptr), request(nullptr), request_headers(nullptr), callback(nullptr) {}
 
 ClientCurl::HandleInfo::~HandleInfo() {
   if (request_headers) {
@@ -339,5 +327,5 @@ std::shared_ptr<Client> createCurlClient() {
   return std::make_shared<ClientCurl>();
 }
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

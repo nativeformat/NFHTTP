@@ -32,5 +32,5 @@ namespace http {
 
 extern std::string version();
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

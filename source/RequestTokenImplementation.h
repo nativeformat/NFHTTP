@@ -29,14 +29,12 @@
 namespace nativeformat {
 namespace http {
 
-class RequestTokenImplementation
-    : public RequestToken,
-      public std::enable_shared_from_this<RequestTokenImplementation>,
-      public RequestTokenDelegate {
-public:
-  RequestTokenImplementation(
-      const std::weak_ptr<RequestTokenDelegate> &delegate,
-      const std::string &identifier);
+class RequestTokenImplementation : public RequestToken,
+                                   public std::enable_shared_from_this<RequestTokenImplementation>,
+                                   public RequestTokenDelegate {
+ public:
+  RequestTokenImplementation(const std::weak_ptr<RequestTokenDelegate> &delegate,
+                             const std::string &identifier);
   virtual ~RequestTokenImplementation();
 
   // RequestToken
@@ -47,10 +45,9 @@ public:
   int dependents() override;
 
   // RequestTokenDelegate
-  void requestTokenDidCancel(
-      const std::shared_ptr<RequestToken> &request_token) override;
+  void requestTokenDidCancel(const std::shared_ptr<RequestToken> &request_token) override;
 
-private:
+ private:
   const std::weak_ptr<RequestTokenDelegate> _delegate;
   const std::string _identifier;
 
@@ -58,5 +55,5 @@ private:
   std::atomic<int> _dependents;
 };
 
-} // namespace http
-} // namespace nativeformat
+}  // namespace http
+}  // namespace nativeformat

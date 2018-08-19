@@ -38,18 +38,17 @@
 #include <cstring>
 #include <fstream>
 
-const unsigned int SHA256::sha256_k[64] = // UL = uint32
-    {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1,
-     0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
-     0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786,
-     0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-     0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147,
-     0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
-     0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
-     0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-     0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a,
-     0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
-     0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2};
+const unsigned int SHA256::sha256_k[64] =  // UL = uint32
+    {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
+     0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
+     0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
+     0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+     0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc,
+     0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
+     0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116,
+     0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
+     0xc67178f2};
 
 void SHA256::transform(const unsigned char *message, unsigned int block_nb) {
   uint32 w[64];
@@ -70,8 +69,7 @@ void SHA256::transform(const unsigned char *message, unsigned int block_nb) {
       wv[j] = m_h[j];
     }
     for (j = 0; j < 64; j++) {
-      t1 = wv[7] + SHA256_F2(wv[4]) + SHA2_CH(wv[4], wv[5], wv[6]) +
-           sha256_k[j] + w[j];
+      t1 = wv[7] + SHA256_F2(wv[4]) + SHA2_CH(wv[4], wv[5], wv[6]) + sha256_k[j] + w[j];
       t2 = SHA256_F1(wv[0]) + SHA2_MAJ(wv[0], wv[1], wv[2]);
       wv[7] = wv[6];
       wv[6] = wv[5];
@@ -128,8 +126,7 @@ void SHA256::final(unsigned char *digest) {
   unsigned int pm_len;
   unsigned int len_b;
   int i;
-  block_nb =
-      (1 + ((SHA224_256_BLOCK_SIZE - 9) < (m_len % SHA224_256_BLOCK_SIZE)));
+  block_nb = (1 + ((SHA224_256_BLOCK_SIZE - 9) < (m_len % SHA224_256_BLOCK_SIZE)));
   len_b = (m_tot_len + m_len) << 3;
   pm_len = block_nb << 6;
   memset(m_block + m_len, 0, pm_len - m_len);
@@ -152,7 +149,6 @@ std::string sha256(std::string input) {
 
   char buf[2 * SHA256::DIGEST_SIZE + 1];
   buf[2 * SHA256::DIGEST_SIZE] = 0;
-  for (int i = 0; i < SHA256::DIGEST_SIZE; i++)
-    sprintf(buf + i * 2, "%02x", digest[i]);
+  for (int i = 0; i < SHA256::DIGEST_SIZE; i++) sprintf(buf + i * 2, "%02x", digest[i]);
   return std::string(buf);
 }
