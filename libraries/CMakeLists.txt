@@ -21,6 +21,9 @@ target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2)
 
 if(APPLE)
   set(OPENSSL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/openssl")
+  execute_process(COMMAND wget http://sourceforge.net/projects/boost/files/boost/1.54.0/boost_1_54_0.tar.gz -O ${CMAKE_CURRENT_SOURCE_DIR}/boost_1_54_0.tar.gz)
+  execute_process(COMMAND tar -xzf ${CMAKE_CURRENT_SOURCE_DIR}/boost_1_54_0.tar.gz -C ${CMAKE_CURRENT_SOURCE_DIR})
+  set(BOOST_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/boost_1_54_0")
 endif(APPLE)
 
 find_package(OpenSSL 1.0.0 REQUIRED)

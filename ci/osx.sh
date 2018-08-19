@@ -25,6 +25,7 @@ set -e
 brew install clang-format
 brew install cmake
 brew install ninja
+brew install wget
 
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
