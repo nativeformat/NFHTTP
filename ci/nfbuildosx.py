@@ -61,6 +61,7 @@ class NFBuildOSX(NFBuild):
         self.use_ninja = android or android_arm
         self.android = android
         self.android_arm = android_arm
+        self.ios = ios
         cmake_call = [
             self.cmake_binary,
             '..']
