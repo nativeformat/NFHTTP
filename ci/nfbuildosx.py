@@ -75,8 +75,7 @@ class NFBuildOSX(NFBuild):
             cmake_call.append('-DCREATE_RELEASE_BUILD=0')
         if address_sanitizer:
             cmake_call.append('-DUSE_ADDRESS_SANITIZER=1')
-        if use_curl:
-            cmake_call.append('-DUSE_CURL=1')
+        cmake_call.append('-DUSE_CURL={}'.format(1 if use_curl else 0))
         if use_cpprest:
             cmake_call.append('-DUSE_CPPRESTSDK=1')
         if code_coverage:
