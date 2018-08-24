@@ -58,7 +58,7 @@ if(NOT DEFINED USE_CURL)
 endif()
 
 if(USE_CURL)
-  add_definitions(-DUSE_CURL=1)
+  add_definitions(-DUSE_CURL=${USE_CURL})
 endif()
 
 if(NOT DEFINED USE_CPPRESTSDK)

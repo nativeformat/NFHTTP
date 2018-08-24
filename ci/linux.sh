@@ -59,10 +59,7 @@ virtualenv nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages
-pip install pyyaml \
-            flake8 \
-            cmakelint \
-            requests
+pip install -r ${PWD}/ci/requirements.txt
 
 # Execute our python build tools
 if [ -n "$BUILD_ANDROID" ]; then

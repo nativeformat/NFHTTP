@@ -59,6 +59,9 @@ class NFBuildOSX(NFBuild):
                         android_arm=False,
                         gcc=False):
         self.use_ninja = android or android_arm
+        self.android = android
+        self.android_arm = android_arm
+        self.ios = ios
         cmake_call = [
             self.cmake_binary,
             '..']
@@ -72,8 +75,7 @@ class NFBuildOSX(NFBuild):
             cmake_call.append('-DCREATE_RELEASE_BUILD=0')
         if address_sanitizer:
             cmake_call.append('-DUSE_ADDRESS_SANITIZER=1')
-        if use_curl:
-            cmake_call.append('-DUSE_CURL=1')
+        cmake_call.append('-DUSE_CURL={}'.format(1 if use_curl else 0))
         if use_cpprest:
             cmake_call.append('-DUSE_CPPRESTSDK=1')
         if code_coverage:
@@ -95,6 +97,8 @@ class NFBuildOSX(NFBuild):
                 '-DANDROID_TOOLCHAIN_NAME=' + android_toolchain_name,
                 '-DANDROID_STL=c++_shared'])
             self.project_file = 'build.ninja'
+        if ios:
+            cmake_call.extend(['-DIOS=1'])
         cmake_result = subprocess.call(cmake_call, cwd=self.build_directory)
         if cmake_result != 0:
             sys.exit(cmake_result)

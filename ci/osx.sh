@@ -21,21 +21,18 @@
 # Exit on any non-zero status
 set -e
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 # Install system dependencies
-brew install clang-format
-brew install cmake
-brew install ninja
-brew install wget
+HOMEBREW_BREWFILE=${DIR}/Brewfile
+brew bundle --file=${HOMEBREW_BREWFILE}
 
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
 source nfhttp_env/bin/activate
 
 # Install Python Packages
-pip install pyyaml \
-            flake8 \
-            cmakelint \
-            requests
+pip install -r ${DIR}/requirements.txt
 
 # Execute our python build tools
 if [ -n "$BUILD_IOS" ]; then
