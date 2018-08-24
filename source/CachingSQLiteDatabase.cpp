@@ -392,7 +392,7 @@ int CachingSQLiteDatabase::sqliteReplaceHTTPCallback(void *context,
                                                      char **argv,
                                                      char **column_names) {
   caching_callback *cache_function = (caching_callback *)context;
-  (*cache_function)({});
+  (*cache_function)(std::unordered_map<std::string, std::string>());
   return SQLITE_OK;
 }
 
@@ -417,9 +417,11 @@ int CachingSQLiteDatabase::sqliteSelectVectorHTTPCallback(void *context,
 
 std::time_t CachingSQLiteDatabase::timeFromSQLDateTimeString(const std::string &date_time_string) {
   std::tm expiry_time_values = {};
-  std::istringstream expiry_stream(date_time_string);
-  expiry_stream.imbue(std::locale("en.utf-8"));
-  expiry_stream >> std::get_time(&expiry_time_values, "%Y-%m-%d %H:%M:%S");
+  // TODO: Use sstream impl after we up to gcc >= 5
+  strptime(date_time_string.c_str(), "%Y-%m-%d %H:%M:%S", &expiry_time_values);
+  //  std::istringstream expiry_stream(date_time_string);
+  //  expiry_stream.imbue(std::locale("en.utf-8"));
+  //  expiry_stream >> std::get_time(&expiry_time_values, "%Y-%m-%d %H:%M:%S");
   return mktime(&expiry_time_values);
 }
 

@@ -20,6 +20,7 @@
  */
 #include "ClientCurl.h"
 
+#include <cstring>
 #include <sstream>
 #include <curl/multi.h>
 #include <unistd.h>

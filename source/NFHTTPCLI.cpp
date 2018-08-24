@@ -57,7 +57,8 @@ int main(int argc, char *argv[]) {
     const std::string id = (*it)["id"];
 
     // Send our request
-    auto request = nativeformat::http::createRequest(url, {});
+    auto request =
+        nativeformat::http::createRequest(url, std::unordered_map<std::string, std::string>());
     auto response = client->performRequestSynchronously(request);
     size_t data_length = 0;
     const unsigned char *data = response->data(data_length);

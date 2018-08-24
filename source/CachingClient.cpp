@@ -148,7 +148,11 @@ std::shared_ptr<RequestToken> CachingClient::performRequest(
               } else if (item.last_modified != 0) {
                 auto tm = *std::localtime(&item.last_modified);
                 std::ostringstream output_string_stream;
-                output_string_stream << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+                // TODO: Replace the following with std::put_time when we move to gcc >= 5
+                char mod_time[24];
+                strftime(mod_time, sizeof(mod_time), "%d-%m-%Y %H-%M-%S", &tm);
+                // END OF TODO
+                // output_string_stream << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
                 (*new_request)["If-Modified-Since"] = output_string_stream.str();
               }
               _tokens[request_token] = _client->performRequest(new_request, wrapped_callback);

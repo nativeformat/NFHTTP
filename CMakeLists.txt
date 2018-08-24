@@ -26,8 +26,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -Wno-tautological-undefined-compare \
-    -Wno-deprecated-declarations \
-    -stdlib=libc++")
+    -Wno-deprecated-declarations")
+endif()
+
+if(LLVM_STDLIB)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif()
 
 set(NFHTTP_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -58,7 +61,7 @@ if(NOT DEFINED USE_CURL)
 endif()
 
 if(USE_CURL)
-  add_definitions(-DUSE_CURL=${USE_CURL})
+  add_definitions(-DUSE_CURL=1)
 endif()
 
 if(NOT DEFINED USE_CPPRESTSDK)
