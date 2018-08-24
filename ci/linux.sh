@@ -20,7 +20,6 @@
 
 # Exit on any non-zero status
 set -e
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Install system dependencies
 sudo apt-get -q update
@@ -60,7 +59,7 @@ virtualenv nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages
-pip install -r ${DIR}/requirements.txt
+pip install -r ${PWD}/ci/requirements.txt
 
 # Execute our python build tools
 if [ -n "$BUILD_ANDROID" ]; then

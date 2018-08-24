@@ -50,7 +50,9 @@ if(CODE_COVERAGE)
 endif()
 
 if(NOT DEFINED USE_CURL)
-  if(CMAKE_SYSTEM_NAME MATCHES "Linux" OR ANDROID)
+  if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    # TODO: Enable when curl works for android
+    #if(CMAKE_SYSTEM_NAME MATCHES "Linux" OR ANDROID)
     set(USE_CURL TRUE CACHE BOOL "Build with curl")
   else()
     set(USE_CURL FALSE CACHE BOOL "Build with curl")

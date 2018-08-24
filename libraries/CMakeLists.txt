@@ -151,8 +151,9 @@ endif(NOT ANDROID)
 
 message(STATUS "Finding OpenSSL")
 if(NOT ANDROID)
-  find_package(OpenSSL 1.0.0 REQUIRED)
+  find_package(OpenSSL 1.0.0)
 endif(NOT ANDROID)
+
 if(NOT OPENSSL_FOUND OR OPENSSL_NFHTTP_ADDED)
   message(STATUS "OpenSSL not found on system, will use submodule instead")
   set(OPENSSL_FOUND ON CACHE BOOL "OpenSSL is found" FORCE)
