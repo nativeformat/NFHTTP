@@ -60,6 +60,16 @@ def main():
         'packageArtifacts'
     ])
 
+    buildOptions.addWorkflow("gcc_build", "Production build with gcc", [
+        'gnuToolchain',
+        'lintCmake',
+        'makeBuildDirectory',
+        'generateProject',
+        'buildTargetLibrary',
+        'runIntegrationTests',
+        'packageArtifacts'
+    ])
+
     options = buildOptions.parseArgs()
     buildOptions.verbosePrintBuildOptions(options)
 

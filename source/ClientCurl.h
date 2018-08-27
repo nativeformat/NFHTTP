@@ -25,6 +25,7 @@
 
 #include "curl/curl.h"
 
+#include <condition_variable>
 #include <thread>
 
 #include "RequestTokenDelegate.h"

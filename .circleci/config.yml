@@ -11,6 +11,17 @@ jobs:
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
+  buildlinuxgcc:
+    docker:
+      - image: ubuntu:trusty
+    steps:
+      - checkout
+      - run:
+          name: Build Linux with gcc
+          command: USE_CURL=1 sh ci/linux.sh gcc_build
+      - store_artifacts:
+          path: build/output/libNFHTTP.zip
+          destination: libNFHTTP.zip
   buildmac:
     macos:
       xcode: "9.0"
@@ -58,6 +69,7 @@ workflows:
   build:
     jobs:
       - buildlinuxclang
+      - buildlinuxgcc
       - buildmac
       - buildmacios
       - buildmacandroid
