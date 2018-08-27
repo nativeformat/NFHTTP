@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Build Linux with clang
-          command: sh ci/linux.sh clang_build
+          command: USE_CURL=1 sh ci/linux.sh clang_build
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
@@ -20,7 +20,7 @@ jobs:
       - run: git submodule update --init --recursive
       - run:
           name: Build OSX
-          command: sh ci/osx.sh build
+          command: USE_CURL=1 sh ci/osx.sh build
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
@@ -33,7 +33,7 @@ jobs:
       - run: git submodule update --init --recursive
       - run:
           name: Build iOS
-          command: BUILD_IOS=1 sh ci/osx.sh build
+          command: BUILD_IOS=1 USE_CURL=1 sh ci/osx.sh build
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
@@ -46,7 +46,7 @@ jobs:
       - run: git submodule update --init --recursive
       - run:
           name: Build Android
-          command: BUILD_ANDROID=1 sh ci/osx.sh build
+          command: BUILD_ANDROID=1 USE_CURL=1 sh ci/osx.sh build
       - store_artifacts:
           path: libNFHTTP-androidx86.zip
           destination: libNFHTTP-androidx86.zip

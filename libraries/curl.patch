@@ -1,0 +1,70 @@
+commit f6aec94cb12382ad28e7ec18e775f9ed4748cc95
+Author: sackfield <sackfield@spotify.com>
+Date:   Thu Mar 1 12:51:17 2018 -0500
+
+    Add Cmake option to turn off installs
+    
+    * Installs are not desirable on systems that do
+    not use shared libraries (e.g. android or iOS)
+    * Attempting to build OpenSSL in Cmake and then
+    linking it with cURL static libraries fails on
+    the install step due to these libraries being
+    static and not exported properly
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 490cc19ef..eabbbfb25 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -78,6 +78,7 @@ option(PICKY_COMPILER "Enable picky compiler options" ON)
+ option(BUILD_CURL_EXE "Set to ON to build curl executable." ON)
+ option(CURL_STATICLIB "Set to ON to build libcurl with static linking." OFF)
+ option(ENABLE_ARES "Set to ON to enable c-ares support" OFF)
++option(CURL_INSTALL "Set to ON to enable installation support" ON)
+ if(WIN32)
+   option(CURL_STATIC_CRT "Set to ON to build libcurl with static CRT on Windows (/MT)." OFF)
+   option(ENABLE_INET_PTON "Set to OFF to prevent usage of inet_pton when building against modern SDKs while still requiring compatibility with older Windows versions, such as Windows XP, Windows Server 2003 etc." ON)
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 1fabdba90..0c3c67db3 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -111,21 +111,23 @@ endif()
+ target_include_directories(${LIB_NAME} INTERFACE
+ 	$<INSTALL_INTERFACE:include>)
+ 
+-install(TARGETS ${LIB_NAME}
+-  EXPORT libcurl-target
+-  ARCHIVE DESTINATION lib
+-  LIBRARY DESTINATION lib
+-  RUNTIME DESTINATION bin
+-)
+-
+-export(TARGETS ${LIB_NAME}
+-       APPEND FILE ${PROJECT_BINARY_DIR}/libcurl-target.cmake
+-       NAMESPACE CURL::
+-)
+-
+-install(EXPORT libcurl-target
+-        FILE libcurl-target.cmake
+-        NAMESPACE CURL::
+-        DESTINATION ${CURL_INSTALL_CMAKE_DIR}
+-)
++if(CURL_INSTALL)
++  install(TARGETS ${LIB_NAME}
++    EXPORT libcurl-target
++    ARCHIVE DESTINATION lib
++    LIBRARY DESTINATION lib
++    RUNTIME DESTINATION bin
++  )
++
++  export(TARGETS ${LIB_NAME}
++         APPEND FILE ${PROJECT_BINARY_DIR}/libcurl-target.cmake
++         NAMESPACE CURL::
++  )
++
++  install(EXPORT libcurl-target
++          FILE libcurl-target.cmake
++          NAMESPACE CURL::
++          DESTINATION ${CURL_INSTALL_CMAKE_DIR}
++  )
++endif()
+ 
