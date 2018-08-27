@@ -22,6 +22,20 @@ jobs:
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
+  buildlinuxandroid:
+    docker:
+      - image: ubuntu:trusty
+    steps:
+      - checkout
+      - run:
+          name: Build Android
+          command: BUILD_ANDROID=1 USE_CURL=1 sh ci/linux.sh build
+      - store_artifacts:
+          path: libNFHTTP-androidx86.zip
+          destination: libNFHTTP-androidx86.zip
+      - store_artifacts:
+          path: libNFHTTP-androidArm64.zip
+          destination: libNFHTTP-androidArm64.zip
   buildmac:
     macos:
       xcode: "9.0"
@@ -70,6 +84,7 @@ workflows:
     jobs:
       - buildlinuxclang
       - buildlinuxgcc
+      - buildlinuxandroid
       - buildmac
       - buildmacios
       - buildmacandroid

@@ -77,9 +77,9 @@ target_include_directories(NFHTTP PUBLIC "${NFHTTP_INCLUDE_DIRECTORY}"
   ${CPPREST_INCLUDE_DIR}
   ${OUTPUT_DIRECTORY})
 
-if(WIN32)
-  set(LINK_LIBRARIES sqlite)
-else()
+set(LINK_LIBRARIES sqlite)
+
+if(NOT WIN32 AND NOT ANDROID)
   set(LINK_LIBRARIES sqlite pthread)
 endif()
 
@@ -92,7 +92,9 @@ target_include_directories(NFHTTPCLI PUBLIC "${NFHTTP_INCLUDE_DIRECTORY}"
 
 if(USE_CURL)
   list(APPEND LINK_LIBRARIES libcurl)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lcurl")
+  if(NOT ANDROID)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lcurl")
+  endif()
 endif()
 
 if(USE_CPPRESTSDK)

@@ -24,13 +24,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(NOT WIN32)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -Wno-tautological-undefined-compare \
-    -Wno-deprecated-declarations")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 endif()
 
 if(LLVM_STDLIB)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ \
+    -Wno-tautological-undefined-compare")
 endif()
 
 set(NFHTTP_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include")

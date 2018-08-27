@@ -169,6 +169,8 @@ if(NOT OPENSSL_FOUND OR OPENSSL_NFHTTP_ADDED)
   execute_process(COMMAND make include/openssl/opensslconf.h
     WORKING_DIRECTORY "${OPENSSL_DIR}")
   set(OPENSSL_CRYPTO_DIR "${OPENSSL_DIR}/crypto")
+  execute_process(COMMAND make buildinf.h
+    WORKING_DIRECTORY "${OPENSSL_CRYPTO_DIR}")
   set(OPENSSL_AES_DIR "${OPENSSL_CRYPTO_DIR}/aes")
   set(OPENSSL_MODES_DIR "${OPENSSL_CRYPTO_DIR}/modes")
   set(OPENSSL_RSA_DIR "${OPENSSL_CRYPTO_DIR}/rsa")
@@ -222,13 +224,13 @@ if(NOT OPENSSL_FOUND OR OPENSSL_NFHTTP_ADDED)
   set(OPENSSL_PQUEUE_DIR "${OPENSSL_CRYPTO_DIR}/pqueue")
   set(OPENSSL_STACK_DIR "${OPENSSL_CRYPTO_DIR}/stack")
   add_library(openssl_crypto STATIC ${OPENSSL_CRYPTO_DIR}/arm_arch.h
-                                    #${OPENSSL_CRYPTO_DIR}/buildinf.h
+                                    ${OPENSSL_CRYPTO_DIR}/buildinf.h
                                     ${OPENSSL_CRYPTO_DIR}/constant_time_locl.h
                                     ${OPENSSL_CRYPTO_DIR}/cpt_err.c
                                     ${OPENSSL_CRYPTO_DIR}/cryptlib.c
                                     ${OPENSSL_CRYPTO_DIR}/cryptlib.h
                                     ${OPENSSL_CRYPTO_DIR}/crypto.h
-                                    #${OPENSSL_CRYPTO_DIR}/cversion.c
+                                    ${OPENSSL_CRYPTO_DIR}/cversion.c
                                     ${OPENSSL_CRYPTO_DIR}/ebcdic.c
                                     ${OPENSSL_CRYPTO_DIR}/ebcdic.h
                                     ${OPENSSL_CRYPTO_DIR}/ex_data.c
@@ -1053,7 +1055,7 @@ add_subdirectory(json)
 # Conditionally add curl
 if(USE_CURL)
   # Apply curl.patch
-  execute_process(COMMAND "git apply ${CMAKE_CURRENT_SOURCE_DIR}/curl.patch"
+  execute_process(COMMAND git apply ${CMAKE_CURRENT_SOURCE_DIR}/curl.patch
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/curl)
   set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Override CMAKE_DEBUG_POSTFIX, which curl sets to '-d'")
   set(BUILD_TESTING OFF CACHE BOOL "Don't build curl tests" FORCE)

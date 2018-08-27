@@ -39,6 +39,7 @@ class NFBuildLinux(NFBuild):
         super(self.__class__, self).__init__()
         self.cmake_binary = 'cmake'
         self.curl_directory = self.current_working_directory + '/libraries/curl'
+        self.android_ndk_folder = '~/ndk'
 
     def generateProject(self,
                         code_coverage=False,
