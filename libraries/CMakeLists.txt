@@ -1052,6 +1052,9 @@ add_subdirectory(json)
 
 # Conditionally add curl
 if(USE_CURL)
+  # Apply curl.patch
+  execute_process(COMMAND "git apply ${CMAKE_CURRENT_SOURCE_DIR}/curl.patch"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/curl)
   set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Override CMAKE_DEBUG_POSTFIX, which curl sets to '-d'")
   set(BUILD_TESTING OFF CACHE BOOL "Don't build curl tests" FORCE)
   set(BUILD_CURL_EXE OFF CACHE BOOL "Don't build curl executables" FORCE)
