@@ -28,7 +28,7 @@ class NFBuildWindows(NFBuild):
         cmake_call = [
             self.cmake_binary,
             '..',
-            '-GNinja']
+            '-G']
         if android or android_arm:
             android_abi = 'x86_64'
             android_toolchain_name = 'x86_64-llvm'
@@ -36,6 +36,7 @@ class NFBuildWindows(NFBuild):
                 android_abi = 'arm64-v8a'
                 android_toolchain_name = 'arm64-llvm'
             cmake_call.extend([
+                'Ninja',
                 '-DANDROID=1',
                 '-DCMAKE_TOOLCHAIN_FILE=' + self.android_ndk_folder + '/build/cmake/android.toolchain.cmake',
                 '-DANDROID_NDK=' + self.android_ndk_folder,
