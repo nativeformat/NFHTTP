@@ -22,6 +22,8 @@ param (
     [string]$build = "windows"
  )
 
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
 Write-Host "NFHTTP build process starting..."
 Write-Host $build
 
@@ -29,6 +31,10 @@ try
 {
 	# Upgrade pip or else the CI will complain
 	c:\python27\python.exe -m pip install --upgrade pip
+
+	wget https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.zip -OutFile boost_1_64_0.zip
+	[System.IO.Compression.ZipFile]::ExtractToDirectory("boost_1_64_0.zip", "boost_1_64_0")
+	$env:BOOST_ROOT = Join-Path $PSScriptRoot "boost_1_64_0"
 
 	# Start virtualenv
 	pip install virtualenv
