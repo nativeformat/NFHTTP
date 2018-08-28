@@ -33,8 +33,9 @@ try
 	c:\python27\python.exe -m pip install --upgrade pip
 
 	wget https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.zip -OutFile boost_1_64_0.zip
-	[System.IO.Compression.ZipFile]::ExtractToDirectory("boost_1_64_0.zip", "boost_1_64_0")
-	$env:BOOST_ROOT = Join-Path $PSScriptRoot "boost_1_64_0"
+	$BoostFoldername = Join-Path $PSScriptRoot "boost_1_64_0"
+	[System.IO.Compression.ZipFile]::ExtractToDirectory(Join-Path $PSScriptRoot "boost_1_64_0.zip", $BoostFoldername)
+	$env:BOOST_ROOT = $BoostFoldername
 
 	# Start virtualenv
 	pip install virtualenv
