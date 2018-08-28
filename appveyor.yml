@@ -2,6 +2,7 @@ image:
 - Visual Studio 2017
 
 build_script:
+- git submodule update --init --recursive
 - ps: ci/windows.ps1
 
 artifacts:
