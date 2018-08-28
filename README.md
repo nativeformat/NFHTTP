@@ -1,6 +1,7 @@
 <img alt="NFHTTP" src="NFHTTP.png" width="100%" max-width="888">
 
 [![CircleCI](https://circleci.com/gh/spotify/NFHTTP/tree/master.svg?style=svg)](https://circleci.com/gh/spotify/NFHTTP/tree/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/57i0pfle7okccm3q/branch/master?svg=true)](https://ci.appveyor.com/project/8W9aG/nfhttp/branch/master)
 [![License](https://img.shields.io/github/license/spotify/NFHTTP.svg)](LICENSE)
 [![Spotify FOSS Slack](https://slackin.spotify.com/badge.svg)](https://slackin.spotify.com)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/spotify/nfhttp)](http://clayallsopp.github.io/readme-score?url=https://github.com/spotify/nfhttp)
