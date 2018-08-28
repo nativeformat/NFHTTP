@@ -98,5 +98,12 @@ Contributions are welcomed, have a look at the [CONTRIBUTING.md](CONTRIBUTING.md
 ## License :memo:
 The project is available under the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) license.
 
-### Acknowledgements
+## Acknowledgements
 - None yet. Maybe it'll be you!
+
+## Contributors
+* [Will Sackfield](https://github.com/8W9aG)
+* [Julia Cox](https://github.com/astrocox)
+* [David Rubinstein](https://github.com/drubinstein)
+* [Justin Sarma](https://github.com/jsarma)
+
