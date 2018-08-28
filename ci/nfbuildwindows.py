@@ -56,13 +56,20 @@ class NFBuildWindows(NFBuild):
             sys.exit(cmake_result)
 
     def buildTarget(self, target, sdk='macosx', arch='x86_64'):
-        result = subprocess.call([
-            self.ninja_binary,
-            '-C',
-            self.build_directory,
-            '-f',
-            self.project_file,
-            target])
+        result = 0
+        if self.android:
+            result = subprocess.call([
+                self.ninja_binary,
+                '-C',
+                self.build_directory,
+                '-f',
+                self.project_file,
+                target])
+        else:
+            result = subprocess.call([
+                'msbuild.exe',
+                os.path.join(self.build_directory, 'NFHTTP.sln'),
+                '/t:NFHTTP;' + target])
         if result != 0:
             sys.exit(result)
 
