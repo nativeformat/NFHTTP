@@ -32,9 +32,9 @@ try
 	# Upgrade pip or else the CI will complain
 	c:\python27\python.exe -m pip install --upgrade pip
 
-	wget https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.zip -OutFile boost_1_64_0.zip
 	$BoostFoldername = Join-Path $PSScriptRoot "boost_1_64_0"
 	$BoostZipname = Join-Path $PSScriptRoot "boost_1_64_0.zip"
+	wget https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.zip -OutFile $BoostZipname
 	[System.IO.Compression.ZipFile]::ExtractToDirectory($BoostZipname, $BoostFoldername)
 	$env:BOOST_ROOT = $BoostFoldername
 
