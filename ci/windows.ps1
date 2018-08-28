@@ -29,6 +29,8 @@ Write-Host $build
 
 try
 {
+	git submodule update --init --recursive
+
 	# Upgrade pip or else the CI will complain
 	c:\python27\python.exe -m pip install --upgrade pip
 
