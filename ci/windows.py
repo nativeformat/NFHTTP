@@ -28,7 +28,6 @@ from build_options import BuildOptions
 
 def main():
     buildOptions = BuildOptions()
-    buildOptions.addOption("installDependencies", "Install dependencies")
     buildOptions.addOption("makeBuildDirectory",
                            "Wipe existing build directory")
     buildOptions.addOption("generateProject", "Regenerate project")
@@ -39,7 +38,6 @@ def main():
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
     buildOptions.addWorkflow("build", "Production Build", [
-        'installDependencies',
         'makeBuildDirectory',
         'generateProject',
         'buildTargetCLI',
@@ -53,9 +51,6 @@ def main():
     library_target = 'NFHTTP'
     cli_target = 'NFHTTPCLI'
     nfbuild = NFBuildWindows()
-
-    if buildOptions.checkOption(options, 'installDependencies'):
-        nfbuild.installDependencies()
 
     if buildOptions.checkOption(options, 'makeBuildDirectory'):
         nfbuild.makeBuildDirectory()
