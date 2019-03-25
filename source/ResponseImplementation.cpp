@@ -63,7 +63,7 @@ ResponseImplementation::ResponseImplementation(const std::string &serialised,
   _status_code = j[status_code_key];
   auto o = j[headers_key];
   for (nlohmann::json::iterator it = o.begin(); it != o.end(); ++it) {
-    _headers[it.key()] = it.value();
+    _headers[it.key()] = it.value().get<std::string>();
   }
   if (response) {
     for (const auto &header_pair : response->headerMap()) {

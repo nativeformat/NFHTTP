@@ -56,12 +56,12 @@ RequestImplementation::RequestImplementation(const Request &request)
 RequestImplementation::RequestImplementation(const std::string &serialised)
     : _data(nullptr), _data_length(0) {
   nlohmann::json j = nlohmann::json::parse(serialised);
-  _url = j[url_key];
+  _url = j[url_key].get<std::string>();
   auto o = j[headers_key];
   for (nlohmann::json::iterator it = o.begin(); it != o.end(); ++it) {
-    _headers[it.key()] = it.value();
+    _headers[it.key()] = it.value().get<std::string>();
   }
-  _method = j[method_key];
+  _method = j[method_key].get<std::string>();
 }
 
 RequestImplementation::~RequestImplementation() {
