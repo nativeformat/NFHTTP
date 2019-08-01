@@ -140,7 +140,10 @@ void ClientCurl::mainClientLoop() {
   std::unique_lock<std::mutex> client_lock(_client_mutex);
   while (true) {
     // launch any waiting requests
-    curl_multi_perform(_curl, &active_requests);
+    if (curl_multi_perform(_curl, &active_requests)) {
+        fprintf(stderr, "E: curl_multi_perform\n");
+        active_requests = 0;
+    }
 
     // read any messages that are ready
     size_t msg_count = 0;
