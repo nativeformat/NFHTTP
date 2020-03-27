@@ -288,7 +288,7 @@ void ClientCurl::HandleInfo::configureCurlHandle() {
 
   curl_easy_setopt(handle, CURLOPT_TIMEOUT, 30);
 
-#if __APPLE__ | ANDROID
+#if __APPLE__ || ANDROID
   curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, false);
   curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, false);
 #endif
