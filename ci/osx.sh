@@ -24,9 +24,12 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Install system dependencies
-# Don't use brew bundle because tapping bundle takes so long that the build times out
-HOMEBREW_BREWFILE=${DIR}/Brewfile
-brew install $(cat ${HOMEBREW_BREWFILE} | grep -v "#")
+# Don't use Brewfile because tapping bundle takes so long that the build times out
+# https://ideas.circleci.com/ideas/CCI-I-1197
+brew install clang-format
+brew install cmake
+brew install ninja
+brew install wget
 
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
