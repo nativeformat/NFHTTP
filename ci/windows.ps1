@@ -24,7 +24,6 @@ try
 	& nfdriver_env/Scripts/pip.exe install urllib3
 	& nfdriver_env/Scripts/pip.exe install pyyaml
 	& nfdriver_env/Scripts/pip.exe install flake8
-	& nfdriver_env/Scripts/pip.exe install cmakelint
 
 	if($build -eq "android"){
 		& nfdriver_env/Scripts/python.exe ci/androidwindows.py
