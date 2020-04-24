@@ -38,7 +38,6 @@ sudo apt-get install -y -q --no-install-recommends apt-utils \
     git \
     unzip \
     software-properties-common \
-    python-software-properties \
     make
 
 # Extra repo for gcc-4.9 so we don't have to use 4.8
