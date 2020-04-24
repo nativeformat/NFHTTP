@@ -46,6 +46,7 @@ jobs:
       - run:
           name: Build OSX
           command: USE_CURL=1 sh ci/osx.sh build
+          no_output_timeout: 45m
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
@@ -59,6 +60,7 @@ jobs:
       - run:
           name: Build iOS
           command: BUILD_IOS=1 USE_CURL=1 sh ci/osx.sh build
+          no_output_timeout: 45m
       - store_artifacts:
           path: build/output/libNFHTTP.zip
           destination: libNFHTTP.zip
@@ -72,6 +74,7 @@ jobs:
       - run:
           name: Build Android
           command: BUILD_ANDROID=1 USE_CURL=1 sh ci/osx.sh build
+          no_output_timeout: 45m
       - store_artifacts:
           path: libNFHTTP-androidx86.zip
           destination: libNFHTTP-androidx86.zip
