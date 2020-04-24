@@ -24,8 +24,9 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Install system dependencies
+# Don't use brew bundle because tapping bundle takes so long that the build times out
 HOMEBREW_BREWFILE=${DIR}/Brewfile
-brew bundle --file=${HOMEBREW_BREWFILE}
+brew install $(cat ${HOMEBREW_BREWFILE} | grep -v "#")
 
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
