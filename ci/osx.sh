@@ -23,6 +23,19 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
+# Fail mac build quickly for debugging
+python2 -c "print('Hello')"
+which python
+which python2
+which "python2.7"
+virtualenv --python=$(which python2) nfhttp_env
+source nfhttp_env/bin/activate
+python -c "print('Hello from venv')"
+which python
+which python2
+which "python2.7"
+exit 1
+
 # Install system dependencies
 # Don't use Brewfile because tapping bundle takes so long that the build times out
 # https://ideas.circleci.com/ideas/CCI-I-1197
@@ -48,7 +61,6 @@ if [ -n "$BUILD_IOS" ]; then
 else
     if [ -n "$BUILD_ANDROID" ]; then
     	brew cask install android-ndk
-
         python ci/android.py "$@"
     else
         python ci/osx.py "$@"
