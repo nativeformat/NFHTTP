@@ -23,8 +23,6 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-exit 1
-
 # Install system dependencies
 # Don't use Brewfile because tapping bundle takes so long that the build times out
 # https://ideas.circleci.com/ideas/CCI-I-1197
@@ -35,7 +33,7 @@ brew install wget
 
 # Should fix the error: /usr/local/opt/python/bin/python2.7: bad interpreter: No such file or directory
 # We really should move to python3
-ln -s "/usr/local/bin/python" "/usr/local/opt/python/bin/python2.7"
+brew unlink python && brew link python
 
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
