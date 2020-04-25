@@ -31,6 +31,10 @@ brew install cmake
 brew install ninja
 brew install wget
 
+# Should fix the error: /usr/local/opt/python/bin/python2.7: bad interpreter: No such file or directory
+# We really should move to python3
+brew link --overwrite python
+
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
 source nfhttp_env/bin/activate
