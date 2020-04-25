@@ -23,6 +23,8 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
+exit 1
+
 # Install system dependencies
 # Don't use Brewfile because tapping bundle takes so long that the build times out
 # https://ideas.circleci.com/ideas/CCI-I-1197
