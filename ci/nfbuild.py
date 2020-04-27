@@ -102,27 +102,6 @@ class NFBuild(object):
         if not lint_result:
             sys.exit(1)
 
-    def lintCmakeFile(self, filepath):
-        self.build_print("Linting: " + filepath)
-        return subprocess.call(['cmakelint', filepath]) == 0
-
-    def lintCmakeDirectory(self, directory):
-        passed = True
-        for root, dirnames, filenames in os.walk(directory):
-            for filename in filenames:
-                if not filename.endswith('CMakeLists.txt'):
-                    continue
-                full_filepath = os.path.join(root, filename)
-                if not self.lintCmakeFile(full_filepath):
-                    passed = False
-        return passed
-
-    def lintCmake(self):
-        lint_result = self.lintCmakeFile('CMakeLists.txt')
-        lint_result &= self.lintCmakeDirectory('source')
-        if not lint_result:
-            sys.exit(1)
-
     def runIntegrationTests(self):
         # Build the CLI target
         cli_target_name = 'NFHTTPCLI'

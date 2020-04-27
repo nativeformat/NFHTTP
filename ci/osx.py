@@ -31,7 +31,6 @@ def main():
     buildOptions = BuildOptions()
     buildOptions.addOption("debug", "Enable Debug Mode")
     buildOptions.addOption("installDependencies", "Install dependencies")
-    buildOptions.addOption("lintCmake", "Lint cmake files")
     buildOptions.addOption("lintCpp", "Lint CPP Files")
     buildOptions.addOption("lintCppWithInlineChange",
                            "Lint CPP Files and fix them")
@@ -60,18 +59,15 @@ def main():
 
     buildOptions.addWorkflow("local_it", "Run local integration tests", [
         'debug',
-        'lintCmake',
         'integrationTests'
     ])
 
     buildOptions.addWorkflow("lint", "Run lint workflow", [
-        'lintCmake',
         'lintCppWithInlineChange'
     ])
 
     buildOptions.addWorkflow("address_sanitizer", "Run address sanitizer", [
         'debug',
-        'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
         'generateProject',
@@ -82,7 +78,6 @@ def main():
 
     buildOptions.addWorkflow("code_coverage", "Collect code coverage", [
         'debug',
-        'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
         'generateProject',
@@ -92,7 +87,6 @@ def main():
     ])
 
     buildOptions.addWorkflow("build", "Production Build", [
-        'lintCmake',
         'lintCpp',
         'makeBuildDirectory',
         'generateProject',
@@ -111,9 +105,6 @@ def main():
 
     if buildOptions.checkOption(options, 'debug'):
         nfbuild.build_type = 'Debug'
-
-    if buildOptions.checkOption(options, 'lintCmake'):
-        nfbuild.lintCmake()
 
     if buildOptions.checkOption(options, 'lintCppWithInlineChange'):
         nfbuild.lintCPP(make_inline_changes=True)
