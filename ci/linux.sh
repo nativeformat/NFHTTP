@@ -37,6 +37,7 @@ sudo apt-get install -y -q --no-install-recommends apt-utils \
     wget \
     libyaml-dev \
     libssl-dev \
+    gobjc++ \
     python-dev \
     python3-dev \
     python2.7 \
