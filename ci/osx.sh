@@ -25,6 +25,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Install system dependencies
 HOMEBREW_BREWFILE=${DIR}/Brewfile
+brew update
 brew bundle --file=${HOMEBREW_BREWFILE}
 
 # Install virtualenv
