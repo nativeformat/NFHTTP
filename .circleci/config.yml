@@ -2,7 +2,7 @@ version: 2
 jobs:
   buildlinuxclang:
     docker:
-      - image: buildpack-deps:bionic
+      - image: ubuntu:bionic
     steps:
       - checkout
       - run:
@@ -13,7 +13,7 @@ jobs:
           destination: libNFHTTP.zip
   buildlinuxgcc:
     docker:
-      - image: buildpack-deps:bionic
+      - image: ubuntu:bionic
     steps:
       - checkout
       - run:
@@ -24,7 +24,7 @@ jobs:
           destination: libNFHTTP.zip
   buildlinuxandroid:
     docker:
-      - image: buildpack-deps:bionic
+      - image: ubuntu:bionic
     steps:
       - checkout
       - run:
