@@ -37,6 +37,7 @@ sudo apt-get install -y -q --no-install-recommends apt-utils \
     libssl-dev \
     python-dev \
     python3-dev \
+    python2.7 \
     git \
     unzip \
     software-properties-common \
@@ -49,7 +50,7 @@ git submodule sync
 git submodule update --init --recursive
 
 # Install virtualenv
-virtualenv nfhttp_env
+virtualenv --python=$(which python2) nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages
