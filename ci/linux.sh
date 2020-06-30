@@ -41,7 +41,7 @@ sudo apt-get install -y -q --no-install-recommends apt-utils \
     unzip \
     software-properties-common \
     make \
-    build-essentials \
+    build-essential \
     cmake
 
 # Update submodules
