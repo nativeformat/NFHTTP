@@ -32,6 +32,7 @@ sudo apt-get install -y -q --no-install-recommends apt-utils \
     libc++-dev \
     ninja-build \
     python-virtualenv \
+    virtualenv \
     wget \
     libyaml-dev \
     libssl-dev \
