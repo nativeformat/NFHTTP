@@ -24,9 +24,7 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Install system dependencies
-HOMEBREW_BREWFILE=${DIR}/Brewfile
-brew update
-brew bundle --file=${HOMEBREW_BREWFILE}
+brew clang-format cmake ninja wget
 
 # Install virtualenv
 virtualenv --python=$(which python2) nfhttp_env
