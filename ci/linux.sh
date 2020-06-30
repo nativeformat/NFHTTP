@@ -22,6 +22,7 @@
 set -e
 
 # Install system dependencies
+apt-get update
 apt-get install sudo
 sudo apt-get -q update
 sudo apt-get install -y -q --no-install-recommends apt-utils \
