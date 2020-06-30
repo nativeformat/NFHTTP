@@ -30,6 +30,7 @@ sudo apt-get install -y -q --no-install-recommends apt-utils \
     clang-format \
     libcurl4-openssl-dev \
     libc++-dev \
+    libc++abi-dev \
     ninja-build \
     python-virtualenv \
     virtualenv \
