@@ -56,11 +56,6 @@ wget --no-check-certificate https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_6
 chmod +x cmake-3.6.3-Linux-x86_64.sh
 sudo sh cmake-3.6.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
 
-# Install boost 1.64.x
-wget --no-check-certificate https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2  -O boost_1_64_0.tar.bz2
-tar --bzip2 -xf boost_1_64_0.tar.bz2
-export BOOST_ROOT="$PWD/boost_1_64_0"
-
 # Update submodules
 git submodule sync
 git submodule update --init --recursive
