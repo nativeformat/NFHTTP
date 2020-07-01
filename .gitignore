@@ -44,3 +44,6 @@ project.xcconfig
 *.egg*
 *.pyc
 nfhttp_env
+
+# Boost download
+libraries/boost_*
