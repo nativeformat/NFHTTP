@@ -69,6 +69,8 @@ jobs:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init --recursive
+      # Android NDK does not pass.
+      - run: sudo spctl --master-disable
       - run:
           name: Build Android
           no_output_timeout: 30m
