@@ -73,7 +73,6 @@ jobs:
       - run: sudo spctl --master-disable
       - run:
           name: Build Android
-          no_output_timeout: 30m
           command: BUILD_ANDROID=1 USE_CURL=1 sh ci/osx.sh build
       - store_artifacts:
           path: libNFHTTP-androidx86.zip
