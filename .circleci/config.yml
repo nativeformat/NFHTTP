@@ -39,8 +39,11 @@ jobs:
   buildmac:
     macos:
       xcode: "11.5.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
+      - run: brew update
       - run: git submodule sync
       - run: git submodule update --init --recursive
       - run:
@@ -52,8 +55,11 @@ jobs:
   buildmacios:
     macos:
       xcode: "11.5.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
+      - run: brew update
       - run: git submodule sync
       - run: git submodule update --init --recursive
       - run:
@@ -65,8 +71,11 @@ jobs:
   buildmacandroid:
     macos:
       xcode: "11.5.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
+      - run: brew update
       - run: git submodule sync
       - run: git submodule update --init --recursive
       # Android NDK does not pass.
