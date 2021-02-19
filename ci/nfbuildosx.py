@@ -146,7 +146,7 @@ class NFBuildOSX(NFBuild):
             '-configuration',
             self.build_type,
             '-dry-run',
-            'analyze'])
+            'analyze']).decode()
         analyze_command = '--analyze'
         for line in static_analyzer_result.splitlines():
             if analyze_command not in line:
