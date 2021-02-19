@@ -30,7 +30,7 @@ Write-Host $build
 try
 {
 	# Upgrade pip or else the CI will complain
-	c:\python27\python.exe -m pip install --upgrade pip
+	c:\python3\python.exe -m pip install --upgrade pip
 
 	$BoostFoldername = Join-Path $PSScriptRoot "boost_1_64_0"
 	$BoostZipname = Join-Path $PSScriptRoot "boost_1_64_0.zip"
