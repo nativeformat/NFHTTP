@@ -33,7 +33,8 @@ namespace http {
 
 std::string standardCacheLocation() {
   wchar_t *localAppData = NULL;
-  SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppData);
+  auto folder = Windows::Storage::ApplicationData::Current->TemporaryFolder;
+  wcscpy_s(localAppData, maxsize, folder->Path->Data());
   std::stringstream ss;
   ss << localAppData << "/NativeFormat/";
   CreateDirectory(ss.str().c_str(), NULL);
