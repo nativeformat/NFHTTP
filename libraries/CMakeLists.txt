@@ -17,7 +17,7 @@
 # specific language governing permissions and limitations
 # under the License.
 add_library(sqlite "${CMAKE_CURRENT_SOURCE_DIR}/sqlite/sqlite3.c")
-target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2)
+target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2 -DSQLITE_OS_WINRT=1)
 
 set(BOOST_MAJOR 1)
 set(BOOST_MINOR 64)
