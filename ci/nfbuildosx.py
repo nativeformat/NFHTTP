@@ -173,7 +173,9 @@ class NFBuildOSX(NFBuild):
         for root, dirnames, filenames in os.walk(self.build_directory):
             for filename in fnmatch.filter(filenames, '*.plist'):
                 full_filepath = os.path.join(root, filename)
-                static_analyzer_result = plistlib.readPlist(full_filepath)
+                static_analyzer_result = {}
+                with open(full_filepath, "rb") as plist_file_handle:
+                    static_analyzer_result = plistlib.load(plist_file_handle)
                 if 'clang_version' not in static_analyzer_result \
                         or files_key not in static_analyzer_result \
                         or diagnostics_key not in static_analyzer_result:
