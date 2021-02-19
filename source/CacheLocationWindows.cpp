@@ -27,6 +27,7 @@
 #include <wchar.h>
 #include <objbase.h>
 #include <Knownfolders.h>
+#include <wrl\client.h>
 
 namespace nativeformat {
 namespace http {
