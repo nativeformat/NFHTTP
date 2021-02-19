@@ -110,7 +110,7 @@ class NFBuild(object):
         # Launch the dummy server
         root_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
         cwd = os.path.join(os.path.join(root_path, 'resources'), 'localhost')
-        cmd = 'python -m SimpleHTTPServer 6582'
+        cmd = 'python -m http.server 6582'
         pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, preexec_fn=os.setsid, cwd=cwd, shell=True)
         time.sleep(3)
         cli_result = self.runIntegrationTestsUnderDummyServer(cli_binary, root_path)
