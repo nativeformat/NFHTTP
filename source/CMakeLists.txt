@@ -116,3 +116,7 @@ target_link_libraries(NFHTTPCLI NFHTTP nlohmann_json)
 if(USE_CURL)
   target_compile_definitions(NFHTTP PRIVATE USE_CURL=1)
 endif()
+
+if(WIN32)
+  target_compile_definitions(NFHTTP PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()

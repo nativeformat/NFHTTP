@@ -17,7 +17,7 @@
 # specific language governing permissions and limitations
 # under the License.
 add_library(sqlite "${CMAKE_CURRENT_SOURCE_DIR}/sqlite/sqlite3.c")
-target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2)
+target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2 -DSQLITE_OS_WINRT=1)
 
 set(BOOST_MAJOR 1)
 set(BOOST_MINOR 64)
@@ -1107,6 +1107,6 @@ if(USE_CPPRESTSDK)
   set(CPPREST_INSTALL_HEADERS OFF CACHE BOOL "Don't install headers" FORCE)
   set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build cpprest as a static lib" FORCE)
   set(CPPREST_EXCLUDE_COMPRESSION ON CACHE BOOL "Exclude compression functionality." FORCE)
-  add_definitions(-DSSL_R_SHORT_READ)
+  add_definitions(-DSSL_R_SHORT_READ -DNOMINMAX)
   add_subdirectory(cpprestsdk/Release)
 endif()
