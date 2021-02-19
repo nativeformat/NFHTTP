@@ -121,7 +121,7 @@ class BuildOptions:
         return False
 
     def flushed_print(self, str):
-        print str
+        print(str)
         sys.stdout.flush()
 
 
