@@ -45,7 +45,7 @@ fi
 pip3 uninstall --yes virtualenv && pip3 install virtualenv
 
 # Install virtualenv
-virtualenv --python=$(which python2) nfhttp_env
+virtualenv --python=$(which python3) nfhttp_env
 source nfhttp_env/bin/activate
 
 # Install Python Packages
