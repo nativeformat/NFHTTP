@@ -25,6 +25,7 @@
 #include <string>
 #include <shlobj.h>
 #include <wchar.h>
+#include <objbase.h>
 
 namespace nativeformat {
 namespace http {
