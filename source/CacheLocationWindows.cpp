@@ -25,17 +25,13 @@
 #include <string>
 #include <shlobj.h>
 #include <wchar.h>
-#include <objbase.h>
-#include <Knownfolders.h>
-#include <wrl\client.h>
 
 namespace nativeformat {
 namespace http {
 
 std::string standardCacheLocation() {
   wchar_t *localAppData = NULL;
-  auto folder = Windows::Storage::ApplicationData::Current->TemporaryFolder;
-  wcscpy_s(localAppData, maxsize, folder->Path->Data());
+  SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppData);
   std::stringstream ss;
   ss << localAppData << "/NativeFormat/";
   CreateDirectory(ss.str().c_str(), NULL);
