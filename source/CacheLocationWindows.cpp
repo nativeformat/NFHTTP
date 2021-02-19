@@ -26,6 +26,7 @@
 #include <shlobj.h>
 #include <wchar.h>
 #include <objbase.h>
+#include <Knownfolders.h>
 
 namespace nativeformat {
 namespace http {
