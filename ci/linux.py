@@ -31,7 +31,6 @@ def main():
     buildOptions = BuildOptions()
     buildOptions.addOption("debug", "Enable Debug Mode")
     buildOptions.addOption("installDependencies", "Install dependencies")
-    buildOptions.addOption("lintCmake", "Lint cmake files")
     buildOptions.addOption("lintCppWithInlineChange",
                            "Lint CPP Files and fix them")
     buildOptions.addOption("makeBuildDirectory",
@@ -46,13 +45,11 @@ def main():
     buildOptions.setDefaultWorkflow("Empty workflow", [])
 
     buildOptions.addWorkflow("lint", "Run lint workflow", [
-        'lintCmake',
         'lintCppWithInlineChange'
     ])
 
     buildOptions.addWorkflow("clang_build", "Production Clang Build", [
         'llvmToolchain',
-        'lintCmake',
         'makeBuildDirectory',
         'generateProject',
         'buildTargetLibrary',
@@ -62,7 +59,6 @@ def main():
 
     buildOptions.addWorkflow("gcc_build", "Production build with gcc", [
         'gnuToolchain',
-        'lintCmake',
         'makeBuildDirectory',
         'generateProject',
         'buildTargetLibrary',
@@ -79,9 +75,6 @@ def main():
     if buildOptions.checkOption(options, 'debug'):
         nfbuild.build_type = 'Debug'
 
-    if buildOptions.checkOption(options, 'lintCmake'):
-        nfbuild.lintCmake()
-
     if buildOptions.checkOption(options, 'lintCppWithInlineChange'):
         nfbuild.lintCPP(make_inline_changes=True)
 
@@ -90,12 +83,12 @@ def main():
 
     if buildOptions.checkOption(options, 'generateProject'):
         if buildOptions.checkOption(options, 'gnuToolchain'):
-            os.environ['CC'] = 'gcc-4.9'
-            os.environ['CXX'] = 'g++-4.9'
+            os.environ['CC'] = 'gcc'
+            os.environ['CXX'] = 'g++'
             nfbuild.generateProject(gcc=True)
         elif buildOptions.checkOption(options, 'llvmToolchain'):
-            os.environ['CC'] = 'clang-3.9'
-            os.environ['CXX'] = 'clang++-3.9'
+            os.environ['CC'] = 'clang'
+            os.environ['CXX'] = 'clang++'
             nfbuild.generateProject(gcc=False)
         else:
             nfbuild.generateProject()

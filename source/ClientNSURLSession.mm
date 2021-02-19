@@ -119,8 +119,9 @@ NSURLRequest *ClientNSURLSession::requestFromRequest(const std::shared_ptr<Reque
 
     NSString *urlString = [NSString stringWithUTF8String:request->url().c_str()];
     NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *mutableRequest =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30.0];
+    NSMutableURLRequest *mutableRequest = [NSMutableURLRequest requestWithURL:url
+                                                                  cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                              timeoutInterval:30.0];
     mutableRequest.HTTPMethod = [NSString stringWithUTF8String:request->method().c_str()];
     for (const auto &header : request->headerMap()) {
         [mutableRequest addValue:[NSString stringWithUTF8String:header.second.c_str()]

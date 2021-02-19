@@ -47,9 +47,12 @@ In addition to this, it is also possible to use curl on any of the above platfor
 * [boost](https://www.boost.org/)
 
 ## Installation :inbox_tray:
-`NFHTTP` is a [Cmake](https://cmake.org/) project, while you are free to download the prebuilt static libraries it is recommended to use Cmake to install this project into your wider project. In order to add this into a wider Cmake project (who needs monorepos anyway?), simply add the following line to your `CMakeLists.txt` file:
+`NFHTTP` is a [Cmake](https://cmake.org/) project, while you are free to download the prebuilt static libraries it is recommended to use Cmake to install this project into your wider project. In order to add this into a wider Cmake project (who needs monorepos anyway?), simply add the following lines to your `CMakeLists.txt` file:
 ```
 add_subdirectory(NFHTTP)
+
+# Link NFHTTP to your executables or target libs
+target_link_libraries(your_target_lib_or_executable NFHTTP)
 ```
 
 ### For iOS/OSX
