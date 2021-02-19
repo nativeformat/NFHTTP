@@ -45,7 +45,7 @@ class NFBuild(object):
         self.statically_analyzed_files = []
 
     def build_print(self, print_string):
-        print print_string
+        print(print_string)
         sys.stdout.flush()
 
     def makeBuildDirectory(self):
@@ -77,7 +77,7 @@ class NFBuild(object):
         if make_inline_changes:
             clang_format_call.append('-i')
         clang_format_call.append(filepath)
-        new_source = subprocess.check_output(clang_format_call)
+        new_source = subprocess.check_output(clang_format_call).decode()
         if current_source != new_source and not make_inline_changes:
             self.build_print(
                 filepath + " failed C++ lint, file should look like:")
@@ -110,7 +110,7 @@ class NFBuild(object):
         # Launch the dummy server
         root_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
         cwd = os.path.join(os.path.join(root_path, 'resources'), 'localhost')
-        cmd = 'python -m SimpleHTTPServer 6582'
+        cmd = 'python -m http.server 6582'
         pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, preexec_fn=os.setsid, cwd=cwd, shell=True)
         time.sleep(3)
         cli_result = self.runIntegrationTestsUnderDummyServer(cli_binary, root_path)
