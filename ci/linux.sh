@@ -53,7 +53,7 @@ git submodule sync
 git submodule update --init --recursive
 
 # Install virtualenv
-virtualenv --python=$(which python2) nfhttp_env
+virtualenv --python=$(which python3) nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages

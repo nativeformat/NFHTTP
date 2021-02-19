@@ -52,7 +52,7 @@ class BuildOptions:
 
     def getWorkflowHelp(self):
         str = ""
-        for workflow, data in self.workflows.iteritems():
+        for workflow, data in self.workflows.items():
             str += "%s:\n\t%s\n" % (workflow, data['doc'])
         return str
 
@@ -72,7 +72,7 @@ class BuildOptions:
                             help=self.getWorkflowHelp())
 
         # Define build options with leading -
-        for k, v in self.options.iteritems():
+        for k, v in self.options.items():
             parser.add_argument("-" + k, help=v)
         args = parser.parse_args()
         argHash = vars(args)
@@ -90,11 +90,11 @@ class BuildOptions:
             result.update(self.workflows[workflow]['options'])
 
         # Apply option overrides to workflow
-        for option, doc in self.options.iteritems():
+        for option, doc in self.options.items():
             if option in argHash and argHash[option]:
                 result[option] = argHash[option]
 
-        return [k for k, v in result.iteritems() if v == '1']
+        return [k for k, v in result.items() if v == '1']
 
     # Print which build options are enabled.
     def verbosePrintBuildOptions(self, args):
@@ -121,7 +121,7 @@ class BuildOptions:
         return False
 
     def flushed_print(self, str):
-        print str
+        print(str)
         sys.stdout.flush()
 
 
