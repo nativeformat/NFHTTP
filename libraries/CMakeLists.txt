@@ -18,6 +18,7 @@
 # under the License.
 add_library(sqlite "${CMAKE_CURRENT_SOURCE_DIR}/sqlite/sqlite3.c")
 target_compile_definitions(sqlite PUBLIC -DSQLITE_THREADSAFE=2)
+target_compile_options(sqlite PRIVATE "-Wno-cast-align")
 
 set(BOOST_MAJOR 1)
 set(BOOST_MINOR 64)
@@ -1057,7 +1058,9 @@ if(NOT OPENSSL_FOUND OR OPENSSL_NFHTTP_ADDED)
                                                     ${OPENSSL_EVP_DIR}
                                                     ${OPENSSL_MODES_DIR})
   target_include_directories(openssl_crypto PUBLIC ${OPENSSL_INCLUDE_DIR})
+  target_compile_options(openssl_crypto PRIVATE "-Wno-unused-parameter")
   target_link_libraries(openssl PUBLIC ${OPENSSL_CRYPTO_LIBRARY})
+  target_compile_options(openssl PRIVATE "-Wno-cast-align" "-Wno-unused-parameter" "-Wno-missing-field-initializers" "-Wno-sign-compare")
   set(OPENSSL_LIBRARIES "${OPENSSL_SSL_LIBRARY};${OPENSSL_CRYPTO_LIBRARY}" CACHE INTERNAL "OpenSSL Libraries" FORCE)
   set(OPENSSL_INSTALL_CMAKE_DIR lib/cmake/openssl)
   if(ANDROID)
