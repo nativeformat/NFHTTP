@@ -22,50 +22,38 @@
 set -e
 
 # Install system dependencies
+apt-get update
+apt-get install sudo
 sudo apt-get -q update
 sudo apt-get install -y -q --no-install-recommends apt-utils \
-    clang-3.9 \
-    clang-format-3.9 \
+    clang \
+    clang-format \
     libcurl4-openssl-dev \
     libc++-dev \
+    libc++abi-dev \
     ninja-build \
     python-virtualenv \
+    virtualenv \
     wget \
     libyaml-dev \
     libssl-dev \
+    gobjc++ \
     python-dev \
     python3-dev \
+    python2.7 \
     git \
     unzip \
     software-properties-common \
-    python-software-properties \
-    make
-
-# Extra repo for gcc-4.9 so we don't have to use 4.8
-sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends gcc-4.9 \
-    g++-4.9 \
-    gobjc++-4.9
-
-sudo apt-get install -y --reinstall binutils
-
-# Install cmake 3.6.x
-wget --no-check-certificate https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh -O cmake-3.6.3-Linux-x86_64.sh
-chmod +x cmake-3.6.3-Linux-x86_64.sh
-sudo sh cmake-3.6.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
-
-# Install boost 1.64.x
-wget --no-check-certificate https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2  -O boost_1_64_0.tar.bz2
-tar --bzip2 -xf boost_1_64_0.tar.bz2
-export BOOST_ROOT="$PWD/boost_1_64_0"
+    make \
+    build-essential \
+    cmake
 
 # Update submodules
 git submodule sync
 git submodule update --init --recursive
 
 # Install virtualenv
-virtualenv nfhttp_env
+virtualenv --python=$(which python3) nfhttp_env
 . nfhttp_env/bin/activate
 
 # Install Python Packages

@@ -2,7 +2,7 @@ version: 2
 jobs:
   buildlinuxclang:
     docker:
-      - image: ubuntu:trusty
+      - image: ubuntu:bionic
     steps:
       - checkout
       - run:
@@ -13,7 +13,7 @@ jobs:
           destination: libNFHTTP.zip
   buildlinuxgcc:
     docker:
-      - image: ubuntu:trusty
+      - image: ubuntu:bionic
     steps:
       - checkout
       - run:
@@ -24,7 +24,7 @@ jobs:
           destination: libNFHTTP.zip
   buildlinuxandroid:
     docker:
-      - image: ubuntu:trusty
+      - image: ubuntu:bionic
     steps:
       - checkout
       - run:
@@ -38,9 +38,12 @@ jobs:
           destination: libNFHTTP-androidArm64.zip
   buildmac:
     macos:
-      xcode: "9.0"
+      xcode: "11.5.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
+      - run: brew update
       - run: git submodule sync
       - run: git submodule update --init --recursive
       - run:
@@ -51,9 +54,12 @@ jobs:
           destination: libNFHTTP.zip
   buildmacios:
     macos:
-      xcode: "9.0"
+      xcode: "11.5.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
+      - run: brew update
       - run: git submodule sync
       - run: git submodule update --init --recursive
       - run:
@@ -64,11 +70,16 @@ jobs:
           destination: libNFHTTP.zip
   buildmacandroid:
     macos:
-      xcode: "9.0"
+      xcode: "11.5.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
+      - run: brew update
       - run: git submodule sync
       - run: git submodule update --init --recursive
+      # Android NDK does not pass.
+      - run: sudo spctl --master-disable
       - run:
           name: Build Android
           command: BUILD_ANDROID=1 USE_CURL=1 sh ci/osx.sh build
