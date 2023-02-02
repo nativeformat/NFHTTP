@@ -13,6 +13,8 @@ A cross platform C++ HTTP framework.
 - [x] 🤖 [Android](https://developer.android.com/studio/) SDK r24+
 - [x] 🖥️ [Microsoft UWP](https://developer.microsoft.com/en-us/windows/apps)
 
+Developed at Spotify 2019-2022, Discontinued and handed over to new maintainers January 2023
+
 ## Raison D'être :thought_balloon:
 At Spotify we have performed studies that show the efficacy of using native backed solutions for interfacing to backends, especially when it came to the battery life of certain devices. In order to carry this forward in the cross-platform C++ world, we created this library that provides a common interface to many of the system level HTTP interfaces, and predictable caching and request hooking. We found that many of the current solutions that claimed to do this lacked key supports for many kinds of platforms, and ended up being libraries that heavily favoured 1 platform and gave the other platforms a generic implementation. We also wanted to provide a caching layer that was consistent across all platforms in our layered architecture.
 
